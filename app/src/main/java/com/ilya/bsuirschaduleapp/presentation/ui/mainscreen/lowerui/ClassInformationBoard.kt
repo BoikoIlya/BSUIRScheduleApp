@@ -46,10 +46,10 @@ fun ClassInformationBoard(
                 )
                 Text(
                     text = lessonInfo.subject+"("+lessonInfo.lessonTypeAbbrev+")",
-                    fontSize = MaterialTheme.typography.h3.fontSize,
-                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.h3,
                     color = Color.Black
                 )
+                Column() {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -79,8 +79,7 @@ fun ClassInformationBoard(
                         text = if(lessonInfo.auditories!!.isNotEmpty())
                                 lessonInfo.auditories[0]
                                 else "",
-                        fontSize = MaterialTheme.typography.h4.fontSize,
-                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.h4,
                         modifier = Modifier
                             .clip(
                                 shape = RoundedCornerShape(20.dp)
@@ -96,6 +95,14 @@ fun ClassInformationBoard(
                             .padding(5.dp)
 
                     )
+                }
+                    if(lessonInfo.note!=null) {
+                        Text(
+                            text = lessonInfo.note,
+                            fontSize = MaterialTheme.typography.body1.fontSize,
+                            color = Color.Gray,
+                        )
+                    }
                 }
             }
         }

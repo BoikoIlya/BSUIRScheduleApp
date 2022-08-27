@@ -11,7 +11,7 @@ data class Schedule(
     val endLessonTime: String,
     val subject: String,
     val subjectFullName: String,
-    val note: Any? = null,
+    val note: String? = null,
     val lessonTypeAbbrev: String,
     val dateLesson: String? = null,
     val employees: List<Employee>?= emptyList(),

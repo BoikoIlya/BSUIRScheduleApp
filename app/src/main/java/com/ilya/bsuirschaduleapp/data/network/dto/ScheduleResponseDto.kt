@@ -22,6 +22,6 @@ fun ScheduleResponseDto.toScheduleResponse(): ScheduleResponse {
         startExamsDate = startExamsDate.toString(),
         endExamsDate = endExamsDate.toString(),
         studentGroupDto = studentGroupDto,
-        employeeDto = employeeDto
+        employeeDto = employeeDto,
     )
 }
