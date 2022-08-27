@@ -1,6 +1,8 @@
 package com.ilya.bsuirschaduleapp.presentation.eventhandlers
 
-interface SendDataEventHandler<T> {
+interface EventHandler<T, E> {
 
     fun obtainDataEvent(event: T)
+
+    fun obtainActionEvent(event: E)
 }

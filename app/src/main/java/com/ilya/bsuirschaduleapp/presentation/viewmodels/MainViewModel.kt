@@ -9,8 +9,7 @@ import com.ilya.bsuirschaduleapp.domain.repositiries.DataBaseRepository
 import com.ilya.bsuirschaduleapp.domain.repositiries.DataStoreRepository
 import com.ilya.bsuirschaduleapp.domain.usecases.*
 import com.ilya.bsuirschaduleapp.presentation.models.*
-import com.ilya.bsuirschaduleapp.presentation.eventhandlers.ActionEventHandler
-import com.ilya.bsuirschaduleapp.presentation.eventhandlers.SendDataEventHandler
+import com.ilya.bsuirschaduleapp.presentation.eventhandlers.EventHandler
 import com.ilya.bsuirschaduleapp.utils.Constance
 import com.ilya.bsuirschaduleapp.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,7 +27,7 @@ class MainViewModel @Inject constructor(
     private val getListOfGroupsUseCase: GetListOfGroupsUseCase,
     private val getListOfTeachersUseCase: GetListOfTeachersUseCase,
     private val getCurrentWeekUseCase: GetCurrentWeekUseCase
-): ViewModel(), SendDataEventHandler<SendDataEvent>, ActionEventHandler<ActionEvent> {
+): ViewModel(), EventHandler<SendDataEvent, ActionEvent> {
 
     private val _schedule = MutableStateFlow(ScheduleState())
     val schedule = _schedule.asStateFlow()
