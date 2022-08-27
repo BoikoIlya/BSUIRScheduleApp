@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">BSUIRSchedule</string>
+    <string name="search">Поиск…</string>
+    <string name="delete">Удалить</string>
+    <string name="do_not_delete">Не удалять</string>
+    <string name="are_you_sure_of_deleting">Вы уверены, что хотите удалить?</string>
+    <string name="course">Курс: </string>
+    <string name="lecture">ЛК</string>
+    <string name="lab">ЛР</string>
+    <string name="practical">ПЗ</string>
+    <string name="group_shortcut">Гр. </string>
+    <string name="repeat">Повторить</string>
+    <string name="please_check_connection">Пожалуйста проверьте подключение.</string>
+    <string name="ok">OK</string>
+    <string name="lessons">Занятия: </string>
+    <string name="monday">ПН</string>
+    <string name="tuesday">ВТ</string>
+    <string name="wednesday">СР</string>
+    <string name="thursday">ЧТ</string>
+    <string name="friday">ПТ</string>
+    <string name="saturday">СБ</string>
+    <string name="sub_group_choosing">Выберите подгруппу или всю групу.</string>
+    <string name="hole_group">Вся группа.</string>
+    <string name="first_sub_group">1 подгруппа.</string>
+    <string name="second_sub_group">2 подгруппа.</string>
+    <string name="curr_week">Тек. нед. </string>
+    <string name="first_week">1 нед.</string>
+    <string name="second_week">2 нед.</string>
+    <string name="third_week">3 нед.</string>
+    <string name="fourth_week">4 нед.</string>
+</resources>

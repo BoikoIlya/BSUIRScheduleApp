@@ -1,0 +1,99 @@
+package com.ilya.bsuirschaduleapp.presentation.ui.mainscreen.upperui
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.ilya.bsuirschaduleapp.presentation.models.UpperUiState
+import com.ilya.bsuirschaduleapp.presentation.viewmodels.MainViewModel
+import java.util.*
+
+@Composable
+fun DaysBar(
+    selectedDay: MutableState<UpperUiState>,
+    viewModel: MainViewModel = hiltViewModel(),
+    selectedWeek: MutableState<Int>
+){
+    val listOfDays = remember {
+        mutableStateOf(listOf(UpperUiState(1,1,1)))
+    }
+    val selectedDayOfCurrentWeek = remember {
+        mutableStateOf(1)
+    }
+    val schedule = viewModel.schedule.collectAsState()
+    val c = Calendar.getInstance()
+    val dayOfWeek = c.get(Calendar.DAY_OF_WEEK) - 1
+    val weekNumber = remember {
+        mutableStateOf(selectedWeek.value)
+    }
+    weekNumber.value = selectedWeek.value
+    LaunchedEffect(key1 = true, block = {
+        selectedDayOfCurrentWeek.value = if (dayOfWeek == 0) 6 else dayOfWeek
+    })
+
+    LazyRow(modifier = Modifier
+        .fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
+    ) {
+
+        val itemsWeek1 = mutableListOf<UpperUiState>()
+        val itemsWeek2 = mutableListOf<UpperUiState>()
+        val itemsWeek3 = mutableListOf<UpperUiState>()
+        val itemsWeek4 = mutableListOf<UpperUiState>()
+        var dayOfWeek = 1
+
+        if (!schedule.value.isLoading) {
+            for (i in 0..23) {
+                if(i in 0..5) {
+                    weekNumber.value = 1
+                }
+                if(i in 6..11) {
+                    weekNumber.value = 2
+                }
+                if(i in 12..17) {
+                    weekNumber.value = 3
+                }
+                if(i in 18..23) {
+                    weekNumber.value = 4
+                }
+                val item = UpperUiState(
+                    index = i,
+                    dayOfWeek = dayOfWeek,
+                    weekNumber = weekNumber.value,
+                )
+                when(weekNumber.value){
+                    1->itemsWeek1.add(item)
+                    2->itemsWeek2.add(item)
+                    3->itemsWeek3.add(item)
+                    4->itemsWeek4.add(item)
+                }
+
+                dayOfWeek++
+                if (dayOfWeek == 7) {
+                    weekNumber.value++
+                    dayOfWeek = 1
+                }
+            }
+
+            listOfDays.value = when(selectedWeek.value){
+                1-> itemsWeek1
+                2->itemsWeek2
+                3->itemsWeek3
+                4->itemsWeek4
+                else -> {itemsWeek1}
+            }
+
+            items(listOfDays.value) {
+                DayItem(
+                    itemSelection = selectedDayOfCurrentWeek,
+                    data = it,
+                    selectedDay
+                )
+                Spacer(modifier = Modifier.width(5.dp))
+            }
+        }
+    }
+}
