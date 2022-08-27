@@ -3,7 +3,7 @@
 Stack:
 - Kotlin
 - Clean archetecture
-- MVVM
+- MVVM + MVI
 - Jetpack Compose
 - Retrofit
 - Hilt
