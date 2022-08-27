@@ -2,7 +2,7 @@
 
 Stack:
 - Kotlin
-- Clean archetecture
+- Clean architecture
 - MVVM + MVI
 - Jetpack Compose
 - Retrofit
@@ -13,7 +13,7 @@ Stack:
 - StateFlow
 - DataStore
 
-This app gives you possability to find schadule of all groups and teachers of BSUIR university. You can select day, week, subgroup. By clicking on lesson you can check full subject name, teachers photo and full name. All data comes from https://iis.bsuir.by 
+This app gives you possibility to find schedule of all groups and teachers of BSUIR university. You can select day, week, subgroup. By clicking on lesson you can check full subject name, teachers photo and full name. All data comes from https://iis.bsuir.by
 
 ## ScreenShots:
 
