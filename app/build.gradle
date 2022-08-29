@@ -61,9 +61,9 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
 
-//    implementation "com.google.accompanist:accompanist-pager:0.21.0-beta"
-//    implementation "com.google.accompanist:accompanist-pager-indicators:0.21.0-beta"
-//    implementation "androidx.compose.foundation:foundation:1.2.1"
+    implementation "com.google.accompanist:accompanist-pager:0.21.0-beta"
+    implementation "com.google.accompanist:accompanist-pager-indicators:0.21.0-beta"
+    implementation "androidx.compose.foundation:foundation:1.2.1"
 
     // Compose dependencies
     implementation "com.google.accompanist:accompanist-flowlayout:0.17.0"

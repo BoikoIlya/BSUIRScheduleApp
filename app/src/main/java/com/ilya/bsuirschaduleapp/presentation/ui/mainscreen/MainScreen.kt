@@ -11,6 +11,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.rememberPagerState
 import com.ilya.bsuirschaduleapp.presentation.ui.mainscreen.bottomsheet.BottomSheetContent
 import com.ilya.bsuirschaduleapp.presentation.ui.mainscreen.lowerui.ConnectionFailed
 import com.ilya.bsuirschaduleapp.presentation.ui.mainscreen.lowerui.LowerUI
@@ -22,13 +24,21 @@ import com.ilya.bsuirschaduleapp.presentation.ui.theme.DarkSea
 import com.ilya.bsuirschaduleapp.presentation.viewmodels.MainViewModel
 import com.ilya.bsuirschaduleapp.utils.Constance
 
+@OptIn(ExperimentalPagerApi::class)
 @ExperimentalMaterialApi
 @Composable
 fun MainScreen(
     viewModel: MainViewModel = hiltViewModel()
 ){
+    val pagerState = rememberPagerState()
     val selectedDay = remember {
         mutableStateOf(UpperUiState(0,1 , 1))
+    }
+    val selectedDayOfCurrentWeek = remember {
+        mutableStateOf(0)
+    }
+    val selectedWeek = remember {
+        mutableStateOf(1)
     }
     val showNoConnectionAlert = viewModel.noConnection.collectAsState()
     val teacherOrGroup = viewModel.teacherOrGroup.collectAsState()
@@ -63,9 +73,21 @@ fun MainScreen(
                         .background(DarkSea)
                         .fillMaxSize(),
                 ) {
-                        UpperUI(sheetState, selectedDay = selectedDay)
+                        UpperUI(
+                            sheetState,
+                            selectedDay = selectedDay,
+                            selectedDayOfCurrentWeek = selectedDayOfCurrentWeek,
+                           selectedWeek=  selectedWeek,
+                           pagerState =  pagerState
+                        )
                         Spacer(modifier = Modifier.height(15.dp))
-                        LowerUI(selectedDayItem = selectedDay, viewModel = viewModel)
+                        LowerUI(
+                            selectedDayItem = selectedDay,
+                            viewModel = viewModel,
+                            selectedDayOfCurrentWeek = selectedDayOfCurrentWeek,
+                            selectedWeek=  selectedWeek,
+                            pagerState = pagerState
+                        )
 
                 }
             }

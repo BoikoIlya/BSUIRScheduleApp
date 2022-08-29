@@ -17,8 +17,6 @@ fun ScheduleResponseDto.toScheduleResponse(): ScheduleResponse {
     return ScheduleResponse(
         schedules = schedules,
         exams = exams,
-        startDate = startDate,
-        endDate = endDate,
         startExamsDate = startExamsDate.toString(),
         endExamsDate = endExamsDate.toString(),
         studentGroupDto = studentGroupDto,

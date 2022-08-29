@@ -9,6 +9,4 @@ data class ScheduleResponse(
     val endExamsDate: String,
     val studentGroupDto: StudentGroupDto? =null,
     val employeeDto: TeacherDto? = null,
-    val startDate: String,
-    val endDate: String,
 )

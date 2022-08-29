@@ -15,21 +15,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.PagerState
 import com.ilya.bsuirschaduleapp.R
 import com.ilya.bsuirschaduleapp.presentation.models.UpperUiState
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.*
+import kotlinx.coroutines.launch
 
 
+@ExperimentalPagerApi
 @Composable
 fun DayItem(
-    itemSelection: MutableState<Int>,
-    data: UpperUiState,
-    selectedDay:MutableState<UpperUiState>
+    itemIndex: Int,
+   // data: UpperUiState,
+    selectedDay:MutableState<Int>,
+    pagerState: PagerState
 ) {
+    val scope = rememberCoroutineScope()
 
-       if (itemSelection.value == data.dayOfWeek){
-           selectedDay.value = data
-       }
+//       if (itemSelection.value == data.dayOfWeek){
+//           selectedDay.value = data
+//       }
 
         Box(
             modifier = Modifier
@@ -41,17 +47,24 @@ fun DayItem(
 
                 }
                 .background(
-                    color = if(itemSelection.value==data.dayOfWeek) Color.White else LightSea
+                    color = //if(itemSelection.value==data.dayOfWeek) Color.White else LightSea
+                    if (selectedDay.value == itemIndex) Color.White else LightSea
                 )
                 .selectable(
-                    selected = itemSelection.value == data.dayOfWeek,
+                    selected = //itemSelection.value == data.dayOfWeek,
+                    selectedDay.value == itemIndex,
                     onClick = {
-                        itemSelection.value =
-                            when {
-                                itemSelection.value!=data.dayOfWeek -> data.dayOfWeek
-                                itemSelection.value == data.dayOfWeek -> data.dayOfWeek
-                                else -> -1
-                            }
+                        selectedDay.value = itemIndex
+                        scope.launch {
+                            //pagerState.animateScrollToPage(itemIndex)
+                            pagerState.scrollToPage(itemIndex)
+                        }
+//                        selectedDay.value =
+//                            when {
+//                                selectedDay.value!=itemIndex ->itemIndex
+//                                selectedDay.value == itemIndex -> itemIndex
+//                                else -> -1
+//                            }
                     }
                 )
                 .padding(5.dp)
@@ -63,18 +76,18 @@ fun DayItem(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = when(data.dayOfWeek){
-                    1-> stringResource(R.string.monday)
-                    2-> stringResource(R.string.tuesday)
-                    3-> stringResource(R.string.wednesday)
-                    4-> stringResource(R.string.thursday)
-                    5-> stringResource(R.string.friday)
-                    6-> stringResource(R.string.saturday)
+                    text = when(itemIndex){
+                    0-> stringResource(R.string.monday)
+                    1-> stringResource(R.string.tuesday)
+                    2-> stringResource(R.string.wednesday)
+                    3-> stringResource(R.string.thursday)
+                    4-> stringResource(R.string.friday)
+                    5-> stringResource(R.string.saturday)
                         else->""
                                                  },
                 textAlign = TextAlign.Center,
                 fontSize = MaterialTheme.typography.body1.fontSize,
-                    color = if(itemSelection.value==data.dayOfWeek)  DarkSea else Color.White
+                    color = if(selectedDay.value==itemIndex)  DarkSea else Color.White
                     )
             }
         }

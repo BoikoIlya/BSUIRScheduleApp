@@ -7,31 +7,34 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.PagerState
 import com.ilya.bsuirschaduleapp.presentation.models.UpperUiState
 import com.ilya.bsuirschaduleapp.presentation.viewmodels.MainViewModel
 import java.util.*
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun DaysBar(
     selectedDay: MutableState<UpperUiState>,
     viewModel: MainViewModel = hiltViewModel(),
-    selectedWeek: MutableState<Int>
+    selectedWeek: MutableState<Int>,
+    selectedDayOfCurrentWeek: MutableState<Int>,
+    pagerState: PagerState
 ){
     val listOfDays = remember {
         mutableStateOf(listOf(UpperUiState(1,1,1)))
     }
-    val selectedDayOfCurrentWeek = remember {
-        mutableStateOf(1)
-    }
+
     val schedule = viewModel.schedule.collectAsState()
     val c = Calendar.getInstance()
-    val dayOfWeek = c.get(Calendar.DAY_OF_WEEK) - 1
+    val dayOfWeek = c.get(Calendar.DAY_OF_WEEK) - 2
     val weekNumber = remember {
         mutableStateOf(selectedWeek.value)
     }
     weekNumber.value = selectedWeek.value
     LaunchedEffect(key1 = true, block = {
-        selectedDayOfCurrentWeek.value = if (dayOfWeek == 0) 6 else dayOfWeek
+       // selectedDayOfCurrentWeek.value = if (dayOfWeek == 0) 6 else dayOfWeek
     })
 
     LazyRow(modifier = Modifier
@@ -86,11 +89,12 @@ fun DaysBar(
                 else -> {itemsWeek1}
             }
 
-            items(listOfDays.value) {
+            items(listOfDays.value.size) {index->
                 DayItem(
-                    itemSelection = selectedDayOfCurrentWeek,
-                    data = it,
-                    selectedDay
+                    selectedDay = selectedDayOfCurrentWeek,
+                   // data = it,
+                    itemIndex = index,
+                   pagerState =  pagerState
                 )
                 Spacer(modifier = Modifier.width(5.dp))
             }

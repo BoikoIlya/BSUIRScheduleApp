@@ -14,6 +14,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.PagerState
 import com.ilya.bsuirschaduleapp.R
 import com.ilya.bsuirschaduleapp.presentation.models.ActionEvent
 import com.ilya.bsuirschaduleapp.presentation.models.UpperUiState
@@ -22,21 +24,25 @@ import com.ilya.bsuirschaduleapp.presentation.ui.theme.LightSea
 import com.ilya.bsuirschaduleapp.presentation.viewmodels.MainViewModel
 import com.ilya.bsuirschaduleapp.utils.Constance
 
+@OptIn(ExperimentalPagerApi::class)
 @ExperimentalMaterialApi
 @Composable
 fun UpperUI(
     sheetState: BottomSheetState,
     viewModel: MainViewModel = hiltViewModel(),
-    selectedDay: MutableState<UpperUiState>
+    selectedDay: MutableState<UpperUiState>,
+    selectedDayOfCurrentWeek: MutableState<Int>,
+    selectedWeek: MutableState<Int>,
+    pagerState: PagerState
 ){
     val currentWeek  = viewModel.currWeek.collectAsState()
     val scheduleState = viewModel.schedule.collectAsState()
     val selectedSubGroup = viewModel.selectedSubGroup.collectAsState()
     val selectedGroupOrTeacherName = viewModel.selectedGroupOrTeacherName.collectAsState()
 
-    val selectedWeek = remember {
-        mutableStateOf(currentWeek.value)
-    }
+//    val selectedWeek = remember {
+//        mutableStateOf(currentWeek.value)
+//    }
     LaunchedEffect(key1 = scheduleState.value.isLoading, block = {
         selectedWeek.value = currentWeek.value
     })
@@ -150,6 +156,11 @@ fun UpperUI(
             }
         }
         Spacer(modifier = Modifier.height(5.dp))
-        DaysBar( selectedDay, selectedWeek =  selectedWeek)
+        DaysBar(
+            selectedDay,
+            selectedWeek = selectedWeek,
+            selectedDayOfCurrentWeek = selectedDayOfCurrentWeek,
+           pagerState =  pagerState
+        )
     }
 }

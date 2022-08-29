@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalPagerApi::class)
+
 package com.ilya.bsuirschaduleapp.presentation.ui.mainscreen.lowerui
 
 import androidx.compose.foundation.background
@@ -18,7 +20,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.PagerState
+import com.google.accompanist.pager.rememberPagerState
 import com.ilya.bsuirschaduleapp.R
+import com.ilya.bsuirschaduleapp.data.network.dto.Schedule
 import com.ilya.bsuirschaduleapp.presentation.ui.mainscreen.ClassItem
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.DarkSea
 import com.ilya.bsuirschaduleapp.presentation.viewmodels.MainViewModel
@@ -29,67 +36,91 @@ import com.ilya.bsuirschaduleapp.utils.Constance
 @Composable
 fun LowerUI(
     viewModel: MainViewModel = hiltViewModel(),
-    selectedDayItem: MutableState<UpperUiState>
+    selectedDayItem: MutableState<UpperUiState>,
+    selectedDayOfCurrentWeek: MutableState<Int>,
+    selectedWeek: MutableState<Int>,
+    pagerState: PagerState
 ) {
-    val scheduleState = viewModel.schedule.collectAsState()
-    val selectedSubGroup = viewModel.selectedSubGroup.collectAsState()
-    Box(
-        modifier = Modifier
-            .clip(
-                shape = RoundedCornerShape(
-                    topStart = 45.dp,
-                    topEnd = 44.dp
+
+        val scheduleState = viewModel.schedule.collectAsState()
+        val selectedSubGroup = viewModel.selectedSubGroup.collectAsState()
+        Box(
+            modifier = Modifier
+                .clip(
+                    shape = RoundedCornerShape(
+                        topStart = 45.dp,
+                        topEnd = 44.dp
+                    )
                 )
-            )
-            .fillMaxSize()
-            .background(Color.White)
-            .padding(
-                start = 15.dp,
-                end = 15.dp,
-                top = 15.dp
-            )
-    ) {
-        Column {
-            Text(
-                text = stringResource(R.string.lessons),
-                style = MaterialTheme.typography.h2,
-                color = Color.Black
-            )
-            val day = when (selectedDayItem.value.dayOfWeek) {
-                1 -> viewModel.schedule.collectAsState().value.data.schedules.Monday
-                2 -> viewModel.schedule.collectAsState().value.data.schedules.Tuesday
-                3 -> viewModel.schedule.collectAsState().value.data.schedules.Wednesday
-                4 -> viewModel.schedule.collectAsState().value.data.schedules.Thursday
-                5 -> viewModel.schedule.collectAsState().value.data.schedules.Friday
-                6 -> viewModel.schedule.collectAsState().value.data.schedules.Saturday
-                else -> viewModel.schedule.collectAsState().value.data.schedules.Saturday
-            }
-            Spacer(modifier = Modifier.height(5.dp))
-            if (!scheduleState.value.isLoading) {
-                if (day != null){
-                              LazyColumn() {
-                                  items(day) {
-                            if (it.weekNumber.contains(selectedDayItem.value.weekNumber.toLong()) &&
-                                it.weekNumber.contains(selectedDayItem.value.weekNumber.toLong())
-                            ) {
-                                if (selectedSubGroup.value.toLong() == Constance.ALL_GROUPS) {
-                                    ClassItem(lessonInfo = it)
-                                    Spacer(modifier = Modifier.height(15.dp))
-                                } else if (it.numSubgroup == Constance.ALL_GROUPS ||
-                                    it.numSubgroup == selectedSubGroup.value.toLong()
+                .fillMaxSize()
+                .background(Color.White)
+                .padding(
+                    start = 15.dp,
+                    end = 15.dp,
+                    top = 15.dp
+                ),
+            contentAlignment = Alignment.TopCenter
+        ) {
+            Column(
+                verticalArrangement = Arrangement.Top
+            ) {
+                Text(
+                    text = stringResource(R.string.lessons),
+                    style = MaterialTheme.typography.h2,
+                    color = Color.Black
+                )
+                val day = when (selectedDayItem.value.dayOfWeek) {
+                    1 -> viewModel.schedule.collectAsState().value.data.schedules.Monday
+                    2 -> viewModel.schedule.collectAsState().value.data.schedules.Tuesday
+                    3 -> viewModel.schedule.collectAsState().value.data.schedules.Wednesday
+                    4 -> viewModel.schedule.collectAsState().value.data.schedules.Thursday
+                    5 -> viewModel.schedule.collectAsState().value.data.schedules.Friday
+                    6 -> viewModel.schedule.collectAsState().value.data.schedules.Saturday
+                    else -> viewModel.schedule.collectAsState().value.data.schedules.Saturday
+                }
+                val weekSchedules = mutableListOf(
+                    viewModel.schedule.collectAsState().value.data.schedules.Monday,
+                viewModel.schedule.collectAsState().value.data.schedules.Tuesday,
+                viewModel.schedule.collectAsState().value.data.schedules.Wednesday,
+                viewModel.schedule.collectAsState().value.data.schedules.Thursday,
+                viewModel.schedule.collectAsState().value.data.schedules.Friday,
+                viewModel.schedule.collectAsState().value.data.schedules.Saturday
+                )
+                //Spacer(modifier = Modifier.height(5.dp))
+                HorizontalPager(
+                    count =weekSchedules.size,
+                    state = pagerState,
+                    verticalAlignment = Alignment.Top
+                ) {page->
+                    selectedDayOfCurrentWeek.value = pagerState.currentPage
+                if (!scheduleState.value.isLoading) {
+                    if (day != null) {
+                        LazyColumn(
+                            verticalArrangement = Arrangement.Top
+                        ) {
+                            items(weekSchedules[page]) {
+                                if (it.weekNumber.contains(selectedWeek.value.toLong())
+                                   // && it.weekNumber.contains(selectedDayItem.value.weekNumber.toLong())
                                 ) {
-                                    ClassItem(lessonInfo = it)
-                                    Spacer(modifier = Modifier.height(15.dp))
+                                    if (selectedSubGroup.value.toLong() == Constance.ALL_GROUPS) {
+                                        ClassItem(lessonInfo = it)
+                                        Spacer(modifier = Modifier.height(15.dp))
+                                    } else if (it.numSubgroup == Constance.ALL_GROUPS ||
+                                        it.numSubgroup == selectedSubGroup.value.toLong()
+                                    ) {
+                                        ClassItem(lessonInfo = it)
+                                        Spacer(modifier = Modifier.height(15.dp))
+                                    }
                                 }
                             }
-                              }
-                          }
+                        }
                     }
 
-            } else {
-                Box(modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.TopCenter) {
-                    CircularProgressIndicator(color = DarkSea)
+                } else {
+                    Box(modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.TopCenter) {
+                        CircularProgressIndicator(color = DarkSea)
+                    }
                 }
             }
         }

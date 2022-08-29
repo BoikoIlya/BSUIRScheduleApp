@@ -14,9 +14,7 @@ data class ScheduleState(
         startExamsDate = "",
         endExamsDate = "",
         studentGroupDto = null,
-        employeeDto = null,
-        startDate = "",
-        endDate = ""),
+        employeeDto = null),
     val error: String = "",
     val isLoading: Boolean = true
 )
