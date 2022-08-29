@@ -16,11 +16,9 @@ import java.util.*
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun DaysBar(
-    selectedDay: MutableState<UpperUiState>,
     viewModel: MainViewModel = hiltViewModel(),
     selectedWeek: MutableState<Int>,
     selectedDayOfCurrentWeek: MutableState<Int>,
-    pagerState: PagerState
 ){
     val listOfDays = remember {
         mutableStateOf(listOf(UpperUiState(1,1,1)))
@@ -34,7 +32,7 @@ fun DaysBar(
     }
     weekNumber.value = selectedWeek.value
     LaunchedEffect(key1 = true, block = {
-       // selectedDayOfCurrentWeek.value = if (dayOfWeek == 0) 6 else dayOfWeek
+        selectedDayOfCurrentWeek.value = if (dayOfWeek == 6) 5 else dayOfWeek
     })
 
     LazyRow(modifier = Modifier
@@ -92,9 +90,7 @@ fun DaysBar(
             items(listOfDays.value.size) {index->
                 DayItem(
                     selectedDay = selectedDayOfCurrentWeek,
-                   // data = it,
                     itemIndex = index,
-                   pagerState =  pagerState
                 )
                 Spacer(modifier = Modifier.width(5.dp))
             }

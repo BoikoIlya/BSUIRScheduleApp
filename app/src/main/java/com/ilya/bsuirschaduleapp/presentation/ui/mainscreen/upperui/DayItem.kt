@@ -27,49 +27,24 @@ import kotlinx.coroutines.launch
 @Composable
 fun DayItem(
     itemIndex: Int,
-   // data: UpperUiState,
     selectedDay:MutableState<Int>,
-    pagerState: PagerState
 ) {
-    val scope = rememberCoroutineScope()
-
-//       if (itemSelection.value == data.dayOfWeek){
-//           selectedDay.value = data
-//       }
-
         Box(
             modifier = Modifier
                 .width(60.dp)
                 .height(70.dp)
                 .clip(shape = RoundedCornerShape(20.dp))
-
-                .clickable {
-
-                }
                 .background(
-                    color = //if(itemSelection.value==data.dayOfWeek) Color.White else LightSea
-                    if (selectedDay.value == itemIndex) Color.White else LightSea
+                    color = if (selectedDay.value == itemIndex) Color.White else LightSea
                 )
                 .selectable(
-                    selected = //itemSelection.value == data.dayOfWeek,
-                    selectedDay.value == itemIndex,
+                    selected = selectedDay.value == itemIndex,
                     onClick = {
                         selectedDay.value = itemIndex
-                        scope.launch {
-                            //pagerState.animateScrollToPage(itemIndex)
-                            pagerState.scrollToPage(itemIndex)
-                        }
-//                        selectedDay.value =
-//                            when {
-//                                selectedDay.value!=itemIndex ->itemIndex
-//                                selectedDay.value == itemIndex -> itemIndex
-//                                else -> -1
-//                            }
+
                     }
                 )
-                .padding(5.dp)
-
-                ,
+                .padding(5.dp),
             contentAlignment = Alignment.Center
         ) {
             Column(

@@ -36,10 +36,8 @@ import com.ilya.bsuirschaduleapp.utils.Constance
 @Composable
 fun LowerUI(
     viewModel: MainViewModel = hiltViewModel(),
-    selectedDayItem: MutableState<UpperUiState>,
     selectedDayOfCurrentWeek: MutableState<Int>,
     selectedWeek: MutableState<Int>,
-    pagerState: PagerState
 ) {
 
         val scheduleState = viewModel.schedule.collectAsState()
@@ -59,48 +57,28 @@ fun LowerUI(
                     end = 15.dp,
                     top = 15.dp
                 ),
-            contentAlignment = Alignment.TopCenter
         ) {
             Column(
-                verticalArrangement = Arrangement.Top
             ) {
                 Text(
                     text = stringResource(R.string.lessons),
                     style = MaterialTheme.typography.h2,
                     color = Color.Black
                 )
-                val day = when (selectedDayItem.value.dayOfWeek) {
-                    1 -> viewModel.schedule.collectAsState().value.data.schedules.Monday
-                    2 -> viewModel.schedule.collectAsState().value.data.schedules.Tuesday
-                    3 -> viewModel.schedule.collectAsState().value.data.schedules.Wednesday
-                    4 -> viewModel.schedule.collectAsState().value.data.schedules.Thursday
-                    5 -> viewModel.schedule.collectAsState().value.data.schedules.Friday
-                    6 -> viewModel.schedule.collectAsState().value.data.schedules.Saturday
-                    else -> viewModel.schedule.collectAsState().value.data.schedules.Saturday
-                }
-                val weekSchedules = mutableListOf(
-                    viewModel.schedule.collectAsState().value.data.schedules.Monday,
-                viewModel.schedule.collectAsState().value.data.schedules.Tuesday,
-                viewModel.schedule.collectAsState().value.data.schedules.Wednesday,
-                viewModel.schedule.collectAsState().value.data.schedules.Thursday,
-                viewModel.schedule.collectAsState().value.data.schedules.Friday,
-                viewModel.schedule.collectAsState().value.data.schedules.Saturday
-                )
-                //Spacer(modifier = Modifier.height(5.dp))
-                HorizontalPager(
-                    count =weekSchedules.size,
-                    state = pagerState,
-                    verticalAlignment = Alignment.Top
-                ) {page->
-                    selectedDayOfCurrentWeek.value = pagerState.currentPage
+                 val schedule = when(selectedDayOfCurrentWeek.value){
+                         0->viewModel.schedule.collectAsState().value.data.schedules.Monday
+                         1->viewModel.schedule.collectAsState().value.data.schedules.Tuesday
+                         2->viewModel.schedule.collectAsState().value.data.schedules.Wednesday
+                         3->viewModel.schedule.collectAsState().value.data.schedules.Thursday
+                         4->viewModel.schedule.collectAsState().value.data.schedules.Friday
+                         5->viewModel.schedule.collectAsState().value.data.schedules.Saturday
+                     else->viewModel.schedule.collectAsState().value.data.schedules.Saturday
+                 }
                 if (!scheduleState.value.isLoading) {
-                    if (day != null) {
-                        LazyColumn(
-                            verticalArrangement = Arrangement.Top
-                        ) {
-                            items(weekSchedules[page]) {
+                    if (schedule != null) {
+                        LazyColumn{
+                            items(schedule) {
                                 if (it.weekNumber.contains(selectedWeek.value.toLong())
-                                   // && it.weekNumber.contains(selectedDayItem.value.weekNumber.toLong())
                                 ) {
                                     if (selectedSubGroup.value.toLong() == Constance.ALL_GROUPS) {
                                         ClassItem(lessonInfo = it)
@@ -125,4 +103,3 @@ fun LowerUI(
             }
         }
     }
-}

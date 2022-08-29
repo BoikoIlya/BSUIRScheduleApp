@@ -30,10 +30,8 @@ import com.ilya.bsuirschaduleapp.utils.Constance
 fun UpperUI(
     sheetState: BottomSheetState,
     viewModel: MainViewModel = hiltViewModel(),
-    selectedDay: MutableState<UpperUiState>,
     selectedDayOfCurrentWeek: MutableState<Int>,
     selectedWeek: MutableState<Int>,
-    pagerState: PagerState
 ){
     val currentWeek  = viewModel.currWeek.collectAsState()
     val scheduleState = viewModel.schedule.collectAsState()
@@ -157,10 +155,8 @@ fun UpperUI(
         }
         Spacer(modifier = Modifier.height(5.dp))
         DaysBar(
-            selectedDay,
             selectedWeek = selectedWeek,
             selectedDayOfCurrentWeek = selectedDayOfCurrentWeek,
-           pagerState =  pagerState
         )
     }
 }
