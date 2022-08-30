@@ -65,6 +65,7 @@ fun LowerUI(
                     style = MaterialTheme.typography.h2,
                     color = Color.Black
                 )
+                Spacer(modifier = Modifier.height(5.dp))
                  val schedule = when(selectedDayOfCurrentWeek.value){
                          0->viewModel.schedule.collectAsState().value.data.schedules.Monday
                          1->viewModel.schedule.collectAsState().value.data.schedules.Tuesday
