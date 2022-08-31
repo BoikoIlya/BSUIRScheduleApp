@@ -30,6 +30,7 @@ import com.ilya.bsuirschaduleapp.utils.Constance
 fun MainScreen(
     viewModel: MainViewModel = hiltViewModel()
 ){
+    val pagerState = rememberPagerState()
     val selectedDayOfCurrentWeek = remember {
         mutableStateOf(0)
     }
@@ -73,12 +74,14 @@ fun MainScreen(
                             sheetState,
                             selectedDayOfCurrentWeek = selectedDayOfCurrentWeek,
                            selectedWeek=  selectedWeek,
+                           pagerState =  pagerState
                         )
                         Spacer(modifier = Modifier.height(15.dp))
                         LowerUI(
                             viewModel = viewModel,
                             selectedDayOfCurrentWeek = selectedDayOfCurrentWeek,
                             selectedWeek=  selectedWeek,
+                            pagerState = pagerState
                         )
 
                 }

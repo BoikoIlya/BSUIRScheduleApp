@@ -4,7 +4,7 @@
     <string name="delete">Удалить</string>
     <string name="do_not_delete">Не удалять</string>
     <string name="are_you_sure_of_deleting">Вы уверены, что хотите удалить?</string>
-    <string name="course">Курс: </string>
+    <string name="course">Курс:\t</string>
     <string name="lecture">ЛК</string>
     <string name="lab">ЛР</string>
     <string name="practical">ПЗ</string>
@@ -28,4 +28,5 @@
     <string name="second_week">2 нед.</string>
     <string name="third_week">3 нед.</string>
     <string name="fourth_week">4 нед.</string>
+    <string name="no_lessons">Нет занятий</string>
 </resources>

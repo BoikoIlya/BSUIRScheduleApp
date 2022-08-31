@@ -28,12 +28,19 @@ import kotlinx.coroutines.launch
 fun DayItem(
     itemIndex: Int,
     selectedDay:MutableState<Int>,
+    pagerState: PagerState
 ) {
+    val scope = rememberCoroutineScope()
+
         Box(
             modifier = Modifier
                 .width(60.dp)
                 .height(70.dp)
                 .clip(shape = RoundedCornerShape(20.dp))
+
+                .clickable {
+
+                }
                 .background(
                     color = if (selectedDay.value == itemIndex) Color.White else LightSea
                 )
@@ -41,7 +48,9 @@ fun DayItem(
                     selected = selectedDay.value == itemIndex,
                     onClick = {
                         selectedDay.value = itemIndex
-
+                        scope.launch {
+                            pagerState.scrollToPage(itemIndex)
+                        }
                     }
                 )
                 .padding(5.dp),

@@ -38,9 +38,6 @@ fun UpperUI(
     val selectedSubGroup = viewModel.selectedSubGroup.collectAsState()
     val selectedGroupOrTeacherName = viewModel.selectedGroupOrTeacherName.collectAsState()
 
-//    val selectedWeek = remember {
-//        mutableStateOf(currentWeek.value)
-//    }
     LaunchedEffect(key1 = scheduleState.value.isLoading, block = {
         selectedWeek.value = currentWeek.value
     })

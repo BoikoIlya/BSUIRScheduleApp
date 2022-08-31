@@ -25,7 +25,7 @@ object Constance {
     const val IS_GROUP:Int = 1
     const val IS_TEACHER:Int = 2
     const val NOT_TEACHER_NOT_GROUP:Int =0
-    const val ALL_GROUPS:Long = 0L
+    const val ALL_GROUP:Long = 0L
 
 
 }
