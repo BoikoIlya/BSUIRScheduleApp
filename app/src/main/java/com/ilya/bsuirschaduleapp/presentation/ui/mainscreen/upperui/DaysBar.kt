@@ -34,6 +34,7 @@ fun DaysBar(
     weekNumber.value = selectedWeek.value
     LaunchedEffect(key1 = true, block = {
         selectedDayOfCurrentWeek.value = if (dayOfWeek == 6) 5 else dayOfWeek
+        pagerState.scrollToPage(selectedDayOfCurrentWeek.value)
     })
 
     LazyRow(modifier = Modifier
