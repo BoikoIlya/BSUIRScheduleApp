@@ -60,20 +60,23 @@ fun LowerUI(
             contentAlignment = Alignment.TopCenter
         ) {
             Column(
-                verticalArrangement = Arrangement.Top
+                verticalArrangement = Arrangement.Top,
             ) {
-                Text(
-                    text = stringResource(R.string.lessons),
-                    style = MaterialTheme.typography.h2,
-                    color = Color.Black
-                )
+                Row {
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Text(
+                        text = stringResource(R.string.lessons),
+                        style = MaterialTheme.typography.h2,
+                        color = Color.Black
+                    )
+                }
                 val weekSchedules = mutableListOf(
-                    viewModel.schedule.collectAsState().value.data.schedules.Monday,
-                    viewModel.schedule.collectAsState().value.data.schedules.Tuesday ,
-                    viewModel.schedule.collectAsState().value.data.schedules.Wednesday,
-                    viewModel.schedule.collectAsState().value.data.schedules.Thursday,
-                    viewModel.schedule.collectAsState().value.data.schedules.Friday,
-                    viewModel.schedule.collectAsState().value.data.schedules.Saturday
+                    viewModel.schedule.collectAsState().value.data.schedules.Monday?: emptyList(),
+                    viewModel.schedule.collectAsState().value.data.schedules.Tuesday ?: emptyList(),
+                    viewModel.schedule.collectAsState().value.data.schedules.Wednesday?: emptyList(),
+                    viewModel.schedule.collectAsState().value.data.schedules.Thursday?: emptyList(),
+                    viewModel.schedule.collectAsState().value.data.schedules.Friday?: emptyList(),
+                    viewModel.schedule.collectAsState().value.data.schedules.Saturday?: emptyList()
                 )
                 Spacer(modifier = Modifier.height(5.dp))
                     HorizontalPager(
@@ -81,6 +84,7 @@ fun LowerUI(
                         state = pagerState,
                         verticalAlignment = Alignment.Top,
                         modifier = Modifier.fillMaxSize()
+
                     ) { page ->
                         selectedDayOfCurrentWeek.value = pagerState.currentPage
                         if (!scheduleState.value.isLoading) {
@@ -99,7 +103,11 @@ fun LowerUI(
                              if (weekSchedules[page].isNotEmpty() && lessons.isNotEmpty()) {
                             LazyColumn(
                                 verticalArrangement = Arrangement.Top,
-                                modifier = Modifier.fillMaxSize()
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(
+                                        start = 10.dp,
+                                        end = 10.dp)
                             ) {
                                 items(lessons) {
                                     ClassItem(lessonInfo = it)

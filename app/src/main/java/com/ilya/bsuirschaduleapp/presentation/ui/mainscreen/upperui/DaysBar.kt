@@ -19,6 +19,7 @@ fun DaysBar(
     viewModel: MainViewModel = hiltViewModel(),
     selectedWeek: MutableState<Int>,
     selectedDayOfCurrentWeek: MutableState<Int>,
+    pagerState: PagerState
 ){
     val listOfDays = remember {
         mutableStateOf(listOf(UpperUiState(1,1,1)))
@@ -91,6 +92,7 @@ fun DaysBar(
                 DayItem(
                     selectedDay = selectedDayOfCurrentWeek,
                     itemIndex = index,
+                    pagerState = pagerState
                 )
                 Spacer(modifier = Modifier.width(5.dp))
             }
