@@ -150,6 +150,11 @@ fun BottomSheetContent(
                                 viewModel.obtainActionEvent(ActionEvent.SaveDataInDataStore(
                                     it.fio,
                                     Constance.SELECTED_GROUP_OR_TEACHER_NAME_KEY))
+
+                                viewModel.obtainActionEvent(ActionEvent.SaveDataInDataStore(
+                                    Constance.ALL_GROUP.toString(),
+                                    Constance.SELECTED_SUBGROUP_KEY
+                                ))
                             }
                         )
                     }

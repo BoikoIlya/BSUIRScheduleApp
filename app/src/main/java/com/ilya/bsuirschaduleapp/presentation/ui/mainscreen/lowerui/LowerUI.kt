@@ -2,14 +2,14 @@
 
 package com.ilya.bsuirschaduleapp.presentation.ui.mainscreen.lowerui
 
+import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
@@ -17,13 +17,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
-import com.google.accompanist.pager.rememberPagerState
 import com.ilya.bsuirschaduleapp.R
 import com.ilya.bsuirschaduleapp.data.network.dto.Schedule
 import com.ilya.bsuirschaduleapp.presentation.ui.mainscreen.ClassItem
@@ -33,6 +33,7 @@ import com.ilya.bsuirschaduleapp.presentation.models.UpperUiState
 import com.ilya.bsuirschaduleapp.utils.Constance
 
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun LowerUI(
     viewModel: MainViewModel = hiltViewModel(),
@@ -55,8 +56,6 @@ fun LowerUI(
                 .fillMaxSize()
                 .background(Color.White)
                 .padding(
-                    start = 15.dp,
-                    end = 15.dp,
                     top = 15.dp
                 ),
             contentAlignment = Alignment.TopCenter
@@ -69,60 +68,65 @@ fun LowerUI(
                     style = MaterialTheme.typography.h2,
                     color = Color.Black
                 )
-                val day = when (selectedDayItem.value.dayOfWeek) {
-                    1 -> viewModel.schedule.collectAsState().value.data.schedules.Monday
-                    2 -> viewModel.schedule.collectAsState().value.data.schedules.Tuesday
-                    3 -> viewModel.schedule.collectAsState().value.data.schedules.Wednesday
-                    4 -> viewModel.schedule.collectAsState().value.data.schedules.Thursday
-                    5 -> viewModel.schedule.collectAsState().value.data.schedules.Friday
-                    6 -> viewModel.schedule.collectAsState().value.data.schedules.Saturday
-                    else -> viewModel.schedule.collectAsState().value.data.schedules.Saturday
-                }
                 val weekSchedules = mutableListOf(
                     viewModel.schedule.collectAsState().value.data.schedules.Monday,
-                viewModel.schedule.collectAsState().value.data.schedules.Tuesday,
-                viewModel.schedule.collectAsState().value.data.schedules.Wednesday,
-                viewModel.schedule.collectAsState().value.data.schedules.Thursday,
-                viewModel.schedule.collectAsState().value.data.schedules.Friday,
-                viewModel.schedule.collectAsState().value.data.schedules.Saturday
+                    viewModel.schedule.collectAsState().value.data.schedules.Tuesday ,
+                    viewModel.schedule.collectAsState().value.data.schedules.Wednesday,
+                    viewModel.schedule.collectAsState().value.data.schedules.Thursday,
+                    viewModel.schedule.collectAsState().value.data.schedules.Friday,
+                    viewModel.schedule.collectAsState().value.data.schedules.Saturday
                 )
-                //Spacer(modifier = Modifier.height(5.dp))
-                HorizontalPager(
-                    count =weekSchedules.size,
-                    state = pagerState,
-                    verticalAlignment = Alignment.Top
-                ) {page->
-                    selectedDayOfCurrentWeek.value = pagerState.currentPage
-                if (!scheduleState.value.isLoading) {
-                    if (day != null) {
-                        LazyColumn(
-                            verticalArrangement = Arrangement.Top
-                        ) {
-                            items(weekSchedules[page]) {
-                                if (it.weekNumber.contains(selectedWeek.value.toLong())
-                                   // && it.weekNumber.contains(selectedDayItem.value.weekNumber.toLong())
-                                ) {
-                                    if (selectedSubGroup.value.toLong() == Constance.ALL_GROUPS) {
-                                        ClassItem(lessonInfo = it)
-                                        Spacer(modifier = Modifier.height(15.dp))
-                                    } else if (it.numSubgroup == Constance.ALL_GROUPS ||
+                Spacer(modifier = Modifier.height(5.dp))
+                    HorizontalPager(
+                        count = weekSchedules.size,
+                        state = pagerState,
+                        verticalAlignment = Alignment.Top,
+                        modifier = Modifier.fillMaxSize()
+                    ) { page ->
+                        selectedDayOfCurrentWeek.value = pagerState.currentPage
+                        if (!scheduleState.value.isLoading) {
+                            val lessons: MutableList<Schedule> = emptyList<Schedule>().toMutableList()
+                            weekSchedules[page].forEach{
+                                if (it.weekNumber.contains(selectedWeek.value.toLong())) {
+                                    if (selectedSubGroup.value.toLong() == Constance.ALL_GROUP) {
+                                        lessons.add(it)
+                                    } else if (it.numSubgroup == Constance.ALL_GROUP ||
                                         it.numSubgroup == selectedSubGroup.value.toLong()
                                     ) {
-                                        ClassItem(lessonInfo = it)
-                                        Spacer(modifier = Modifier.height(15.dp))
+                                        lessons.add(it)
                                     }
                                 }
                             }
+                             if (weekSchedules[page].isNotEmpty() && lessons.isNotEmpty()) {
+                            LazyColumn(
+                                verticalArrangement = Arrangement.Top,
+                                modifier = Modifier.fillMaxSize()
+                            ) {
+                                items(lessons) {
+                                    ClassItem(lessonInfo = it)
+                                    Spacer(modifier = Modifier.height(15.dp))
+                                }
+                            }
+                               }else{
+                                   Column(
+                                       modifier = Modifier.fillMaxSize(),
+                                   horizontalAlignment = Alignment.CenterHorizontally
+                                       ){
+                                       Image(painter = painterResource(id = R.drawable.owner), contentDescription = "")
+                                       Text(
+                                           text = stringResource(R.string.no_lessons),
+                                           style = MaterialTheme.typography.h2,
+                                           color = Color.Black
+                                       )
+                                   }
+                             }
+                        } else {
+                            Box(modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.TopCenter) {
+                                CircularProgressIndicator(color = DarkSea)
+                            }
                         }
-                    }
-
-                } else {
-                    Box(modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.TopCenter) {
-                        CircularProgressIndicator(color = DarkSea)
                     }
                 }
             }
-        }
     }
-}
