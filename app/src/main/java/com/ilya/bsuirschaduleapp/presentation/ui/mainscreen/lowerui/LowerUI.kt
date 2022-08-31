@@ -37,7 +37,6 @@ import com.ilya.bsuirschaduleapp.utils.Constance
 @Composable
 fun LowerUI(
     viewModel: MainViewModel = hiltViewModel(),
-    selectedDayItem: MutableState<UpperUiState>,
     selectedDayOfCurrentWeek: MutableState<Int>,
     selectedWeek: MutableState<Int>,
     pagerState: PagerState

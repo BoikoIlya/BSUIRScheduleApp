@@ -30,7 +30,6 @@ import com.ilya.bsuirschaduleapp.utils.Constance
 fun UpperUI(
     sheetState: BottomSheetState,
     viewModel: MainViewModel = hiltViewModel(),
-    selectedDay: MutableState<UpperUiState>,
     selectedDayOfCurrentWeek: MutableState<Int>,
     selectedWeek: MutableState<Int>,
     pagerState: PagerState
@@ -40,9 +39,6 @@ fun UpperUI(
     val selectedSubGroup = viewModel.selectedSubGroup.collectAsState()
     val selectedGroupOrTeacherName = viewModel.selectedGroupOrTeacherName.collectAsState()
 
-//    val selectedWeek = remember {
-//        mutableStateOf(currentWeek.value)
-//    }
     LaunchedEffect(key1 = scheduleState.value.isLoading, block = {
         selectedWeek.value = currentWeek.value
     })
@@ -157,7 +153,6 @@ fun UpperUI(
         }
         Spacer(modifier = Modifier.height(5.dp))
         DaysBar(
-            selectedDay,
             selectedWeek = selectedWeek,
             selectedDayOfCurrentWeek = selectedDayOfCurrentWeek,
            pagerState =  pagerState
