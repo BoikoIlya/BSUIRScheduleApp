@@ -1,5 +1,5 @@
 # BSUIRScheduleApp
-###Latest version:
+### Latest version:
 [BSUIRSchedule.zip](https://github.com/BoikoIlya/BSUIRScheduleApp/files/9548749/BSUIRSchedule.zip)
 
 Stack:
