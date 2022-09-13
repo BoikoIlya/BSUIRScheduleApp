@@ -1,5 +1,5 @@
 # BSUIRScheduleApp
-### Latest version: [BSUIRSchedule.zip](https://github.com/BoikoIlya/BSUIRScheduleApp/files/9548749/BSUIRSchedule.zip)
+### Latest version 13.09.22: [BSUIRSchedule.zip](https://github.com/BoikoIlya/BSUIRScheduleApp/files/9556197/BSUIRSchedule.zip)
 
 Stack:
 - Kotlin
