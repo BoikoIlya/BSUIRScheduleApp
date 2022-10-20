@@ -40,7 +40,7 @@ fun MainScreen(
     val showNoConnectionAlert = viewModel.noConnection.collectAsState()
     val teacherOrGroup = viewModel.teacherOrGroup.collectAsState()
 
-    if(showNoConnectionAlert.value) {
+   /* if(showNoConnectionAlert.value) {
         ConnectionFailed(showAlert = showNoConnectionAlert) {
                 viewModel.obtainDataEvent(SendDataEvent.ConnectionState(false))
             if(teacherOrGroup.value==Constance.IS_GROUP) {
@@ -48,9 +48,9 @@ fun MainScreen(
             }else if(teacherOrGroup.value==Constance.IS_TEACHER)
                 viewModel.obtainActionEvent(ActionEvent.GetScheduleByTeacherUrlId)
         }
-    }
+    }*/
         val sheetState = rememberBottomSheetState(
-            initialValue = BottomSheetValue.Collapsed
+            initialValue = BottomSheetValue.Expanded
         )
         val scaffoldState = rememberBottomSheetScaffoldState(
             bottomSheetState = sheetState
@@ -70,19 +70,19 @@ fun MainScreen(
                         .background(DarkSea)
                         .fillMaxSize(),
                 ) {
-                        UpperUI(
+                       /* UpperUI(
                             sheetState,
                             selectedDayOfCurrentWeek = selectedDayOfCurrentWeek,
                            selectedWeek=  selectedWeek,
                            pagerState =  pagerState
-                        )
-                        Spacer(modifier = Modifier.height(15.dp))
+                        )*/
+                        /*Spacer(modifier = Modifier.height(15.dp))
                         LowerUI(
                             viewModel = viewModel,
                             selectedDayOfCurrentWeek = selectedDayOfCurrentWeek,
                             selectedWeek=  selectedWeek,
                             pagerState = pagerState
-                        )
+                        )*/
 
                 }
             }

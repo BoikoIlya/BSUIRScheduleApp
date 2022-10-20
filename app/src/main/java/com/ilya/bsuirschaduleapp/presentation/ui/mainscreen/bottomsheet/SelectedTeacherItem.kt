@@ -21,12 +21,14 @@ import androidx.compose.ui.unit.dp
 import com.ilya.bsuirschaduleapp.R
 import com.ilya.bsuirschaduleapp.domain.models.SelectedTeacher
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.Green
+import com.ilya.bsuirschaduleapp.presentation.ui.theme.Typography
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.VeryLightGreen
+import com.ilya.bsuirschaduleapp.reafactor.teacherList.presentation.TeacherListItemUi
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun SelectedTeacherItem(
-    selectedTeacher: SelectedTeacher,
+    teacher: TeacherListItemUi,
     onDelete:()->Unit,
     onClick:()->Unit
 ){
@@ -58,17 +60,17 @@ fun SelectedTeacherItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 GlideImage(
-                    imageModel =  selectedTeacher.photoLink,
+                    error = painterResource(id = R.drawable.ic_person),
+                    imageModel = teacher.photoLink,
                     modifier = Modifier
                         .clip(RoundedCornerShape(20.dp))
-                        .size(100.dp)
-                    ,
+                        .size(100.dp),
                     contentScale = ContentScale.Fit)
                 Spacer(modifier = Modifier.width(10.dp))
                 Column() {
                     Text(
-                        text = "${selectedTeacher.lastName} ${selectedTeacher.firstName} ${selectedTeacher.middleName}",
-                        fontSize = MaterialTheme.typography.h4.fontSize,
+                        text = teacher.fullFIO,
+                        style = Typography.h4,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
                     )
@@ -79,7 +81,7 @@ fun SelectedTeacherItem(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = selectedTeacher.academicDepartment,
+                            text = teacher.academicDepartment,
                             fontSize = MaterialTheme.typography.body1.fontSize,
                             color = Color.White,
                             modifier = Modifier
@@ -89,7 +91,6 @@ fun SelectedTeacherItem(
                                 .background(Green)
                                 .padding(5.dp)
                                 .weight(5f)
-
                         )
                         Icon(
                             painter = painterResource(

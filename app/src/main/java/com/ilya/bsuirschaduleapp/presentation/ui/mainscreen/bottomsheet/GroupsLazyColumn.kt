@@ -36,13 +36,13 @@ fun GroupsLazyColumn(
         ) {
             items(groups.value.data) {
                 Spacer(modifier = Modifier.height(5.dp))
-                GroupItem(group = it) {
+                /*GroupItem(group = it) {
                     insert(SelectedGroup(
                         course = it.course,
                         name = it.name,
                         specialityName = it.specialityName))
                     showSearch.value = 0
-                }
+                }*/
 
             }
         }

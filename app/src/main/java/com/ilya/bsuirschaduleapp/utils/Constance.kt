@@ -19,7 +19,7 @@ object Constance {
     const val SELECTED_SUBGROUP_KEY: String = "selected_sub_group"
     const val SELECTED_GROUP_OR_TEACHER_PATH_FOR_API_KEY: String = "selected_group_or_teacher"
     const val SELECTED_GROUP_OR_TEACHER_NAME_KEY: String = "selected_group_or_teacher_name"
-    const val DATA_STORE_NAME:String = "settings"
+    const val DATA_STORE_NAME:String = "settings___"
     const val DATA_STORE_DEF_VALUE:String = "0"
 
     const val IS_GROUP:Int = 1

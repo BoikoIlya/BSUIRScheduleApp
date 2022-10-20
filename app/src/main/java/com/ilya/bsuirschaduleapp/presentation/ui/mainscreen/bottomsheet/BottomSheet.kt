@@ -12,14 +12,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ilya.bsuirschaduleapp.R
-import com.ilya.bsuirschaduleapp.presentation.models.ActionEvent
-import com.ilya.bsuirschaduleapp.presentation.models.SendDataEvent
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.*
-import com.ilya.bsuirschaduleapp.presentation.viewmodels.MainViewModel
+import com.ilya.bsuirschaduleapp.reafactor.GroupList.presentation.GroupListItemUi
+import com.ilya.bsuirschaduleapp.reafactor.favoriteGroups.presentation.BaseFavoriteGroupsViewModel
+import com.ilya.bsuirschaduleapp.reafactor.favoriteTeachers.presentation.BaseFavoriteTeachersViewModel
+import com.ilya.bsuirschaduleapp.reafactor.favoriteTeachers.presentation.FavoritesViewModel
+import com.ilya.bsuirschaduleapp.reafactor.teacherList.presentation.BaseTeacherListViewModel
+import com.ilya.bsuirschaduleapp.reafactor.teacherList.presentation.TeacherListItemUi
 import com.ilya.bsuirschaduleapp.utils.Constance
 import kotlinx.coroutines.launch
 
@@ -27,16 +31,58 @@ import kotlinx.coroutines.launch
 @Composable
 fun BottomSheetContent(
     sheetState: BottomSheetState,
-    viewModel: MainViewModel = hiltViewModel(),
+    viewModel: BaseFavoriteTeachersViewModel = hiltViewModel(),
+    myViewModel: BaseFavoriteGroupsViewModel = hiltViewModel(),
 ){
+
+    val teacherList = remember {
+        mutableStateOf(listOf<TeacherListItemUi>())
+    }
+    val lifecycleOwner = LocalLifecycleOwner.current
+    LaunchedEffect(
+        key1 = true, block = {
+            viewModel.collect(lifecycleOwner) {
+                teacherList.value = it
+            }
+        })
+    LaunchedEffect(
+        key1 = true, block = {
+            viewModel.collectUpdate(lifecycleOwner){
+                if (it) {
+                    viewModel.update()
+                }
+            }
+        })
+
+
+
+    val groupList = remember {
+        mutableStateOf(listOf<GroupListItemUi>())
+    }
+    LaunchedEffect(
+        key1 = true, block = {
+            myViewModel.collect(lifecycleOwner) {
+                groupList.value = it
+            }
+        })
+    LaunchedEffect(
+        key1 = true, block = {
+            myViewModel.collectUpdate(lifecycleOwner){
+                if (it) {
+                    myViewModel.update()
+                }
+            }
+        })
+
+
     val showSearch = remember {
         mutableStateOf(0)
     }
     if(sheetState.isCollapsed)
         showSearch.value = Constance.NOT_TEACHER_NOT_GROUP
     val scope = rememberCoroutineScope()
-    val selectedGroupList = viewModel.selectedGroupList.collectAsState()
-    val selectedTeacherList = viewModel.selectedTeacherList.collectAsState()
+  /*  val selectedGroupList = viewModel.selectedGroupList.collectAsState()
+    val selectedTeacherList = viewModel.selectedTeacherList.collectAsState()*/
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -102,14 +148,14 @@ fun BottomSheetContent(
                 }
             }
             if(showSearch.value!=Constance.NOT_TEACHER_NOT_GROUP){
-                SearchFragment(viewModel, showSearch)
+                SearchFragment(showSearch = showSearch)
             } else {
-                if(selectedGroupList.value.isLoading || selectedTeacherList.value.isLoading){
+                /*if(selectedGroupList.value.isLoading || selectedTeacherList.value.isLoading){
                     Box(modifier = Modifier.fillMaxWidth(),
                         contentAlignment = Alignment.TopCenter
                     ){
                         CircularProgressIndicator()
-                    }
+                    }*/
                 }
                 LazyColumn(
                     modifier = Modifier
@@ -117,7 +163,27 @@ fun BottomSheetContent(
                         .background(Color.White)
                         .padding(horizontal = 10.dp)
                 ) {
-                  items(selectedGroupList.value.data){
+                    items(groupList.value) {
+                        Spacer(modifier = Modifier.height(5.dp))
+                        SelectedGroupItem(
+                            group = it,
+                            onDelete = {
+                                myViewModel.changeFavorite(it.name)
+                            }) {
+
+                        }
+                    }
+                    items(teacherList.value){
+                        Spacer(modifier = Modifier.height(5.dp))
+                        SelectedTeacherItem(
+                            teacher = it,
+                            onDelete = {
+                                viewModel.changeFavorite(it.urlId)
+                            }) {
+
+                        }
+                    }
+                  /*items(selectedGroupList.value.data){
                           Spacer(modifier = Modifier.height(5.dp))
                           SelectedGroupItem(
                               selectedGroup = it,
@@ -157,12 +223,12 @@ fun BottomSheetContent(
                                 ))
                             }
                         )
-                    }
+                    }*/
                 }
             }
         }
     }
-}
+
 
 
 

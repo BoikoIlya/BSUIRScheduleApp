@@ -17,11 +17,13 @@ import androidx.compose.ui.unit.dp
 import com.ilya.bsuirschaduleapp.R
 import com.ilya.bsuirschaduleapp.domain.models.Group
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.Purple
+import com.ilya.bsuirschaduleapp.presentation.ui.theme.Typography
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.VeryLightPurple
+import com.ilya.bsuirschaduleapp.reafactor.GroupList.presentation.GroupListItemUi
 
 @Composable
 fun GroupItem(
-    group: Group,
+    group: GroupListItemUi,
     onSelect:()->Unit
 ){
 
@@ -41,26 +43,26 @@ fun GroupItem(
         ) {
             Text(
                 text = group.specialityName,
-                fontSize = MaterialTheme.typography.body1.fontSize,
+                style = Typography.body1,
                 color = Color.Gray
             )
-            Text(
-                text = group.name,
-                fontSize = MaterialTheme.typography.h3.fontSize,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black
-            )
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
                 Text(
-                    text = stringResource(R.string.course) +group.course,
-                    fontSize = MaterialTheme.typography.h4.fontSize,
+                    text = group.name,
+                    style = Typography.h2,
                     fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
+                Text(
+                    text = group.course,
+                    style = Typography.h4,
+                    color = Color.White,
                     modifier = Modifier
                         .clip(
                             shape = RoundedCornerShape(20.dp)

@@ -19,13 +19,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ilya.bsuirschaduleapp.R
-import com.ilya.bsuirschaduleapp.domain.models.SelectedGroup
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.Purple
+import com.ilya.bsuirschaduleapp.presentation.ui.theme.Typography
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.VeryLightPurple
+import com.ilya.bsuirschaduleapp.reafactor.GroupList.presentation.GroupListItemUi
 
 @Composable
 fun SelectedGroupItem(
-    selectedGroup: SelectedGroup,
+    group: GroupListItemUi,
     onDelete:()->Unit,
     onClick:()->Unit
 ){
@@ -50,13 +51,13 @@ fun SelectedGroupItem(
             }
         ) {
             Text(
-                text = selectedGroup.specialityName,
-                fontSize = MaterialTheme.typography.body1.fontSize,
+                text = group.specialityName,
+                style = Typography.body1,
                 color = Color.Gray
             )
             Text(
-                text = selectedGroup.name,
-                fontSize = MaterialTheme.typography.h3.fontSize,
+                text = group.name,
+                style = Typography.h2,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
             )
@@ -67,9 +68,9 @@ fun SelectedGroupItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = stringResource(id = R.string.course) +selectedGroup.course,
-                    fontSize = MaterialTheme.typography.h4.fontSize,
-                    fontWeight = FontWeight.Bold,
+                    text = group.course,
+                    style = Typography.h4,
+                    color = Color.White,
                     modifier = Modifier
                         .clip(
                             shape = RoundedCornerShape(20.dp)
