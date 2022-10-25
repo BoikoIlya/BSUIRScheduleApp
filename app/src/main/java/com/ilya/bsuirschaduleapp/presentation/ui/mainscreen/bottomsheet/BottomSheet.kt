@@ -18,10 +18,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ilya.bsuirschaduleapp.R
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.*
-import com.ilya.bsuirschaduleapp.reafactor.GroupList.presentation.GroupListItemUi
+import com.ilya.bsuirschaduleapp.reafactor.groupList.presentation.BaseGroupListViewModel
+import com.ilya.bsuirschaduleapp.reafactor.groupList.presentation.GroupListItemUi
 import com.ilya.bsuirschaduleapp.reafactor.favoriteGroups.presentation.BaseFavoriteGroupsViewModel
 import com.ilya.bsuirschaduleapp.reafactor.favoriteTeachers.presentation.BaseFavoriteTeachersViewModel
-import com.ilya.bsuirschaduleapp.reafactor.favoriteTeachers.presentation.FavoritesViewModel
 import com.ilya.bsuirschaduleapp.reafactor.teacherList.presentation.BaseTeacherListViewModel
 import com.ilya.bsuirschaduleapp.reafactor.teacherList.presentation.TeacherListItemUi
 import com.ilya.bsuirschaduleapp.utils.Constance
@@ -33,6 +33,8 @@ fun BottomSheetContent(
     sheetState: BottomSheetState,
     viewModel: BaseFavoriteTeachersViewModel = hiltViewModel(),
     myViewModel: BaseFavoriteGroupsViewModel = hiltViewModel(),
+    teacherListViewModel: BaseTeacherListViewModel = hiltViewModel(),
+    groupListViewModel: BaseGroupListViewModel = hiltViewModel(),
 ){
 
     val teacherList = remember {
@@ -74,6 +76,9 @@ fun BottomSheetContent(
             }
         })
 
+    val refreshBtnVisibility = remember {
+       mutableStateOf(false)
+    }
 
     val showSearch = remember {
         mutableStateOf(0)
@@ -132,23 +137,37 @@ fun BottomSheetContent(
                                 }
                         )
                     }
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_close),
-                        contentDescription = "close",
-                        modifier = Modifier
-                            .size(40.dp)
-                            .clickable {
-                                scope.launch {
-                                    if (sheetState.isCollapsed) {
-                                        sheetState.expand()
-                                    } else sheetState.collapse()
+                    Row {
+                        if(refreshBtnVisibility.value) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_refresh),
+                                contentDescription = "refresh",
+                                modifier = Modifier
+                                    .size(40.dp)
+                                    .clickable {
+                                        teacherListViewModel.refresh()
+                                        groupListViewModel.refresh()
+                                    }
+                            )
+                        }
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_close),
+                            contentDescription = "close",
+                            modifier = Modifier
+                                .size(40.dp)
+                                .clickable {
+                                    scope.launch {
+                                        if (sheetState.isCollapsed) {
+                                            sheetState.expand()
+                                        } else sheetState.collapse()
+                                    }
                                 }
-                            }
-                    )
+                        )
+                    }
                 }
             }
             if(showSearch.value!=Constance.NOT_TEACHER_NOT_GROUP){
-                SearchFragment(showSearch = showSearch)
+                SearchFragment(showSearch = showSearch,refreshBtnVisibility = refreshBtnVisibility)
             } else {
                 /*if(selectedGroupList.value.isLoading || selectedTeacherList.value.isLoading){
                     Box(modifier = Modifier.fillMaxWidth(),
@@ -231,7 +250,18 @@ fun BottomSheetContent(
 
 
 
-
+@Composable
+fun DoRefresh(execute:()->Unit){
+    Icon(
+        painter = painterResource(id = R.drawable.ic_refresh),
+        contentDescription = "refresh",
+        modifier = Modifier
+            .size(40.dp)
+            .clickable {
+              execute()
+            }
+    )
+}
 
 
 

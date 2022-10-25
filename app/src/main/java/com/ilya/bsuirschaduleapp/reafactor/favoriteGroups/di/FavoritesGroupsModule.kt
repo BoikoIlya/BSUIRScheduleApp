@@ -1,18 +1,12 @@
 package com.ilya.bsuirschaduleapp.reafactor.favoriteGroups.di
 
-import com.ilya.bsuirschaduleapp.reafactor.GroupList.data.cache.GroupListCacheDataSource
-import com.ilya.bsuirschaduleapp.reafactor.GroupList.domain.GroupListItemDomain
-import com.ilya.bsuirschaduleapp.reafactor.GroupList.presentation.GroupListItemUi
-import com.ilya.bsuirschaduleapp.reafactor.core.ListCacheDataSource
+import com.ilya.bsuirschaduleapp.reafactor.groupList.data.cache.GroupListCacheDataSource
+import com.ilya.bsuirschaduleapp.reafactor.groupList.presentation.GroupListItemUi
 import com.ilya.bsuirschaduleapp.reafactor.favoriteGroups.data.GroupListFavoriteRepository
 import com.ilya.bsuirschaduleapp.reafactor.favoriteGroups.data.ToFavoriteGroupListUi
 import com.ilya.bsuirschaduleapp.reafactor.favoriteGroups.presentation.FavoriteGroupsCommunication
 import com.ilya.bsuirschaduleapp.reafactor.favoriteGroups.presentation.UpdateFavoritesGroups
 import com.ilya.bsuirschaduleapp.reafactor.favoriteTeachers.data.FavoriteRepository
-import com.ilya.bsuirschaduleapp.reafactor.favoriteTeachers.data.TeacherListFavoriteRepository
-import com.ilya.bsuirschaduleapp.reafactor.favoriteTeachers.data.ToFavoriteTeacherListUi
-import com.ilya.bsuirschaduleapp.reafactor.teacherList.domain.TeacherListItemDomain
-import com.ilya.bsuirschaduleapp.reafactor.teacherList.presentation.TeacherListItemUi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

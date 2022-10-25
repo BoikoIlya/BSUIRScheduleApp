@@ -13,7 +13,7 @@ interface Interactor {
 
     abstract class Abstract(
        private val handleError: HandleError,
-       private val dispatchers: Dispatchers
+       private val dispatchers: Dispatchers,
     ):Interactor{
         override suspend fun <T> handle(
             successful: suspend (T) -> Unit,
@@ -29,5 +29,8 @@ interface Interactor {
                 dispatchers.changeToUI { atFinish.invoke() }
             }
         }
+
+
+
     }
 }

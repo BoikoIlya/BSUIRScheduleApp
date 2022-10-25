@@ -17,6 +17,6 @@ interface FavoriteRepository<R> {
     ): FavoriteRepository<R> {
 
         override suspend fun favoritesList(): List<R>  =
-            mapper.map(cacheDataSource.find("").first())
+            mapper.map(cacheDataSource.find(""))
     }
 }

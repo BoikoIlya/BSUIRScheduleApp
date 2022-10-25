@@ -2,6 +2,7 @@ package com.ilya.bsuirschaduleapp.reafactor.favoriteTeachers.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.ilya.bsuirschaduleapp.reafactor.core.*
+import com.ilya.bsuirschaduleapp.reafactor.schadule.presentation.ScheduleProgressCommunication
 
 
 /**
@@ -9,12 +10,19 @@ import com.ilya.bsuirschaduleapp.reafactor.core.*
  **/
 
 
-   abstract class ChangeFavoriteViewModel<T> (
+   abstract class ChangeFavoriteViewModel<S,T> (
     private val favorites: ChangeFavorite,
     private val updateFavorites: Communication.SuspendUpdate<Boolean>,
-    communication: Communication.Mutable<T>,
-    private val dispatchers: Dispatchers
-    ) : ChangeFavorite, BaseViewModel<T>(communication, dispatchers) {
+    communication: Communication.Mutable<List<T>>,
+    private val dispatchers: Dispatchers,
+    interactor: FetchDataInteractor<List<S>, List<T>>,
+    progressCommunication: Communication.Mutable<Boolean>
+    ) : ChangeFavorite, FetchDataViewModel.Abstract<List<S>,List<T>>(
+    communication,
+    dispatchers,
+    interactor,
+    progressCommunication
+) {
 
         override fun changeFavorite(id: String) {
             favorites.changeFavorite(id)

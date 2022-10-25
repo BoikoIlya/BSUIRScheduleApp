@@ -1,11 +1,8 @@
 package com.ilya.bsuirschaduleapp.reafactor.favoriteGroups.data
 
-import com.ilya.bsuirschaduleapp.reafactor.GroupList.domain.GroupListItemDomain
-import com.ilya.bsuirschaduleapp.reafactor.GroupList.presentation.GroupListItemUi
+import com.ilya.bsuirschaduleapp.reafactor.groupList.domain.GroupListItemDomain
+import com.ilya.bsuirschaduleapp.reafactor.groupList.presentation.GroupListItemUi
 import com.ilya.bsuirschaduleapp.reafactor.core.Mapper
-import com.ilya.bsuirschaduleapp.reafactor.favoriteTeachers.data.ToFavoriteTeacherListUi
-import com.ilya.bsuirschaduleapp.reafactor.teacherList.domain.TeacherListItemDomain
-import com.ilya.bsuirschaduleapp.reafactor.teacherList.presentation.TeacherListItemUi
 
 /**
  * Created by HP on 09.10.2022.

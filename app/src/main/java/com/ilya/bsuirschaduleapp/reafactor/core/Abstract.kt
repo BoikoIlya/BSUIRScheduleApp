@@ -10,12 +10,20 @@ package com.ilya.bsuirschaduleapp.reafactor.core
         interface Unit<T> :Mapper<T, kotlin.Unit>
     }
 
-    interface Save<T> {
+    interface SuspendSave<T> {
         suspend fun save(data: T)
     }
 
-    interface Read<T> {
+    interface SuspendRead<T> {
         suspend fun read(): T
+    }
+
+    interface Save<T> {
+      fun save(data: T)
+    }
+
+    interface Read<T> {
+         fun read(): T
     }
 
     interface Find<T> {

@@ -9,6 +9,9 @@ import com.ilya.bsuirschaduleapp.reafactor.teacherList.domain.ListInteractor
 import com.ilya.bsuirschaduleapp.reafactor.teacherList.data.BaseTeacherListRepository
 import com.ilya.bsuirschaduleapp.reafactor.teacherList.data.cache.BaseTeacherListCacheDataSource
 import com.ilya.bsuirschaduleapp.reafactor.favoriteTeachers.data.FavoritesTeachersCacheDataSource
+import com.ilya.bsuirschaduleapp.reafactor.teacherList.data.cache.TeacherCacheToTeacherDomain
+import com.ilya.bsuirschaduleapp.reafactor.teacherList.data.cache.TeacherDomainToTeacherCache
+import com.ilya.bsuirschaduleapp.reafactor.teacherList.data.cache.ToTeacherCacheMapper
 import com.ilya.bsuirschaduleapp.reafactor.teacherList.data.cloud.TeacherListCloudDataSource
 import com.ilya.bsuirschaduleapp.reafactor.teacherList.data.cloud.ToTeacherListItemDomain
 import com.ilya.bsuirschaduleapp.reafactor.teacherList.data.teacherList.cloud.TeacherCloud
@@ -81,8 +84,10 @@ class TeacherListModule {
     @Singleton
     fun provideTeacherListDataSource(
         scheduleDao: ScheduleDao,
+        fromCache: TeacherCacheToTeacherDomain,
+        toCache: ToTeacherCacheMapper
     ): ListCacheDataSource<TeacherListItemDomain>{
-        return BaseTeacherListCacheDataSource(scheduleDao)
+        return BaseTeacherListCacheDataSource(scheduleDao, toCache, fromCache)
     }
 
     @Provides
@@ -141,7 +146,7 @@ class TeacherListModule {
     fun provideTeacherListItemDomainMapper(
         isFavorite: FavoritesTeachersCacheDataSource
     ): TeacherListItemDomain.Mapper<TeacherListItemUi>{
-        return TeacherListItemDomain.Mapper.Base(isFavorite)
+        return TeacherListItemDomain.Mapper.ToTeacherItemUi(isFavorite)
     }
 
     @Provides
@@ -168,4 +173,23 @@ class TeacherListModule {
         return ToTeacherListItemUi.Base(mapper)
     }
 
+    @Provides
+    @Singleton
+    fun provideToTeacherCacheMapper(
+        mapper: TeacherDomainToTeacherCache
+    ): ToTeacherCacheMapper {
+        return ToTeacherCacheMapper.Base(mapper)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTeacherDomainToTeacherCache(): TeacherDomainToTeacherCache {
+        return TeacherDomainToTeacherCache.Base()
+    }
+
+    @Provides
+    @Singleton
+    fun provideTeacherCacheToTeacherDomain(): TeacherCacheToTeacherDomain {
+        return TeacherCacheToTeacherDomain.Base()
+    }
 }

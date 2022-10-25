@@ -12,9 +12,6 @@ interface TeacherListItemDomain {
 
     fun <T>map(mapper: Mapper<T>):T
 
-    fun get(): Base
-
-    @Entity(tableName = "teacher_list_item_ui")
     data class Base(
         val fio: String,
         val academicDepartment: String,
@@ -23,7 +20,6 @@ interface TeacherListItemDomain {
         val middleName: String,
         val photoLink: String,
         val rank: String,
-        @PrimaryKey(autoGenerate = false)
         val urlId: String
     ): TeacherListItemDomain {
 
@@ -39,8 +35,6 @@ interface TeacherListItemDomain {
              urlId
          )
         }
-
-        override fun get(): Base = this
     }
 
     interface Mapper<T>{
@@ -56,7 +50,7 @@ interface TeacherListItemDomain {
             urlId: String
         ):T
 
-        class Base(
+        class ToTeacherItemUi(
             private val isFavorite: IsFavorite
         ): Mapper<TeacherListItemUi> {
 
@@ -83,4 +77,5 @@ interface TeacherListItemDomain {
         }
     }
 }
+
 

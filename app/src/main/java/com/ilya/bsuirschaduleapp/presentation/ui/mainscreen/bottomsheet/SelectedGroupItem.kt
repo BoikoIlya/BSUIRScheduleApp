@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -15,14 +14,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ilya.bsuirschaduleapp.R
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.Purple
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.Typography
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.VeryLightPurple
-import com.ilya.bsuirschaduleapp.reafactor.GroupList.presentation.GroupListItemUi
+import com.ilya.bsuirschaduleapp.reafactor.groupList.presentation.GroupListItemUi
 
 @Composable
 fun SelectedGroupItem(

@@ -21,9 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ilya.bsuirschaduleapp.R
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.*
-import com.ilya.bsuirschaduleapp.reafactor.GroupList.domain.BaseGroupListInteractor
-import com.ilya.bsuirschaduleapp.reafactor.GroupList.presentation.BaseGroupListViewModel
-import com.ilya.bsuirschaduleapp.reafactor.GroupList.presentation.GroupListItemUi
+import com.ilya.bsuirschaduleapp.reafactor.groupList.presentation.BaseGroupListViewModel
+import com.ilya.bsuirschaduleapp.reafactor.groupList.presentation.GroupListItemUi
 import com.ilya.bsuirschaduleapp.reafactor.teacherList.presentation.BaseTeacherListViewModel
 import com.ilya.bsuirschaduleapp.reafactor.teacherList.presentation.TeacherListItemUi
 import com.ilya.bsuirschaduleapp.utils.Constance
@@ -33,9 +32,11 @@ import com.skydoves.landscapist.glide.GlideImage
 fun SearchFragment(
     viewModel: BaseTeacherListViewModel = hiltViewModel(),
     showSearch: MutableState<Int>,
+    refreshBtnVisibility: MutableState<Boolean>,
     groupViewModel: BaseGroupListViewModel = hiltViewModel(),
 ) {
 
+    refreshBtnVisibility.value = true
 
     val textState = remember {
         mutableStateOf("")
@@ -135,6 +136,7 @@ fun SearchFragment(
                             GroupItem(group = it) {
                                  groupViewModel.changeFavorite(it.name)
                                  showSearch.value = Constance.NOT_TEACHER_NOT_GROUP
+                                refreshBtnVisibility.value = false
                             }
                         }
                     }
@@ -159,6 +161,7 @@ fun SearchFragment(
                                ItemTeacher(teacher = it) {
                                    viewModel.changeFavorite(it.urlId)
                                    showSearch.value = Constance.NOT_TEACHER_NOT_GROUP
+                                   refreshBtnVisibility.value = false
                                }
                         }
                     }

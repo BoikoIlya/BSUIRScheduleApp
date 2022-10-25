@@ -25,7 +25,6 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.ilya.bsuirschaduleapp.R
-import com.ilya.bsuirschaduleapp.data.network.dto.Schedule
 import com.ilya.bsuirschaduleapp.presentation.ui.mainscreen.ClassItem
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.DarkSea
 import com.ilya.bsuirschaduleapp.presentation.viewmodels.MainViewModel
@@ -70,70 +69,70 @@ fun LowerUI(
                         color = Color.Black
                     )
                 }
-                val weekSchedules = mutableListOf(
-                    viewModel.schedule.collectAsState().value.data.schedules.Monday?: emptyList(),
-                    viewModel.schedule.collectAsState().value.data.schedules.Tuesday ?: emptyList(),
-                    viewModel.schedule.collectAsState().value.data.schedules.Wednesday?: emptyList(),
-                    viewModel.schedule.collectAsState().value.data.schedules.Thursday?: emptyList(),
-                    viewModel.schedule.collectAsState().value.data.schedules.Friday?: emptyList(),
-                    viewModel.schedule.collectAsState().value.data.schedules.Saturday?: emptyList()
-                )
+//                val weekSchedules = mutableListOf(
+//                    viewModel.schedule.collectAsState().value.data.schedules.Monday?: emptyList(),
+//                    viewModel.schedule.collectAsState().value.data.schedules.Tuesday ?: emptyList(),
+//                    viewModel.schedule.collectAsState().value.data.schedules.Wednesday?: emptyList(),
+//                    viewModel.schedule.collectAsState().value.data.schedules.Thursday?: emptyList(),
+//                    viewModel.schedule.collectAsState().value.data.schedules.Friday?: emptyList(),
+//                    viewModel.schedule.collectAsState().value.data.schedules.Saturday?: emptyList()
+//                )
                 Spacer(modifier = Modifier.height(5.dp))
-                    HorizontalPager(
-                        count = weekSchedules.size,
-                        state = pagerState,
-                        verticalAlignment = Alignment.Top,
-                        modifier = Modifier.fillMaxSize()
-
-                    ) { page ->
-                        selectedDayOfCurrentWeek.value = pagerState.currentPage
-                        if (!scheduleState.value.isLoading) {
-                            val lessons: MutableList<Schedule> = emptyList<Schedule>().toMutableList()
-                            weekSchedules[page].forEach{
-                                if (it.weekNumber.contains(selectedWeek.value.toLong())) {
-                                    if (selectedSubGroup.value.toLong() == Constance.ALL_GROUP) {
-                                        lessons.add(it)
-                                    } else if (it.numSubgroup == Constance.ALL_GROUP ||
-                                        it.numSubgroup == selectedSubGroup.value.toLong()
-                                    ) {
-                                        lessons.add(it)
-                                    }
-                                }
-                            }
-                             if (weekSchedules[page].isNotEmpty() && lessons.isNotEmpty()) {
-                            LazyColumn(
-                                verticalArrangement = Arrangement.Top,
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(
-                                        start = 10.dp,
-                                        end = 10.dp)
-                            ) {
-                                items(lessons) {
-                                    ClassItem(lessonInfo = it)
-                                    Spacer(modifier = Modifier.height(15.dp))
-                                }
-                            }
-                               }else{
-                                   Column(
-                                       modifier = Modifier.fillMaxSize(),
-                                   horizontalAlignment = Alignment.CenterHorizontally
-                                       ){
-                                       Image(painter = painterResource(id = R.drawable.owner), contentDescription = "")
-                                       Text(
-                                           text = stringResource(R.string.no_lessons),
-                                           style = MaterialTheme.typography.h2,
-                                           color = Color.Black
-                                       )
-                                   }
-                             }
-                        } else {
-                            Box(modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.TopCenter) {
-                                CircularProgressIndicator(color = DarkSea)
-                            }
-                        }
-                    }
+//                    HorizontalPager(
+//                        count = weekSchedules.size,
+//                        state = pagerState,
+//                        verticalAlignment = Alignment.Top,
+//                        modifier = Modifier.fillMaxSize()
+//
+//                    ) { page ->
+//                        selectedDayOfCurrentWeek.value = pagerState.currentPage
+//                        if (!scheduleState.value.isLoading) {
+//                            val lessons: MutableList<Schedule> = emptyList<Schedule>().toMutableList()
+//                            weekSchedules[page].forEach{
+//                                if (it.weekNumber.contains(selectedWeek.value.toLong())) {
+//                                    if (selectedSubGroup.value.toLong() == Constance.ALL_GROUP) {
+//                                        lessons.add(it)
+//                                    } else if (it.numSubgroup == Constance.ALL_GROUP ||
+//                                        it.numSubgroup == selectedSubGroup.value.toLong()
+//                                    ) {
+//                                        lessons.add(it)
+//                                    }
+//                                }
+//                            }
+//                             if (weekSchedules[page].isNotEmpty() && lessons.isNotEmpty()) {
+//                            LazyColumn(
+//                                verticalArrangement = Arrangement.Top,
+//                                modifier = Modifier
+//                                    .fillMaxSize()
+//                                    .padding(
+//                                        start = 10.dp,
+//                                        end = 10.dp)
+//                            ) {
+//                                items(lessons) {
+//                                    ClassItem(lessonInfo = it)
+//                                    Spacer(modifier = Modifier.height(15.dp))
+//                                }
+//                            }
+//                               }else{
+//                                   Column(
+//                                       modifier = Modifier.fillMaxSize(),
+//                                   horizontalAlignment = Alignment.CenterHorizontally
+//                                       ){
+//                                       Image(painter = painterResource(id = R.drawable.owner), contentDescription = "")
+//                                       Text(
+//                                           text = stringResource(R.string.no_lessons),
+//                                           style = MaterialTheme.typography.h2,
+//                                           color = Color.Black
+//                                       )
+//                                   }
+//                             }
+//                        } else {
+//                            Box(modifier = Modifier.fillMaxSize(),
+//                                contentAlignment = Alignment.TopCenter) {
+//                                CircularProgressIndicator(color = DarkSea)
+//                            }
+//                        }
+//                    }
                 }
             }
     }

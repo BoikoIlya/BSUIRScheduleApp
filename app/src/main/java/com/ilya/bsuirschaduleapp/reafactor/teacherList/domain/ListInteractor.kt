@@ -10,33 +10,22 @@ import kotlinx.coroutines.flow.map
 /**
  * Created by HP on 19.09.2022.
  **/
-interface ListInteractor<T, R> {
+interface ListInteractor<T, R>: FetchDataInteractor<T,R> {
 
-    suspend fun fetchData(
-        atFinish:()->Unit,
-        successful:(List<R>)->Unit
-    )
 
-    suspend fun find(query: String): Flow<List<R>>
+    suspend fun find(query: String): R
 
    abstract class Abstract <T, R>(
-        private val repository: Repository<List<T>>,
+        private val repository: Repository<T>,
         handleError: HandleError,
         dispatchers: Dispatchers,
-        private val mapper: Mapper<List<T>,List<R>>,
-    ): ListInteractor<T, R>, Interactor.Abstract(handleError,dispatchers ){
+        private val mapper: Mapper<T,R>,
+    ): ListInteractor<T, R>, FetchDataInteractor.Abstract<T,R>(handleError,dispatchers,mapper,repository){
 
-
-        override suspend fun fetchData(
-            atFinish: () -> Unit,
-            successful: (List<R>) -> Unit,
-        ) = handle(successful, atFinish){
-         return@handle mapper.map(repository.fetchData(""))
+        override suspend fun find(query: String): R {
+           return mapper.map(repository.find(query))
         }
 
-        override suspend fun find(query: String): Flow<List<R>> {
-           return repository.find(query).map { mapper.map(it) }
-        }
     }
 }
 

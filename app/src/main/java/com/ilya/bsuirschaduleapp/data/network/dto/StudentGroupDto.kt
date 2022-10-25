@@ -4,13 +4,10 @@ import com.ilya.bsuirschaduleapp.domain.models.Group
 
 data class StudentGroupDto (
     val name: String,
-
     val facultyID: Long,
-
     val facultyName: String,
     val course: Long,
     val id: Long,
-
     val calendarID: String
 )
 
