@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ilya.bsuirschaduleapp.R
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.DarkGrayForAlert
+import com.ilya.bsuirschaduleapp.presentation.ui.theme.Typography
 
 @Composable
 fun DeleteItemAlert(
@@ -57,7 +58,11 @@ fun DeleteItemAlert(
             title = {
                 Row(horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()) {
-                    Text(text = stringResource(R.string.are_you_sure_of_deleting))
+                    Text(
+                        text = stringResource(R.string.are_you_sure_of_deleting),
+                        color = Color.LightGray,
+                        style = Typography.body1
+                    )
                 }
             },
             text = { Text(text = "                         ")  }

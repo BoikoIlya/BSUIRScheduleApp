@@ -20,7 +20,7 @@ interface ScheduleRepository<T, R>: RefreshRepository<R> {
         private val mapper: Mapper<List<T>, R>,
     ): ScheduleRepository<T, R> {
 
-        override suspend fun fetchData(query: String): R {
+        override suspend fun fetchData(): R {
             val cache = cached()
             if (cache.isNotEmpty()) {
                 return mapper.map(cache)
@@ -28,7 +28,8 @@ interface ScheduleRepository<T, R>: RefreshRepository<R> {
             return retrieveData()
         }
 
-        override suspend fun refresh(): R = retrieveData()
+        override suspend fun refresh(): R =
+            retrieveData()
 
         protected abstract suspend fun retrieveData(): R
         protected abstract suspend fun cached(): List<T>

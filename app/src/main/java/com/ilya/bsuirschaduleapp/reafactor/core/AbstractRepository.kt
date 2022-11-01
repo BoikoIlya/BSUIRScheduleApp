@@ -14,17 +14,17 @@ abstract class AbstractRepository<T, R>(
     private val favoriteCacheDataSource: FavoriteListCacheDataSource,
 ): Repository<List<R>> {
 
-    override suspend fun fetchData(query: String): List<R> {
+    override suspend fun fetchData(): List<R> {
         val cachedData = cacheDataSource.find("")
        return if(cachedData.isEmpty()) {
-            val cloudData = cloudData(query)
+            val cloudData = cloudData()
             val data = mapper.map(cloudData)
             saveData(data)
             data
         }else cachedData
     }
 
-    abstract suspend fun cloudData(query: String):List<T>
+    abstract suspend fun cloudData():List<T>
     abstract suspend fun saveData(data: List<R>)
 
     override suspend fun find(query: String): List<R> = cacheDataSource.find(query)
@@ -32,7 +32,7 @@ abstract class AbstractRepository<T, R>(
     override  fun changeFavorite(id: String) = favoriteCacheDataSource.changeFavorite(id)
 
     override suspend fun refresh(): List<R> {
-        val newData =  mapper.map(cloudData(""))
+        val newData =  mapper.map(cloudData())
         saveData(newData)
         return newData
      }

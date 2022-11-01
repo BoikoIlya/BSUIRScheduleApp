@@ -10,11 +10,10 @@ import com.ilya.bsuirschaduleapp.reafactor.favoriteTeachers.data.FavoriteReposit
  * Created by HP on 09.10.2022.
  **/
 
-interface GroupListFavoriteRepository: FavoriteRepository<GroupListItemUi> {
+interface GroupListFavoriteRepository: FavoriteRepository<GroupListItemDomain> {
 
     class Base(
         cacheDataSource: ListCacheDataSource<GroupListItemDomain>,
-        mapper: ToFavoriteGroupListUi
-    ) : FavoriteRepository.Abstract<GroupListItemDomain, GroupListItemUi>
-        (cacheDataSource,mapper), GroupListFavoriteRepository
+    ) : FavoriteRepository.Abstract<GroupListItemDomain>
+        (cacheDataSource), GroupListFavoriteRepository
 }

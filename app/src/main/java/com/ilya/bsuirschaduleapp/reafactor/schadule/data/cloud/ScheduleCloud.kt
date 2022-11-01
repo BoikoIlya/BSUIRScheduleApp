@@ -1,6 +1,8 @@
 package com.ilya.bsuirschaduleapp.reafactor.schadule.data.cloud
 
+import androidx.compose.ui.res.stringResource
 import com.google.gson.annotations.SerializedName
+import com.ilya.bsuirschaduleapp.R
 import com.ilya.bsuirschaduleapp.data.network.dto.Employee
 
 import com.ilya.bsuirschaduleapp.data.network.dto.StudentGroup
@@ -51,7 +53,60 @@ interface ScheduleCloud {
         val dateLesson: String? = null,
         val employees: List<Employee>?= Collections.emptyList(),
         val startLessonDate: String
-    )
+    ) {
+        fun map(): ScheduleDomain.Schedule{
+            return ScheduleDomain.Schedule(
+                weekNumber = weekNumber.joinToString(),
+                studentGroups = if(studentGroups!=null && studentGroups.isNotEmpty()){
+                        var groups = "Гр. "
+                        var counter = 0
+                    for(it in studentGroups){
+                        if(counter==2 && studentGroups.size>3) groups+=", ${it.name}..."
+                        else if(counter==0) groups+="${it.name}"
+                        else  groups+=", ${it.name}"
+                       counter++
+                       if(counter==3) break
+                   }
+                    groups
+                } else "",
+                numSubgroup = numSubgroup,
+                auditories = if(auditories!=null && auditories.isNotEmpty()) auditories[0] else "",
+                startLessonTime = startLessonTime,
+                endLessonTime = endLessonTime,
+                subject = subject,
+                subjectFullName = subjectFullName,
+                note = note?:"",
+                lessonTypeAbbrev = lessonTypeAbbrev,
+                dateLesson = dateLesson?:"",
+                employees = if(employees!=null && employees.isNotEmpty()){
+                    employees[0].lastName+
+                            " "+employees[0].firstName+
+                            " "+employees[0].middleName
+                }
+                else {
+                     var groups = "Гр. "
+                    var counter = 0
+                    for(it in studentGroups){
+                        if(counter==studentGroups.size) groups+=", ${it.name}..."
+                        else if(counter==0) groups+="${it.name}"
+                        else  groups+=", ${it.name}"
+                        counter++
+                    }
+                    groups
+                     },
+                employeePhotoLink = if(employees!=null && employees.isNotEmpty())
+                    employees[0].photoLink.toString() else "",
+                employeeFio = if(employees!=null && employees.isNotEmpty()){
+                    employees[0].lastName+
+                            " "+employees[0].firstName[0]+"."+
+                            " "+employees[0].middleName[0]+"." +
+                            if(numSubgroup!=0L) " (подгр. ${numSubgroup})"
+                            else ""
+                }
+                else ""
+            )
+        }
+    }
 
     data class Schedules(
         @SerializedName("Понедельник")
@@ -91,6 +146,7 @@ interface ScheduleCloud {
         val urlId: String
     )
 
+
     interface Mapper<T>{
         fun map(
              employeeDto: TeacherDto?,
@@ -118,13 +174,29 @@ interface ScheduleCloud {
                    schedules.Monday?: emptyList(),
                    schedules.Tuesday?: emptyList(),
                    schedules.Wednesday?: emptyList(),
-                   schedules.Tuesday?: emptyList(),
+                   schedules.Thursday?: emptyList(),
+                   schedules.Friday?: emptyList(),
                    schedules.Saturday?: emptyList(),
                )
+                val scheduleListDomain = emptyList<MutableList<ScheduleDomain.Schedule>>().toMutableList()
+                var counter =0
+                scheduleList.forEach {
+                    val list = emptyList<ScheduleDomain.Schedule>().toMutableList()
+                    for (schedule in it) {
+                        list.add(schedule.map())
+                    }
+                    scheduleListDomain.add(list)
+                counter++
+                }
+                val examsList = emptyList<ScheduleDomain.Schedule>().toMutableList()
+                exams.forEach {examsList.add(it.map())}
                return ScheduleDomain.Base(
-                   name = employeeDto?.fio ?: studentGroupDto?.name ?:"",
-                   schedules = scheduleList,
-                   exams = exams)
+                   id = if(employeeDto!=null) employeeDto.urlId else if(studentGroupDto!=null) studentGroupDto.name else "",
+                   name = if(employeeDto!=null)
+                       employeeDto.lastName+" ${employeeDto.firstName[0]}. ${employeeDto.middleName[0]}."
+                   else if(studentGroupDto!=null) studentGroupDto.name else "",
+                   schedules = scheduleListDomain,
+                   exams = examsList)
             }
 
         }

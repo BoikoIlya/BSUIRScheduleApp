@@ -31,10 +31,11 @@ import kotlinx.coroutines.launch
 @Composable
 fun BottomSheetContent(
     sheetState: BottomSheetState,
-    viewModel: BaseFavoriteTeachersViewModel = hiltViewModel(),
-    myViewModel: BaseFavoriteGroupsViewModel = hiltViewModel(),
+    teachersViewModel: BaseFavoriteTeachersViewModel = hiltViewModel(),
+    groursViewModel: BaseFavoriteGroupsViewModel = hiltViewModel(),
     teacherListViewModel: BaseTeacherListViewModel = hiltViewModel(),
     groupListViewModel: BaseGroupListViewModel = hiltViewModel(),
+    onSelect:(String)->Unit
 ){
 
     val teacherList = remember {
@@ -43,15 +44,16 @@ fun BottomSheetContent(
     val lifecycleOwner = LocalLifecycleOwner.current
     LaunchedEffect(
         key1 = true, block = {
-            viewModel.collect(lifecycleOwner) {
+            teachersViewModel.collect(lifecycleOwner) {
                 teacherList.value = it
             }
         })
     LaunchedEffect(
         key1 = true, block = {
-            viewModel.collectUpdate(lifecycleOwner){
+            teachersViewModel.collectUpdate(lifecycleOwner){
                 if (it) {
-                    viewModel.update()
+                    //viewModel.update()
+                    teachersViewModel.fetchData()
                 }
             }
         })
@@ -63,15 +65,16 @@ fun BottomSheetContent(
     }
     LaunchedEffect(
         key1 = true, block = {
-            myViewModel.collect(lifecycleOwner) {
+            groursViewModel.collect(lifecycleOwner) {
                 groupList.value = it
             }
         })
     LaunchedEffect(
         key1 = true, block = {
-            myViewModel.collectUpdate(lifecycleOwner){
+            groursViewModel.collectUpdate(lifecycleOwner){
                 if (it) {
-                    myViewModel.update()
+                    //myViewModel.update()
+                    groursViewModel.fetchData()
                 }
             }
         })
@@ -83,9 +86,13 @@ fun BottomSheetContent(
     val showSearch = remember {
         mutableStateOf(0)
     }
-    if(sheetState.isCollapsed)
+    if(sheetState.isCollapsed){
         showSearch.value = Constance.NOT_TEACHER_NOT_GROUP
+        refreshBtnVisibility.value = false
+    }
+
     val scope = rememberCoroutineScope()
+
   /*  val selectedGroupList = viewModel.selectedGroupList.collectAsState()
     val selectedTeacherList = viewModel.selectedTeacherList.collectAsState()*/
     Box(
@@ -120,6 +127,7 @@ fun BottomSheetContent(
                         Icon(
                             painter = painterResource(id = R.drawable.users_group),
                             contentDescription = "",
+                            tint = Color.White,
                             modifier = Modifier
                                 .size(40.dp)
                                 .clickable {
@@ -130,6 +138,7 @@ fun BottomSheetContent(
                         Icon(
                             painter = painterResource(id = R.drawable.add_user),
                             contentDescription = "",
+                            tint =Color.White,
                             modifier = Modifier
                                 .size(40.dp)
                                 .clickable {
@@ -142,6 +151,7 @@ fun BottomSheetContent(
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_refresh),
                                 contentDescription = "refresh",
+                                tint = Color.White,
                                 modifier = Modifier
                                     .size(40.dp)
                                     .clickable {
@@ -150,9 +160,11 @@ fun BottomSheetContent(
                                     }
                             )
                         }
+                        Spacer(modifier = Modifier.width(5.dp))
                         Icon(
                             painter = painterResource(id = R.drawable.ic_close),
                             contentDescription = "close",
+                            tint = Color.White,
                             modifier = Modifier
                                 .size(40.dp)
                                 .clickable {
@@ -187,20 +199,22 @@ fun BottomSheetContent(
                         SelectedGroupItem(
                             group = it,
                             onDelete = {
-                                myViewModel.changeFavorite(it.name)
-                            }) {
-
-                        }
+                                groursViewModel.changeFavorite(it.name)
+                            }, onClick = {
+                               // groursViewModel.changeSelectedSchedule(it.name)
+                                onSelect(it.name)
+                            })
                     }
                     items(teacherList.value){
                         Spacer(modifier = Modifier.height(5.dp))
                         SelectedTeacherItem(
                             teacher = it,
                             onDelete = {
-                                viewModel.changeFavorite(it.urlId)
-                            }) {
-
-                        }
+                                teachersViewModel.changeFavorite(it.urlId)
+                            }, onClick = {
+                               // teachersViewModel.changeSelectedSchedule(it.urlId)
+                                onSelect(it.urlId)
+                            })
                     }
                   /*items(selectedGroupList.value.data){
                           Spacer(modifier = Modifier.height(5.dp))
@@ -258,7 +272,7 @@ fun DoRefresh(execute:()->Unit){
         modifier = Modifier
             .size(40.dp)
             .clickable {
-              execute()
+                execute()
             }
     )
 }

@@ -1,12 +1,20 @@
 package com.ilya.bsuirschaduleapp.reafactor.favoriteGroups.di
 
+import com.ilya.bsuirschaduleapp.reafactor.core.Dispatchers
+import com.ilya.bsuirschaduleapp.reafactor.core.HandleError
+import com.ilya.bsuirschaduleapp.reafactor.core.UiErrorHandler
 import com.ilya.bsuirschaduleapp.reafactor.groupList.data.cache.GroupListCacheDataSource
 import com.ilya.bsuirschaduleapp.reafactor.groupList.presentation.GroupListItemUi
 import com.ilya.bsuirschaduleapp.reafactor.favoriteGroups.data.GroupListFavoriteRepository
 import com.ilya.bsuirschaduleapp.reafactor.favoriteGroups.data.ToFavoriteGroupListUi
+import com.ilya.bsuirschaduleapp.reafactor.favoriteGroups.domain.FavoriteGroupInteractor
 import com.ilya.bsuirschaduleapp.reafactor.favoriteGroups.presentation.FavoriteGroupsCommunication
 import com.ilya.bsuirschaduleapp.reafactor.favoriteGroups.presentation.UpdateFavoritesGroups
 import com.ilya.bsuirschaduleapp.reafactor.favoriteTeachers.data.FavoriteRepository
+import com.ilya.bsuirschaduleapp.reafactor.favoriteTeachers.data.ToFavoriteTeacherListUi
+import com.ilya.bsuirschaduleapp.reafactor.favoriteTeachers.domain.FavoriteTeachersInteractor
+import com.ilya.bsuirschaduleapp.reafactor.groupList.domain.GroupListItemDomain
+import com.ilya.bsuirschaduleapp.reafactor.teacherList.domain.TeacherListItemDomain
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,6 +27,18 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class FavoritesGroupsModule {
+
+    @Provides
+    @Singleton
+    fun provideFavoriteGroupsInteractor(
+        repository: FavoriteRepository<GroupListItemDomain>,
+        mapper: ToFavoriteGroupListUi,
+        @UiErrorHandler
+        handleError: HandleError,
+        dispatchers: Dispatchers,
+    ): FavoriteGroupInteractor {
+        return FavoriteGroupInteractor.Base(repository,handleError,dispatchers,mapper)
+    }
 
     @Provides
     @Singleton
@@ -44,8 +64,7 @@ class FavoritesGroupsModule {
     @Singleton
     fun provideFavoriteRepository(
         cacheDataSource: GroupListCacheDataSource,
-        mapper: ToFavoriteGroupListUi,
-        ): FavoriteRepository<GroupListItemUi> {
-        return GroupListFavoriteRepository.Base(cacheDataSource, mapper)
+        ): FavoriteRepository<GroupListItemDomain> {
+        return GroupListFavoriteRepository.Base(cacheDataSource)
     }
 }

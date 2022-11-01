@@ -1,5 +1,7 @@
 package com.ilya.bsuirschaduleapp.reafactor.core
 
+import android.util.Log
+
 /**
  * Created by HP on 25.10.2022.
  **/
@@ -26,8 +28,8 @@ interface FetchDataInteractor<T,R> {
         override suspend fun  fetchData(
             atFinish: () -> Unit,
             successful: (R) -> Unit,
-        ) = handle(successful, atFinish){
-            return@handle mapper.map(repository.fetchData(""))
+        )= handle(successful, atFinish){
+            return@handle mapper.map(repository.fetchData())
         }
 
         override suspend fun refresh(

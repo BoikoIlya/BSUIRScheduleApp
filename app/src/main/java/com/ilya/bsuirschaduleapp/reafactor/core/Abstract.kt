@@ -38,8 +38,3 @@ package com.ilya.bsuirschaduleapp.reafactor.core
         fun isFavorite(id: String): Boolean
     }
 
-
-
-interface DataToDomainMapper
-
-interface DomainToUiMapper

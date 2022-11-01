@@ -17,7 +17,7 @@ class BaseTeacherListRepository(
 ):  AbstractRepository<TeacherCloud, TeacherListItemDomain>
     (mapper, cacheDataSource, favoriteCacheDataSource){
 
-    override suspend fun cloudData(query: String): List<TeacherCloud> = cloudDataSource.latestList()
+    override suspend fun cloudData(): List<TeacherCloud> = cloudDataSource.latestList()
 
     override suspend fun saveData(data: List<TeacherListItemDomain>) = cacheDataSource.save(data)
 

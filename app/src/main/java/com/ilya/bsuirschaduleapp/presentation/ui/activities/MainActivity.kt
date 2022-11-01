@@ -5,24 +5,29 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.*
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import com.ilya.bsuirschaduleapp.presentation.ui.mainscreen.*
 import com.ilya.bsuirschaduleapp.reafactor.core.GlobalErrorCommunication
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-   @Inject
-   lateinit var globalErrorCommunication: GlobalErrorCommunication.Mutable
-   //private val viewModel: by viewModels()
+//
+//   @Inject
+//   lateinit var globalErrorCommunication: GlobalErrorCommunication.Mutable
+//   //private val viewModel: by viewModels()
     @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         setContent {
-            val lif = LocalLifecycleOwner.current
+
             MainScreen()
            /* LaunchedEffect(key1 = true, block = {
                 globalErrorCommunication.collect(this@MainActivity){

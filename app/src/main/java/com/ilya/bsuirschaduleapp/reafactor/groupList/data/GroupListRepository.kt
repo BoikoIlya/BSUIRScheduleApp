@@ -23,7 +23,7 @@ interface GroupListRepository: Repository<List<GroupListItemDomain>> {
     ) : AbstractRepository<GroupCloud, GroupListItemDomain>
         (mapper, cacheDataSource, favoriteCacheDataSource), GroupListRepository {
 
-        override suspend fun cloudData(query: String): List<GroupCloud> =
+        override suspend fun cloudData(): List<GroupCloud> =
             cloudDataSource.latestList()
 
         override suspend fun saveData(data: List<GroupListItemDomain>) = cacheDataSource.save(data)

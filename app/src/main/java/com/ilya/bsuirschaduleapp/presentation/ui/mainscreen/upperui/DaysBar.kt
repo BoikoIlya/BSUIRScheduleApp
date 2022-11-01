@@ -11,6 +11,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 import com.ilya.bsuirschaduleapp.presentation.models.UpperUiState
 import com.ilya.bsuirschaduleapp.presentation.viewmodels.MainViewModel
+import kotlinx.coroutines.delay
 import java.util.*
 
 @OptIn(ExperimentalPagerApi::class)
@@ -19,7 +20,7 @@ fun DaysBar(
     viewModel: MainViewModel = hiltViewModel(),
     selectedWeek: MutableState<Int>,
     selectedDayOfCurrentWeek: MutableState<Int>,
-    pagerState: PagerState
+    pagerState: PagerState,
 ){
     val listOfDays = remember {
         mutableStateOf(listOf(UpperUiState(1,1,1)))
@@ -28,14 +29,18 @@ fun DaysBar(
     val schedule = viewModel.schedule.collectAsState()
     val c = Calendar.getInstance()
     val dayOfWeek = c.get(Calendar.DAY_OF_WEEK) - 2
+
     val weekNumber = remember {
         mutableStateOf(selectedWeek.value)
     }
     weekNumber.value = selectedWeek.value
-    LaunchedEffect(key1 = true, block = {
-        selectedDayOfCurrentWeek.value = if (dayOfWeek == -1) 5 else dayOfWeek
-        pagerState.scrollToPage(selectedDayOfCurrentWeek.value)
-    })
+
+        LaunchedEffect(key1 = true, block = {
+            selectedDayOfCurrentWeek.value = if (dayOfWeek == -1) 5 else dayOfWeek
+            if(pagerState.pageCount>1)
+            pagerState.scrollToPage(selectedDayOfCurrentWeek.value)
+        })
+
 
     LazyRow(modifier = Modifier
         .fillMaxWidth(),

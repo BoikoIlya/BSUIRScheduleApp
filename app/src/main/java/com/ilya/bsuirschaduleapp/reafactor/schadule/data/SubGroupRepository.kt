@@ -19,7 +19,11 @@ interface SubGroupRepository: Read<Int>, Save<Int> {
             const val SELECTED_SUB_GROUP = "selected_sub_group"
         }
 
-        override  fun read(): Int = cache.read(SELECTED_SUB_GROUP).toInt()?:0
+        override  fun read(): Int{
+            val result = cache.read(SELECTED_SUB_GROUP)
+           return if(result.isEmpty()) 0 else result.toInt()
+        }
+
 
         override  fun save(data: Int) = cache.save(data.toString(),SELECTED_SUB_GROUP)
 

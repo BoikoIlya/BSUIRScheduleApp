@@ -1,9 +1,13 @@
 package com.ilya.bsuirschaduleapp.reafactor.favoriteTeachers.di
 
+import com.ilya.bsuirschaduleapp.reafactor.core.Dispatchers
+import com.ilya.bsuirschaduleapp.reafactor.core.HandleError
 import com.ilya.bsuirschaduleapp.reafactor.core.ListCacheDataSource
+import com.ilya.bsuirschaduleapp.reafactor.core.UiErrorHandler
 import com.ilya.bsuirschaduleapp.reafactor.favoriteTeachers.data.FavoriteRepository
 import com.ilya.bsuirschaduleapp.reafactor.favoriteTeachers.data.TeacherListFavoriteRepository
 import com.ilya.bsuirschaduleapp.reafactor.favoriteTeachers.data.ToFavoriteTeacherListUi
+import com.ilya.bsuirschaduleapp.reafactor.favoriteTeachers.domain.FavoriteTeachersInteractor
 import com.ilya.bsuirschaduleapp.reafactor.favoriteTeachers.presentation.FavoriteTeachersCommunication
 import com.ilya.bsuirschaduleapp.reafactor.favoriteTeachers.presentation.UpdateFavoritesTeachers
 import com.ilya.bsuirschaduleapp.reafactor.teacherList.domain.TeacherListItemDomain
@@ -23,12 +27,22 @@ class FavoriteTeachersModule {
 
     @Provides
     @Singleton
+    fun provideFavoriteTeachersInteractor(
+        repository: FavoriteRepository<TeacherListItemDomain>,
+        mapper:  ToFavoriteTeacherListUi,
+        @UiErrorHandler
+        handleError: HandleError,
+        dispatchers: Dispatchers,
+    ): FavoriteTeachersInteractor{
+        return FavoriteTeachersInteractor.Base(repository,handleError,dispatchers,mapper)
+    }
+
+    @Provides
+    @Singleton
      fun provideFavoriteRepository(
         cacheDataSource: ListCacheDataSource<TeacherListItemDomain>,
-        mapper:  ToFavoriteTeacherListUi,
-
-        ): FavoriteRepository<TeacherListItemUi>{
-         return TeacherListFavoriteRepository.Base(cacheDataSource, mapper)
+        ): FavoriteRepository<TeacherListItemDomain>{
+         return TeacherListFavoriteRepository.Base(cacheDataSource)
     }
 
     @Provides

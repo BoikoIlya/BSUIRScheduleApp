@@ -6,9 +6,9 @@ import com.ilya.bsuirschaduleapp.reafactor.schadule.domain.ScheduleDomain
 /**
  * Created by HP on 25.10.2022.
  **/
-interface ToSelectedScheduleMapper:Mapper<ScheduleDomain, String>  {
+interface ToSelectedScheduleIdMapper:Mapper<ScheduleDomain, String>  {
 
-    class Base(private val mapper: ScheduleDomain.Mapper<String>): ToSelectedScheduleMapper{
+    class Base(private val mapper: ScheduleDomain.Mapper<String>): ToSelectedScheduleIdMapper{
         override fun map(data: ScheduleDomain): String {
          return data.map(mapper)
         }

@@ -7,7 +7,7 @@ data class ScheduleResponseDto (
     val employeeDto: TeacherDto? = null,
     val studentGroupDto: StudentGroupDto? =null,
     val schedules: ScheduleCloud.Schedules,
-    val exams: List<Schedule>,
+    val exams: List<ScheduleCloud.Schedule>,
     val startDate: String,
     val endDate: String,
     val startExamsDate: String? =null,

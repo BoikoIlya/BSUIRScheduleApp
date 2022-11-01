@@ -1,10 +1,11 @@
 package com.ilya.bsuirschaduleapp.presentation.models
 
-import com.ilya.bsuirschaduleapp.data.network.dto.Schedules
+
 import com.ilya.bsuirschaduleapp.domain.models.ScheduleResponse
+import com.ilya.bsuirschaduleapp.reafactor.schadule.data.cloud.ScheduleCloud
 
 data class ScheduleState(
-    val data: ScheduleResponse= ScheduleResponse(schedules = Schedules(Monday = listOf(),
+    val data: ScheduleResponse= ScheduleResponse(schedules = ScheduleCloud.Schedules(Monday = listOf(),
         Tuesday = listOf(),
         Wednesday = listOf(),
         Thursday = listOf(),

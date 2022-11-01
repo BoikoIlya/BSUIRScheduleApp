@@ -14,16 +14,18 @@ data class ScheduleCache(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val dayOfWeek: Int,
-    val weekNumber: List<Long>,
-    val studentGroups: List<StudentGroup>,
+    val weekNumber: String,
+    val studentGroups: String,
     val numSubgroup: Long,
-    val auditories: List<String>?= Collections.emptyList(),
+    val auditories: String,
     val startLessonTime: String,
     val endLessonTime: String,
     val subject: String,
     val subjectFullName: String,
-    val note: String? = null,
+    val note: String,
     val lessonTypeAbbrev: String,
-    val employees: List<Employee>?= Collections.emptyList(),
-    val date: Long
+    val employees: String,
+    val date: Long,
+    val employeePhotoLink:String,
+    val employeeFio: String
 )

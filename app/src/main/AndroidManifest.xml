@@ -16,7 +16,8 @@
             android:name="com.ilya.bsuirschaduleapp.presentation.ui.activities.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.BSUIRSchaduleApp">
+            android:theme="@style/Theme.BSUIRSchaduleApp"
+            android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

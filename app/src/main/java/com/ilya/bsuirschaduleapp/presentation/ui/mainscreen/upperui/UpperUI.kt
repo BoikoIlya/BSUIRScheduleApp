@@ -21,27 +21,32 @@ import com.ilya.bsuirschaduleapp.presentation.models.ActionEvent
 import com.ilya.bsuirschaduleapp.presentation.models.UpperUiState
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.DarkSea
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.LightSea
+import com.ilya.bsuirschaduleapp.presentation.ui.theme.Typography
 import com.ilya.bsuirschaduleapp.presentation.viewmodels.MainViewModel
+import com.ilya.bsuirschaduleapp.reafactor.schadule.domain.ScheduleDomain
 import com.ilya.bsuirschaduleapp.utils.Constance
 
 @OptIn(ExperimentalPagerApi::class)
 @ExperimentalMaterialApi
 @Composable
 fun UpperUI(
+    changeSubGroup:(Int)->Unit,
     sheetState: BottomSheetState,
     viewModel: MainViewModel = hiltViewModel(),
     selectedDayOfCurrentWeek: MutableState<Int>,
     selectedWeek: MutableState<Int>,
-    pagerState: PagerState
+    pagerState: PagerState,
+    scheduleState: MutableState<List<List<ScheduleDomain.Schedule>>>,
+    selectedGroupOrTeacherName: MutableState<String>,
+    selectedSubGroup: MutableState<Int>,
+    progressLoading: MutableState<Boolean>,
+    currentWeek: MutableState<String>
 ){
-    val currentWeek  = viewModel.currWeek.collectAsState()
-    val scheduleState = viewModel.schedule.collectAsState()
-    val selectedSubGroup = viewModel.selectedSubGroup.collectAsState()
-    val selectedGroupOrTeacherName = viewModel.selectedGroupOrTeacherName.collectAsState()
+    //val currentWeek  = remember{ mutableStateOf(2)} //viewModel.currWeek.collectAsState()
+    //val selectedSubGroup = remember { mutableStateOf(0)}
+   // val selectedGroupOrTeacherName = viewModel.selectedGroupOrTeacherName.collectAsState()
 
-    LaunchedEffect(key1 = scheduleState.value.isLoading, block = {
-        selectedWeek.value = currentWeek.value
-    })
+
 
 
     Column(
@@ -54,10 +59,11 @@ fun UpperUI(
         ToolBar(
             sheetState,
             { selectedSubGroup->
-            viewModel.obtainActionEvent(ActionEvent.SaveDataInDataStore(
-                selectedSubGroup.toString(),
-                Constance.SELECTED_SUBGROUP_KEY
-            ))
+//            viewModel.obtainActionEvent(ActionEvent.SaveDataInDataStore(
+//                //selectedSubGroup.toString(),
+//                Constance.SELECTED_SUBGROUP_KEY
+                changeSubGroup(selectedSubGroup)
+
         },
             selectedSubGroup,
             selectedGroupOrTeacherName.value
@@ -70,7 +76,8 @@ fun UpperUI(
         ) {
             Text(
                 text = stringResource(R.string.curr_week) +currentWeek.value,
-                style = MaterialTheme.typography.h2,
+                style = Typography.h2,
+                color = Color.White,
                 modifier = Modifier.padding(
                     horizontal = 10.dp,
                     vertical = 10.dp
@@ -94,7 +101,7 @@ fun UpperUI(
                 {
                     Text(text = stringResource(R.string.first_week),
                         textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.h4,
+                    style = Typography.h4,
                     color = if(selectedWeek.value==1)  DarkSea else Color.White)
 
                 }
@@ -111,7 +118,7 @@ fun UpperUI(
                 {
                     Text(text = stringResource(R.string.second_week),
                         textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.h4,
+                        style = Typography.h4,
                         color = if(selectedWeek.value==2)  DarkSea else Color.White)
                 }
                 Box(
@@ -127,7 +134,7 @@ fun UpperUI(
                 {
                     Text(text = stringResource(R.string.third_week),
                         textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.h4,
+                        style = Typography.h4,
                         color = if(selectedWeek.value==3)  DarkSea else Color.White)
                 }
                 Box(
@@ -145,17 +152,19 @@ fun UpperUI(
                 {
                     Text(text = stringResource(R.string.fourth_week),
                         textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.h4,
+                        style = Typography.h4,
                         color = if(selectedWeek.value==4)  DarkSea else Color.White)
                 }
                 Spacer(modifier = Modifier.width(5.dp))
             }
         }
         Spacer(modifier = Modifier.height(5.dp))
-        DaysBar(
-            selectedWeek = selectedWeek,
-            selectedDayOfCurrentWeek = selectedDayOfCurrentWeek,
-            pagerState = pagerState
-        )
+        if(!progressLoading.value) {
+            DaysBar(
+                selectedWeek = selectedWeek,
+                selectedDayOfCurrentWeek = selectedDayOfCurrentWeek,
+                pagerState = pagerState,
+            )
+        }
     }
 }

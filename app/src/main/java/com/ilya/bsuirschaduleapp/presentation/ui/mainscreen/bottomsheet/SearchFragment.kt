@@ -93,7 +93,8 @@ fun SearchFragment(
             colors = TextFieldDefaults.textFieldColors(
                 textColor = Color.Black,
                 unfocusedIndicatorColor = LightSea,
-                focusedIndicatorColor = DarkSea
+                focusedIndicatorColor = DarkSea,
+                backgroundColor = Color.White
             ),
             modifier = Modifier.fillMaxWidth(),
             value = textState.value,

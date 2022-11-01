@@ -15,17 +15,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ilya.bsuirschaduleapp.R
-import com.ilya.bsuirschaduleapp.data.network.dto.Schedule
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.DarkGrayForAlert
+import com.ilya.bsuirschaduleapp.presentation.ui.theme.Typography
+import com.ilya.bsuirschaduleapp.reafactor.schadule.data.cloud.ScheduleCloud
+import com.ilya.bsuirschaduleapp.reafactor.schadule.domain.ScheduleDomain
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun LessonInfoAlert(
     showAlert: MutableState<Boolean>,
-    lessonInfo: Schedule
+    lessonInfo: ScheduleDomain.Schedule
 ){
     if (showAlert.value) {
         AlertDialog(
@@ -42,20 +45,21 @@ fun LessonInfoAlert(
                 }
             },
             onDismissRequest = { },
-            title = { Text(text =lessonInfo.subjectFullName ) },
+            title = { Text(text =lessonInfo.subjectFullName ,color = Color.LightGray, style = Typography.h4) },
             text = {
                 Row {
                     GlideImage(
-                        imageModel =  lessonInfo.employees!![0].photoLink,
+                        error = painterResource(id = R.drawable.ic_person),
+                        imageModel =  lessonInfo.employeePhotoLink,
                         modifier = Modifier
                             .clip(RoundedCornerShape(20.dp))
                             .size(130.dp)
                         ,
                         contentScale = ContentScale.Fit)
                     Spacer(modifier = Modifier.width(10.dp))
-                    Text(text = lessonInfo.employees[0].lastName+" "+
-                            lessonInfo.employees[0].firstName +" "+
-                            lessonInfo.employees[0].middleName,
+                    Text(text = lessonInfo.employees,
+                        color = Color.LightGray,
+                        style = Typography.body1
                     )
                 }
             }

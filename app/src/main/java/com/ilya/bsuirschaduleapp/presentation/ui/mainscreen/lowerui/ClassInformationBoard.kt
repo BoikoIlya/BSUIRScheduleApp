@@ -15,12 +15,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ilya.bsuirschaduleapp.R
-import com.ilya.bsuirschaduleapp.data.network.dto.Schedule
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.*
+import com.ilya.bsuirschaduleapp.reafactor.schadule.data.cloud.ScheduleCloud
+import com.ilya.bsuirschaduleapp.reafactor.schadule.domain.ScheduleDomain
 
 @Composable
 fun ClassInformationBoard(
-    lessonInfo: Schedule
+    lessonInfo: ScheduleDomain.Schedule
 ){
         Box(
             modifier = Modifier
@@ -41,12 +42,12 @@ fun ClassInformationBoard(
             Column() {
                 Text(
                     text = lessonInfo.startLessonTime +" - "+lessonInfo.endLessonTime,
-                    fontSize = MaterialTheme.typography.body1.fontSize,
+                    style = Typography.body1,
                     color = Color.Gray
                 )
                 Text(
                     text = lessonInfo.subject+"("+lessonInfo.lessonTypeAbbrev+")",
-                    style = MaterialTheme.typography.h3,
+                    style = Typography.h2,
                     color = Color.Black
                 )
                 Column() {
@@ -57,18 +58,9 @@ fun ClassInformationBoard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        fontSize = MaterialTheme.typography.body1.fontSize,
-                        text = if(lessonInfo.employees!=null && lessonInfo.employees.isNotEmpty()){
-                        lessonInfo.employees[0].lastName+
-                                " "+lessonInfo.employees[0].firstName[0]+"."+
-                        " "+lessonInfo.employees[0].middleName[0]+"." +
-                                if(lessonInfo.numSubgroup!=0L) " (подгр. ${lessonInfo.numSubgroup})"
-                            else ""
-                        }
-                        else stringResource(R.string.group_shortcut) + lessonInfo.studentGroups[0].name +
-                                if(lessonInfo.studentGroups.size>1)
-                                   ", "+ lessonInfo.studentGroups[1].name+"..."
-                        else " "
+                        style = Typography.body1,
+                        text = if(lessonInfo.employeeFio.isNotEmpty()) lessonInfo.employeeFio
+                        else lessonInfo.studentGroups
                         ,
                         color = Color.Gray,
                         overflow = TextOverflow.Ellipsis,
@@ -76,10 +68,9 @@ fun ClassInformationBoard(
 
                     )
                     Text(
-                        text = if(lessonInfo.auditories!!.isNotEmpty())
-                                lessonInfo.auditories[0]
-                                else "",
-                        style = MaterialTheme.typography.h4,
+                        text = lessonInfo.auditories,
+                        style = Typography.h4,
+                        color = Color.White,
                         modifier = Modifier
                             .clip(
                                 shape = RoundedCornerShape(20.dp)
@@ -96,10 +87,10 @@ fun ClassInformationBoard(
 
                     )
                 }
-                    if(lessonInfo.note!=null) {
+                    if(lessonInfo.note.isNotEmpty()) {
                         Text(
                             text = lessonInfo.note,
-                            fontSize = MaterialTheme.typography.body1.fontSize,
+                            style = Typography.body1,
                             color = Color.Gray,
                         )
                     }

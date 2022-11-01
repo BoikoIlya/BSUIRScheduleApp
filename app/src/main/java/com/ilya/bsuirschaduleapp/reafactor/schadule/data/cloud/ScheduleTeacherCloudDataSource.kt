@@ -35,7 +35,7 @@ interface ScheduleGroupCloudDataSource: ScheduleCloudDataSource {
         private val scheduleService: ScheduleService,
         @DomainErrorHandler
         handleError: HandleError
-    ): ScheduleTeacherCloudDataSource, CloudDataSource.Abstract(handleError){
+    ): ScheduleGroupCloudDataSource, CloudDataSource.Abstract(handleError){
 
         override suspend fun latestSchedule(query: String): ScheduleCloud = handle {
             return@handle scheduleService.getScheduleByGroupNumber(query)

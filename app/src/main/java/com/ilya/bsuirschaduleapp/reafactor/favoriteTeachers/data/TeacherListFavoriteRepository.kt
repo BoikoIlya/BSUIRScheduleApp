@@ -7,11 +7,10 @@ import com.ilya.bsuirschaduleapp.reafactor.teacherList.presentation.TeacherListI
 /**
  * Created by HP on 07.10.2022.
  **/
-interface TeacherListFavoriteRepository: FavoriteRepository<TeacherListItemUi> {
+interface TeacherListFavoriteRepository: FavoriteRepository<TeacherListItemDomain> {
 
     class Base(
         cacheDataSource: ListCacheDataSource<TeacherListItemDomain>,
-        mapper: ToFavoriteTeacherListUi
-    ) : FavoriteRepository.Abstract<TeacherListItemDomain, TeacherListItemUi>
-        (cacheDataSource,mapper), TeacherListFavoriteRepository
+    ) : FavoriteRepository.Abstract<TeacherListItemDomain>
+        (cacheDataSource), TeacherListFavoriteRepository
 }

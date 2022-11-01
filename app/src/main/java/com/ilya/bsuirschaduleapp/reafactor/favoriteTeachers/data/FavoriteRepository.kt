@@ -7,16 +7,14 @@ import kotlinx.coroutines.flow.first
 /**
  * Created by HP on 02.10.2022.
  **/
-interface FavoriteRepository<R> {
+interface FavoriteRepository<T> {
 
-    suspend fun favoritesList(): List<R>
+    suspend fun favoritesList(): List<T>
 
-    abstract class Abstract<T,R>(
+    abstract class Abstract<T>(
         private val cacheDataSource: ListCacheDataSource<T>,
-        private val mapper: Mapper<List<T>,List<R>>,
-    ): FavoriteRepository<R> {
+    ): FavoriteRepository<T> {
 
-        override suspend fun favoritesList(): List<R>  =
-            mapper.map(cacheDataSource.find(""))
+        override suspend fun favoritesList(): List<T>  = cacheDataSource.find("")
     }
 }

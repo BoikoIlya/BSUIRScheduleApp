@@ -9,6 +9,6 @@ import kotlinx.coroutines.flow.Flow
 interface Repository<T>: SearchRepository<T>, ChangeFavorite, RefreshRepository<T>
 
 interface FetchDataRepository<T>{
-    suspend fun fetchData(query: String):T
+    suspend fun fetchData():T
 }
 

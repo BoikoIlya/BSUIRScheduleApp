@@ -16,7 +16,7 @@ import javax.inject.Inject
 class BaseGroupListViewModel @Inject constructor(
     progressCommunication: GroupListProgressCommunication,
     communication: GroupListCommunication,
-    groupListInteractor: ListInteractor<List<GroupListItemDomain>, List<GroupListItemUi>>,
+    groupListInteractor: ListInteractor<GroupListItemDomain, GroupListItemUi>,
     dispatchers: Dispatchers,
     changeFavorite: GroupListRepository,
     updateFavorites: UpdateFavoritesGroups.Update
