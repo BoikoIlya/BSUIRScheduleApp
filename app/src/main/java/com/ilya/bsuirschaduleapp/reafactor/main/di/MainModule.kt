@@ -3,6 +3,9 @@ package com.ilya.bsuirschaduleapp.reafactor.main.di
 import android.content.Context
 import androidx.room.Room
 import com.ilya.bsuirschaduleapp.reafactor.core.*
+import com.ilya.bsuirschaduleapp.reafactor.main.data.ThemeCacheDataSource
+import com.ilya.bsuirschaduleapp.reafactor.main.data.ThemeRepository
+import com.ilya.bsuirschaduleapp.reafactor.main.presentation.ThemeCommunication
 import com.ilya.bsuirschaduleapp.reafactor.teacherList.data.teacherList.cloud.TeacherListService
 import com.ilya.bsuirschaduleapp.utils.Constance
 import dagger.Module
@@ -10,7 +13,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -22,6 +27,28 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class MainModule {
 
+
+    @Provides
+    @Singleton
+    fun provideThemeCacheDataSource(
+       cache: PreferenceDataStoreString
+    ): ThemeCacheDataSource {
+        return ThemeCacheDataSource.Base(cache)
+    }
+
+    @Provides
+    @Singleton
+    fun provideThemeRepository(
+        cache: ThemeCacheDataSource
+    ): ThemeRepository {
+        return ThemeRepository.Base(cache)
+    }
+
+    @Provides
+    @Singleton
+    fun provideThemeCommunication(): ThemeCommunication {
+        return ThemeCommunication.Base()
+    }
 
 
     @DomainErrorHandler
@@ -69,6 +96,23 @@ class MainModule {
     @Singleton
     fun provideDispatchers(): Dispatchers {
         return Dispatchers.Base()
+    }
+
+    @Provides
+    @Singleton
+    fun provideInterceptor(): Interceptor {
+        return HttpLoggingInterceptor()
+            .setLevel(HttpLoggingInterceptor.Level.BODY)
+    }
+
+    @Provides
+    @Singleton
+    fun provideHttpClient(
+        interceptor: Interceptor
+    ): OkHttpClient{
+        return OkHttpClient.Builder()
+            .addInterceptor(interceptor)
+            .build()
     }
 
     @Provides

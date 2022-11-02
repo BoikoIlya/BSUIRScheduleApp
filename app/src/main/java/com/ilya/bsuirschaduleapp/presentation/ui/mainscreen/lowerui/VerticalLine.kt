@@ -15,7 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ilya.bsuirschaduleapp.R
-import com.ilya.bsuirschaduleapp.presentation.ui.theme.Blue
+import com.ilya.bsuirschaduleapp.presentation.ui.theme.BsuirScheduleAppTheme
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.Green
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.Purple
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.Red
@@ -34,9 +34,9 @@ fun VerticalLine(
                 .height(100.dp)
                 .background(
                     when (lessonType) {
-                        stringResource(id = R.string.lecture) -> Green
-                        stringResource(id = R.string.lab) -> Red
-                        stringResource(id = R.string.practical) -> Purple
+                        stringResource(id = R.string.lecture) -> BsuirScheduleAppTheme.colors.LowerUiLecturesColorSecondary
+                        stringResource(id = R.string.lab) -> BsuirScheduleAppTheme.colors.LowerUiLabsLessonsColorSecondary
+                        stringResource(id = R.string.practical) -> BsuirScheduleAppTheme.colors.LowerUiPracticalLessonsColorSecondary
                         else -> Color.Gray
                     }
                 ),

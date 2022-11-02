@@ -17,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ilya.bsuirschaduleapp.R
+import com.ilya.bsuirschaduleapp.presentation.ui.theme.BsuirScheduleAppTheme
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.Purple
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.Typography
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.VeryLightPurple
@@ -34,7 +35,7 @@ fun SelectedGroupItem(
             .clip(
                 shape = RoundedCornerShape(20.dp)
             )
-            .background(VeryLightPurple)
+            .background(BsuirScheduleAppTheme.colors.LowerUiPracticalLessonsColorPrimary)
             .fillMaxWidth()
             .padding(10.dp),
     ) {
@@ -51,13 +52,13 @@ fun SelectedGroupItem(
             Text(
                 text = group.specialityName,
                 style = Typography.body1,
-                color = Color.Gray
+                color = BsuirScheduleAppTheme.colors.LowerUiLessonsTextColorSecondary
             )
             Text(
                 text = group.name,
                 style = Typography.h2,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black
+                color = BsuirScheduleAppTheme.colors.LowerUiLessonsTextColorPrimary
             )
             Row(
                 modifier = Modifier
@@ -73,7 +74,7 @@ fun SelectedGroupItem(
                         .clip(
                             shape = RoundedCornerShape(20.dp)
                         )
-                        .background(Purple)
+                        .background(BsuirScheduleAppTheme.colors.LowerUiPracticalLessonsColorSecondary)
                         .padding(5.dp)
 
                 )
@@ -81,7 +82,7 @@ fun SelectedGroupItem(
                     painter = painterResource(
                         R.drawable.ic_delete),
                     contentDescription = "",
-                    tint = Color.Black,
+                    tint = BsuirScheduleAppTheme.colors.LowerUiTextColor,
                     modifier = Modifier
                         .size(35.dp)
                         .clickable {

@@ -1,6 +1,5 @@
 package com.ilya.bsuirschaduleapp.presentation.ui.mainscreen
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -15,27 +14,32 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.ilya.bsuirschaduleapp.presentation.ui.mainscreen.bottomsheet.BottomSheetContent
-import com.ilya.bsuirschaduleapp.presentation.ui.mainscreen.lowerui.ConnectionFailed
 import com.ilya.bsuirschaduleapp.presentation.ui.mainscreen.lowerui.LowerUI
 import com.ilya.bsuirschaduleapp.presentation.ui.mainscreen.upperui.UpperUI
-import com.ilya.bsuirschaduleapp.presentation.models.ActionEvent
-import com.ilya.bsuirschaduleapp.presentation.models.SendDataEvent
-import com.ilya.bsuirschaduleapp.presentation.models.UpperUiState
-import com.ilya.bsuirschaduleapp.presentation.ui.theme.DarkSea
-import com.ilya.bsuirschaduleapp.presentation.viewmodels.MainViewModel
+import com.ilya.bsuirschaduleapp.presentation.ui.theme.BsuirScheduleAppTheme
+import com.ilya.bsuirschaduleapp.presentation.ui.theme.Sea
 import com.ilya.bsuirschaduleapp.reafactor.schadule.domain.ScheduleDomain
 import com.ilya.bsuirschaduleapp.reafactor.schadule.presentation.ScheduleViewModel
-import com.ilya.bsuirschaduleapp.utils.Constance
 
 @OptIn(ExperimentalPagerApi::class)
 @ExperimentalMaterialApi
 @Composable
 fun MainScreen(
-    viewModel: MainViewModel = hiltViewModel(),
+   // viewModel: MainViewModel = hiltViewModel(),
     scheduleViewModel: ScheduleViewModel.Base = hiltViewModel(),
+    onChangeTheme:()->Unit
 ){
 
-    val scheduleState = remember{ mutableStateOf(listOf(emptyList<ScheduleDomain.Schedule>())) }
+    val scheduleState = remember{
+        mutableStateOf(listOf(
+            emptyList<ScheduleDomain.Schedule>(),
+            emptyList<ScheduleDomain.Schedule>(),
+            emptyList<ScheduleDomain.Schedule>(),
+            emptyList<ScheduleDomain.Schedule>(),
+            emptyList<ScheduleDomain.Schedule>(),
+            emptyList<ScheduleDomain.Schedule>())
+        )
+    }
     val progressLoading = remember { mutableStateOf(true) }
     val selectedGroupOrTeacherName = remember { mutableStateOf("") }
     val subGroupState = remember { mutableStateOf(0) }
@@ -49,6 +53,7 @@ fun MainScreen(
     LaunchedEffect(key1 = true, block = {
         scheduleViewModel.collectCurrWeek(lifecycleOwner){
          currentWeekState.value = it
+            if(it.isNotEmpty())
             selectedWeek.value = it.toInt()
         }
     })
@@ -82,8 +87,8 @@ fun MainScreen(
     val pagerState = rememberPagerState()
     val selectedDayOfCurrentWeek = remember { mutableStateOf(0) }
 
-    val showNoConnectionAlert = viewModel.noConnection.collectAsState()
-    val teacherOrGroup = viewModel.teacherOrGroup.collectAsState()
+//    val showNoConnectionAlert = viewModel.noConnection.collectAsState()
+//    val teacherOrGroup = viewModel.teacherOrGroup.collectAsState()
 
    /* if(showNoConnectionAlert.value) {
         ConnectionFailed(showAlert = showNoConnectionAlert) {
@@ -107,12 +112,17 @@ fun MainScreen(
             BottomSheetScaffold(
                 sheetPeekHeight = 0.dp,
                 scaffoldState = scaffoldState,
-                sheetContent = { BottomSheetContent(sheetState, onSelect = {id-> scheduleViewModel.changeSelectedSchedule(id)}) },
+                sheetContent = {
+                    BottomSheetContent(
+                        sheetState,
+                        onSelect = { id -> scheduleViewModel.changeSelectedSchedule(id) },
+                        onChangeTheme = { onChangeTheme() }
+                    ) },
                 sheetShape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)
             ) {
                 Column(
                     modifier = Modifier
-                        .background(DarkSea)
+                        .background(BsuirScheduleAppTheme.colors.UpperUiPrimary)
                         .fillMaxSize(),
                 ) {
                         UpperUI(

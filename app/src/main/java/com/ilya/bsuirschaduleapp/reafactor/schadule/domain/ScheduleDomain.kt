@@ -1,10 +1,7 @@
 package com.ilya.bsuirschaduleapp.reafactor.schadule.domain
 
 
-import com.ilya.bsuirschaduleapp.data.network.dto.Employee
-import com.ilya.bsuirschaduleapp.data.network.dto.StudentGroup
-import com.ilya.bsuirschaduleapp.data.network.dto.StudentGroupDto
-import com.ilya.bsuirschaduleapp.data.network.dto.TeacherDto
+
 import com.ilya.bsuirschaduleapp.reafactor.schadule.data.SubGroupRepository
 import com.ilya.bsuirschaduleapp.reafactor.schadule.data.cache.ScheduleCache
 import com.ilya.bsuirschaduleapp.reafactor.schadule.data.cloud.ScheduleCloud

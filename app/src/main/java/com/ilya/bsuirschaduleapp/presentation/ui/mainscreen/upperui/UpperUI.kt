@@ -9,22 +9,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 import com.ilya.bsuirschaduleapp.R
-import com.ilya.bsuirschaduleapp.presentation.models.ActionEvent
-import com.ilya.bsuirschaduleapp.presentation.models.UpperUiState
-import com.ilya.bsuirschaduleapp.presentation.ui.theme.DarkSea
-import com.ilya.bsuirschaduleapp.presentation.ui.theme.LightSea
+import com.ilya.bsuirschaduleapp.presentation.ui.theme.BsuirScheduleAppTheme
+
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.Typography
-import com.ilya.bsuirschaduleapp.presentation.viewmodels.MainViewModel
+
 import com.ilya.bsuirschaduleapp.reafactor.schadule.domain.ScheduleDomain
-import com.ilya.bsuirschaduleapp.utils.Constance
 
 @OptIn(ExperimentalPagerApi::class)
 @ExperimentalMaterialApi
@@ -32,7 +27,7 @@ import com.ilya.bsuirschaduleapp.utils.Constance
 fun UpperUI(
     changeSubGroup:(Int)->Unit,
     sheetState: BottomSheetState,
-    viewModel: MainViewModel = hiltViewModel(),
+   // viewModel: MainViewModel = hiltViewModel(),
     selectedDayOfCurrentWeek: MutableState<Int>,
     selectedWeek: MutableState<Int>,
     pagerState: PagerState,
@@ -52,7 +47,7 @@ fun UpperUI(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(DarkSea)
+            .background(BsuirScheduleAppTheme.colors.UpperUiPrimary)
 
     ) {
         Spacer(modifier = Modifier.height(10.dp))
@@ -77,7 +72,7 @@ fun UpperUI(
             Text(
                 text = stringResource(R.string.curr_week) +currentWeek.value,
                 style = Typography.h2,
-                color = Color.White,
+                color = BsuirScheduleAppTheme.colors.StaticTextColor,
                 modifier = Modifier.padding(
                     horizontal = 10.dp,
                     vertical = 10.dp
@@ -95,14 +90,16 @@ fun UpperUI(
                         .clickable {
                             selectedWeek.value = 1
                         }
-                        .background(color = if (selectedWeek.value == 1) Color.White else LightSea),
+                        .background(color = if (selectedWeek.value == 1) BsuirScheduleAppTheme.colors.UpperUiSelection
+                        else BsuirScheduleAppTheme.colors.UpperUiSecondary),
                     contentAlignment = Alignment.Center
                 )
                 {
                     Text(text = stringResource(R.string.first_week),
                         textAlign = TextAlign.Center,
                     style = Typography.h4,
-                    color = if(selectedWeek.value==1)  DarkSea else Color.White)
+                    color = if(selectedWeek.value==1)  BsuirScheduleAppTheme.colors.UpperUiPrimary
+                    else BsuirScheduleAppTheme.colors.StaticTextColor)
 
                 }
                 Box(
@@ -112,14 +109,16 @@ fun UpperUI(
                         }
                         .width(55.dp)
                         .height(40.dp)
-                        .background(color = if (selectedWeek.value == 2) Color.White else LightSea),
+                        .background(color = if (selectedWeek.value == 2) BsuirScheduleAppTheme.colors.UpperUiSelection
+                        else BsuirScheduleAppTheme.colors.UpperUiSecondary),
                     contentAlignment = Alignment.Center
                 )
                 {
                     Text(text = stringResource(R.string.second_week),
                         textAlign = TextAlign.Center,
                         style = Typography.h4,
-                        color = if(selectedWeek.value==2)  DarkSea else Color.White)
+                        color = if(selectedWeek.value==2)  BsuirScheduleAppTheme.colors.UpperUiPrimary
+                        else BsuirScheduleAppTheme.colors.StaticTextColor)
                 }
                 Box(
                     modifier = Modifier
@@ -128,14 +127,16 @@ fun UpperUI(
                         }
                         .width(55.dp)
                         .height(40.dp)
-                        .background(color = if (selectedWeek.value == 3) Color.White else LightSea),
+                        .background(color = if (selectedWeek.value == 3) BsuirScheduleAppTheme.colors.UpperUiSelection
+                        else BsuirScheduleAppTheme.colors.UpperUiSecondary),
                     contentAlignment = Alignment.Center
                 )
                 {
                     Text(text = stringResource(R.string.third_week),
                         textAlign = TextAlign.Center,
                         style = Typography.h4,
-                        color = if(selectedWeek.value==3)  DarkSea else Color.White)
+                        color = if(selectedWeek.value==3)  BsuirScheduleAppTheme.colors.UpperUiPrimary  else
+                            BsuirScheduleAppTheme.colors.StaticTextColor)
                 }
                 Box(
                     modifier = Modifier
@@ -146,14 +147,16 @@ fun UpperUI(
                         .clickable {
                             selectedWeek.value = 4
                         }
-                        .background(color = if (selectedWeek.value == 4) Color.White else LightSea),
+                        .background(color = if (selectedWeek.value == 4) BsuirScheduleAppTheme.colors.UpperUiSelection
+                        else BsuirScheduleAppTheme.colors.UpperUiSecondary),
                     contentAlignment = Alignment.Center
                 )
                 {
                     Text(text = stringResource(R.string.fourth_week),
                         textAlign = TextAlign.Center,
                         style = Typography.h4,
-                        color = if(selectedWeek.value==4)  DarkSea else Color.White)
+                        color = if(selectedWeek.value==4)  BsuirScheduleAppTheme.colors.UpperUiPrimary
+                        else BsuirScheduleAppTheme.colors.StaticTextColor)
                 }
                 Spacer(modifier = Modifier.width(5.dp))
             }

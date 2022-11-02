@@ -19,7 +19,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ilya.bsuirschaduleapp.R
-import com.ilya.bsuirschaduleapp.domain.models.SelectedTeacher
+import com.ilya.bsuirschaduleapp.presentation.ui.theme.BsuirScheduleAppTheme
+
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.Green
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.Typography
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.VeryLightGreen
@@ -45,7 +46,7 @@ fun SelectedTeacherItem(
             .clip(
                 shape = RoundedCornerShape(20.dp)
             )
-            .background(VeryLightGreen)
+            .background(BsuirScheduleAppTheme.colors.LowerUiLecturesColorPrimary)
             .fillMaxWidth()
             .padding(10.dp),
     ) {
@@ -72,7 +73,7 @@ fun SelectedTeacherItem(
                         text = teacher.fullFIO,
                         style = Typography.h4,
                         fontWeight = FontWeight.Bold,
-                        color = Color.Black
+                        color = BsuirScheduleAppTheme.colors.LowerUiTextColor
                     )
                     Spacer(modifier = Modifier.height(5.dp))
                     Row(
@@ -88,7 +89,7 @@ fun SelectedTeacherItem(
                                 .clip(
                                     shape = RoundedCornerShape(20.dp)
                                 )
-                                .background(Green)
+                                .background(BsuirScheduleAppTheme.colors.LowerUiLecturesColorSecondary)
                                 .padding(5.dp)
                                 .weight(5f)
                         )
@@ -96,7 +97,7 @@ fun SelectedTeacherItem(
                             painter = painterResource(
                                 R.drawable.ic_delete),
                             contentDescription = "",
-                            tint = Color.Black,
+                            tint = BsuirScheduleAppTheme.colors.LowerUiTextColor,
                             modifier = Modifier
                                 .size(35.dp)
                                 .clickable {

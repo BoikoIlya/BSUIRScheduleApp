@@ -3,32 +3,37 @@ package com.ilya.bsuirschaduleapp.presentation.ui.activities
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.material.*
-import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.lifecycle.lifecycleScope
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import com.ilya.bsuirschaduleapp.presentation.ui.mainscreen.*
-import com.ilya.bsuirschaduleapp.reafactor.core.GlobalErrorCommunication
+import com.ilya.bsuirschaduleapp.presentation.ui.theme.BSUIRSchaduleAppTheme
+import com.ilya.bsuirschaduleapp.reafactor.main.presentation.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-//
-//   @Inject
-//   lateinit var globalErrorCommunication: GlobalErrorCommunication.Mutable
-//   //private val viewModel: by viewModels()
+
+    val viewModel by viewModels<MainViewModel.Base>()
     @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
 
         setContent {
+            val themeState = remember {
+                mutableStateOf(viewModel.readTheme())
+            }
 
-            MainScreen()
+                BSUIRSchaduleAppTheme(darkTheme = themeState.value) {
+                    MainScreen(){
+                        viewModel.saveTheme(!themeState.value)
+                        themeState.value = viewModel.readTheme()
+                    }
+                }
+
            /* LaunchedEffect(key1 = true, block = {
                 globalErrorCommunication.collect(this@MainActivity){
                     if(it.isNotEmpty())

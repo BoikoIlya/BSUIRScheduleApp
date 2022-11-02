@@ -1,6 +1,7 @@
 package com.ilya.bsuirschaduleapp.reafactor.schadule.data
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.core.text.isDigitsOnly
 import com.ilya.bsuirschaduleapp.reafactor.core.Mapper
 import com.ilya.bsuirschaduleapp.reafactor.groupList.data.cache.SelectedScheduleIdDataSource

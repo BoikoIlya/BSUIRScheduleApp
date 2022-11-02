@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 import com.ilya.bsuirschaduleapp.R
-import com.ilya.bsuirschaduleapp.presentation.models.UpperUiState
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.*
 import kotlinx.coroutines.launch
 
@@ -42,13 +41,15 @@ fun DayItem(
 
                 }
                 .background(
-                    color = if (selectedDay.value == itemIndex) Color.White else LightSea
+                    color = if (selectedDay.value == itemIndex) BsuirScheduleAppTheme.colors.UpperUiSelection
+                    else BsuirScheduleAppTheme.colors.UpperUiSecondary
                 )
                 .selectable(
                     selected = selectedDay.value == itemIndex,
                     onClick = {
                         selectedDay.value = itemIndex
                         scope.launch {
+                            if(pagerState.pageCount==6)
                             pagerState.scrollToPage(itemIndex)
                         }
                     }
@@ -71,7 +72,8 @@ fun DayItem(
                                                  },
                 textAlign = TextAlign.Center,
                 fontSize = MaterialTheme.typography.body1.fontSize,
-                    color = if(selectedDay.value==itemIndex)  DarkSea else Color.White
+                    color = if(selectedDay.value==itemIndex)  BsuirScheduleAppTheme.colors.UpperUiPrimary
+                    else BsuirScheduleAppTheme.colors.UpperUiSelection
                     )
             }
         }

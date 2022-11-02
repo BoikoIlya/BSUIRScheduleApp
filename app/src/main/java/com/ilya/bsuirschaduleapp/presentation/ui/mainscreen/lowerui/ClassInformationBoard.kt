@@ -30,9 +30,9 @@ fun ClassInformationBoard(
                 )
                 .background(
                     when (lessonInfo.lessonTypeAbbrev) {
-                        stringResource(R.string.lecture) -> VeryLightGreen
-                        stringResource(R.string.lab) -> VeryLightRed
-                        stringResource(R.string.practical) -> VeryLightPurple
+                        stringResource(R.string.lecture) -> BsuirScheduleAppTheme.colors.LowerUiLecturesColorPrimary
+                        stringResource(R.string.lab) -> BsuirScheduleAppTheme.colors.LowerUiLabsLessonsColorPrimary
+                        stringResource(R.string.practical) -> BsuirScheduleAppTheme.colors.LowerUiPracticalLessonsColorPrimary
                         else -> Color.LightGray
                     }
                 )
@@ -43,12 +43,12 @@ fun ClassInformationBoard(
                 Text(
                     text = lessonInfo.startLessonTime +" - "+lessonInfo.endLessonTime,
                     style = Typography.body1,
-                    color = Color.Gray
+                    color = BsuirScheduleAppTheme.colors.LowerUiLessonsTextColorSecondary
                 )
                 Text(
                     text = lessonInfo.subject+"("+lessonInfo.lessonTypeAbbrev+")",
                     style = Typography.h2,
-                    color = Color.Black
+                    color = BsuirScheduleAppTheme.colors.LowerUiLessonsTextColorPrimary
                 )
                 Column() {
                 Row(
@@ -62,7 +62,7 @@ fun ClassInformationBoard(
                         text = if(lessonInfo.employeeFio.isNotEmpty()) lessonInfo.employeeFio
                         else lessonInfo.studentGroups
                         ,
-                        color = Color.Gray,
+                        color = BsuirScheduleAppTheme.colors.LowerUiLessonsTextColorSecondary,
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 1,
 
@@ -77,9 +77,9 @@ fun ClassInformationBoard(
                             )
                             .background(
                                 when (lessonInfo.lessonTypeAbbrev) {
-                                    stringResource(R.string.lecture) -> Green
-                                    stringResource(R.string.lab) -> Red
-                                    stringResource(R.string.practical) -> Purple
+                                    stringResource(R.string.lecture) -> BsuirScheduleAppTheme.colors.LowerUiLecturesColorSecondary
+                                    stringResource(R.string.lab) -> BsuirScheduleAppTheme.colors.LowerUiLabsLessonsColorSecondary
+                                    stringResource(R.string.practical) -> BsuirScheduleAppTheme.colors.LowerUiPracticalLessonsColorSecondary
                                     else -> Color.LightGray
                                 }
                             )
@@ -91,7 +91,7 @@ fun ClassInformationBoard(
                         Text(
                             text = lessonInfo.note,
                             style = Typography.body1,
-                            color = Color.Gray,
+                            color = BsuirScheduleAppTheme.colors.LowerUiLessonsTextColorSecondary,
                         )
                     }
                 }

@@ -3,7 +3,6 @@
 package com.ilya.bsuirschaduleapp.presentation.ui.mainscreen.lowerui
 
 import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -16,24 +15,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.ilya.bsuirschaduleapp.R
 import com.ilya.bsuirschaduleapp.presentation.ui.mainscreen.ClassItem
-import com.ilya.bsuirschaduleapp.presentation.ui.theme.DarkSea
-import com.ilya.bsuirschaduleapp.presentation.viewmodels.MainViewModel
-import com.ilya.bsuirschaduleapp.presentation.models.UpperUiState
+import com.ilya.bsuirschaduleapp.presentation.ui.theme.BsuirScheduleAppTheme
+import com.ilya.bsuirschaduleapp.presentation.ui.theme.Sea
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.Typography
 import com.ilya.bsuirschaduleapp.reafactor.schadule.domain.ScheduleDomain
-import com.ilya.bsuirschaduleapp.reafactor.schadule.presentation.ScheduleUi
-import com.ilya.bsuirschaduleapp.reafactor.schadule.presentation.ScheduleViewModel
-import com.ilya.bsuirschaduleapp.utils.Constance
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -62,7 +55,7 @@ fun LowerUI(
                     )
                 )
                 .fillMaxSize()
-                .background(Color.White)
+                .background(BsuirScheduleAppTheme.colors.AppPrimary)
                 .padding(
                     top = 15.dp
                 ),
@@ -76,7 +69,7 @@ fun LowerUI(
                     Text(
                         text = stringResource(R.string.lessons),
                         style = Typography.h1,
-                        color = Color.Black
+                        color = BsuirScheduleAppTheme.colors.LowerUiTextColor
                     )
                 }
 //                val weekSchedules = mutableListOf(
@@ -133,7 +126,7 @@ fun LowerUI(
                         } else {
                             Box(modifier = Modifier.fillMaxSize(),
                                 contentAlignment = Alignment.TopCenter) {
-                                CircularProgressIndicator(color = DarkSea)
+                                CircularProgressIndicator(color = Sea)
                             }
                         }
                     }

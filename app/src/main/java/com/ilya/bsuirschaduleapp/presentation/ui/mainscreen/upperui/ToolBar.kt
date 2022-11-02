@@ -8,9 +8,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ilya.bsuirschaduleapp.R
+import com.ilya.bsuirschaduleapp.presentation.ui.theme.BsuirScheduleAppTheme
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.Typography
 import kotlinx.coroutines.launch
 
@@ -37,7 +37,7 @@ fun ToolBar(
         Icon(
             painter = painterResource(id = R.drawable.menu_white),
             contentDescription ="",
-            tint = Color.White,
+            tint = BsuirScheduleAppTheme.colors.IconTint,
             modifier = Modifier
                 .size(40.dp)
                 .clickable {
@@ -51,14 +51,14 @@ fun ToolBar(
         Text(
             text = groupOrTeacherName,
             style = Typography.h2,
-            color = Color.White
+            color = BsuirScheduleAppTheme.colors.StaticTextColor
         )
      Row() {
 
          Icon(
              painter = painterResource(id = R.drawable.ic_people),
              contentDescription = "",
-             tint = Color.White,
+             tint = BsuirScheduleAppTheme.colors.IconTint,
              modifier = Modifier
                  .size(40.dp)
                  .clickable {

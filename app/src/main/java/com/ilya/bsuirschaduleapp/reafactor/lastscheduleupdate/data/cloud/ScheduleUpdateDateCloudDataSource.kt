@@ -22,7 +22,7 @@ interface ScheduleUpdateDateCloudDataSource {
         }
 
         override suspend fun lastTeacherScheduleUpdate(urlId: String): String = handle {
-            service.getLastTeacherScheduleUpdate(urlId).toString()
+            service.getLastTeacherScheduleUpdate(urlId).lastUpdateDate.toString()
         }
 
     }

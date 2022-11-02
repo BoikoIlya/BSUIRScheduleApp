@@ -12,6 +12,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.ilya.bsuirschaduleapp.presentation.ui.theme.BsuirScheduleAppTheme
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.Purple
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.Typography
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.VeryLightPurple
@@ -28,7 +29,7 @@ fun GroupItem(
             .clip(
                 shape = RoundedCornerShape(20.dp)
             )
-            .background(VeryLightPurple)
+            .background(BsuirScheduleAppTheme.colors.LowerUiPracticalLessonsColorPrimary)
             .fillMaxWidth()
             .padding(10.dp),
     ) {
@@ -40,7 +41,7 @@ fun GroupItem(
             Text(
                 text = group.specialityName,
                 style = Typography.body1,
-                color = Color.Gray
+                color = BsuirScheduleAppTheme.colors.LowerUiLessonsTextColorSecondary
             )
 
             Row(
@@ -53,7 +54,7 @@ fun GroupItem(
                     text = group.name,
                     style = Typography.h2,
                     fontWeight = FontWeight.Bold,
-                    color = Color.Black
+                    color = BsuirScheduleAppTheme.colors.LowerUiLessonsTextColorPrimary
                 )
                 Text(
                     text = group.course,
@@ -63,7 +64,7 @@ fun GroupItem(
                         .clip(
                             shape = RoundedCornerShape(20.dp)
                         )
-                        .background(Purple)
+                        .background(BsuirScheduleAppTheme.colors.LowerUiPracticalLessonsColorSecondary)
                         .padding(5.dp)
 
                 )

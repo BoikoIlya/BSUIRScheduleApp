@@ -2,8 +2,7 @@ package com.ilya.bsuirschaduleapp.reafactor.schadule.data.cache
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.ilya.bsuirschaduleapp.data.network.dto.Employee
-import com.ilya.bsuirschaduleapp.data.network.dto.StudentGroup
+
 import java.util.*
 
 /**

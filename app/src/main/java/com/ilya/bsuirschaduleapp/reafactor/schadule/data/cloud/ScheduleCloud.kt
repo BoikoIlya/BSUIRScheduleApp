@@ -3,9 +3,6 @@ package com.ilya.bsuirschaduleapp.reafactor.schadule.data.cloud
 import androidx.compose.ui.res.stringResource
 import com.google.gson.annotations.SerializedName
 import com.ilya.bsuirschaduleapp.R
-import com.ilya.bsuirschaduleapp.data.network.dto.Employee
-
-import com.ilya.bsuirschaduleapp.data.network.dto.StudentGroup
 import com.ilya.bsuirschaduleapp.reafactor.schadule.domain.ScheduleDomain
 import java.util.*
 
@@ -39,6 +36,30 @@ interface ScheduleCloud {
         }
 
     }
+
+    data class StudentGroup (
+        val specialityName: String,
+        val specialityCode: String,
+        val numberOfStudents: Long,
+        val name: String
+    )
+
+    data class Employee (
+        val firstName: String,
+        val lastName: String,
+        val middleName: String,
+        val degreeAbbrev: String,
+        val rank: Any? = null,
+        val photoLink: String?="",
+        val calendarID: String,
+        val academicDepartment: List<String>,
+        val id: Long,
+        val urlID: String,
+        val fio: String,
+        val email: Any? = null,
+        val department: Any? = null
+    )
+
     data class Schedule(
         val weekNumber: List<Long>,
         val studentGroups: List<StudentGroup>,

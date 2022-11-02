@@ -35,7 +35,8 @@ fun BottomSheetContent(
     groursViewModel: BaseFavoriteGroupsViewModel = hiltViewModel(),
     teacherListViewModel: BaseTeacherListViewModel = hiltViewModel(),
     groupListViewModel: BaseGroupListViewModel = hiltViewModel(),
-    onSelect:(String)->Unit
+    onSelect:(String)->Unit,
+    onChangeTheme:()->Unit
 ){
 
     val teacherList = remember {
@@ -106,7 +107,7 @@ fun BottomSheetContent(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(DarkSea)
+                    .background(BsuirScheduleAppTheme.colors.UpperUiPrimary)
                     .padding(10.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -115,7 +116,7 @@ fun BottomSheetContent(
                         .clip(CircleShape)
                         .fillMaxWidth(0.15f)
                         .fillMaxHeight(0.01f)
-                        .background(Color.LightGray),
+                        .background(BsuirScheduleAppTheme.colors.AppPrimary),
                 )
                 Row(
                     modifier = Modifier
@@ -127,7 +128,7 @@ fun BottomSheetContent(
                         Icon(
                             painter = painterResource(id = R.drawable.users_group),
                             contentDescription = "",
-                            tint = Color.White,
+                            tint = BsuirScheduleAppTheme.colors.IconTint,
                             modifier = Modifier
                                 .size(40.dp)
                                 .clickable {
@@ -138,7 +139,7 @@ fun BottomSheetContent(
                         Icon(
                             painter = painterResource(id = R.drawable.add_user),
                             contentDescription = "",
-                            tint =Color.White,
+                            tint =BsuirScheduleAppTheme.colors.IconTint,
                             modifier = Modifier
                                 .size(40.dp)
                                 .clickable {
@@ -147,11 +148,22 @@ fun BottomSheetContent(
                         )
                     }
                     Row {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_theme),
+                            contentDescription = "",
+                            tint = BsuirScheduleAppTheme.colors.IconTint,
+                            modifier = Modifier
+                                .size(40.dp)
+                                .clickable {
+                                     onChangeTheme()
+                                }
+                        )
+                        Spacer(modifier = Modifier.width(5.dp))
                         if(refreshBtnVisibility.value) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_refresh),
                                 contentDescription = "refresh",
-                                tint = Color.White,
+                                tint = BsuirScheduleAppTheme.colors.IconTint,
                                 modifier = Modifier
                                     .size(40.dp)
                                     .clickable {
@@ -159,12 +171,12 @@ fun BottomSheetContent(
                                         groupListViewModel.refresh()
                                     }
                             )
+                            Spacer(modifier = Modifier.width(5.dp))
                         }
-                        Spacer(modifier = Modifier.width(5.dp))
                         Icon(
                             painter = painterResource(id = R.drawable.ic_close),
                             contentDescription = "close",
-                            tint = Color.White,
+                            tint = BsuirScheduleAppTheme.colors.IconTint,
                             modifier = Modifier
                                 .size(40.dp)
                                 .clickable {
@@ -191,7 +203,7 @@ fun BottomSheetContent(
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Color.White)
+                        .background(BsuirScheduleAppTheme.colors.AppPrimary)
                         .padding(horizontal = 10.dp)
                 ) {
                     items(groupList.value) {

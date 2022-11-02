@@ -1,6 +1,6 @@
 package com.ilya.bsuirschaduleapp.reafactor.teacherList.data.teacherList.cloud
 
-import com.ilya.bsuirschaduleapp.data.network.dto.TeacherDto
+
 import com.ilya.bsuirschaduleapp.utils.Constance
 import retrofit2.http.GET
 

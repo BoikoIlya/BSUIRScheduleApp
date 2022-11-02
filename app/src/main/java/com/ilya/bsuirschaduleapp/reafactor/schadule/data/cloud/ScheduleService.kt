@@ -1,6 +1,5 @@
 package com.ilya.bsuirschaduleapp.reafactor.schadule.data.cloud
 
-import com.ilya.bsuirschaduleapp.data.network.dto.ScheduleResponseDto
 import com.ilya.bsuirschaduleapp.utils.Constance
 import retrofit2.http.GET
 import retrofit2.http.Path

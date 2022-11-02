@@ -88,13 +88,13 @@ fun SearchFragment(
     //viewModel.obtainActionEvent(ActionEvent.GetGroupByNameFromDB)
     Column(modifier = Modifier
         .fillMaxSize()
-        .background(Color.White)) {
+        .background(BsuirScheduleAppTheme.colors.AppPrimary)) {
         TextField(
             colors = TextFieldDefaults.textFieldColors(
-                textColor = Color.Black,
-                unfocusedIndicatorColor = LightSea,
-                focusedIndicatorColor = DarkSea,
-                backgroundColor = Color.White
+                textColor = BsuirScheduleAppTheme.colors.LowerUiTextColor,
+                unfocusedIndicatorColor = BsuirScheduleAppTheme.colors.UpperUiSecondary,
+                focusedIndicatorColor = BsuirScheduleAppTheme.colors.UpperUiPrimary,
+                backgroundColor = BsuirScheduleAppTheme.colors.AppPrimary
             ),
             modifier = Modifier.fillMaxWidth(),
             value = textState.value,
@@ -108,7 +108,7 @@ fun SearchFragment(
             leadingIcon = {
                 Icon(painter = painterResource(id = R.drawable.ic_search),
                     contentDescription = "",
-                    tint = Color.DarkGray
+                    tint = BsuirScheduleAppTheme.colors.LowerUiTextColor
                 )
             },
             placeholder = { Text(text = stringResource(R.string.search), color = Color.Gray) }
@@ -125,7 +125,7 @@ fun SearchFragment(
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(Color.White)
+                            .background(BsuirScheduleAppTheme.colors.AppPrimary)
                             .padding(horizontal = 10.dp)
                     ) {
                         items(groupList.value) {
@@ -154,7 +154,7 @@ fun SearchFragment(
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(Color.White)
+                            .background(BsuirScheduleAppTheme.colors.AppPrimary)
                             .padding(horizontal = 10.dp)
                     ) {
                         items(teacherList.value) {
@@ -192,7 +192,7 @@ fun ItemTeacher(
             .clip(
                 shape = RoundedCornerShape(20.dp)
             )
-            .background(VeryLightGreen)
+            .background(BsuirScheduleAppTheme.colors.LowerUiLecturesColorPrimary)
             .fillMaxWidth()
             .padding(10.dp),
     ) {
@@ -222,7 +222,7 @@ fun ItemTeacher(
                         text = teacher.fullFIO,
                         style = Typography.h4,
                         fontWeight = FontWeight.Bold,
-                        color = Color.Black
+                        color = BsuirScheduleAppTheme.colors.LowerUiTextColor
                     )
                     Spacer(modifier = Modifier.height(5.dp))
                     Text(
@@ -233,7 +233,7 @@ fun ItemTeacher(
                             .clip(
                                 shape = RoundedCornerShape(20.dp)
                             )
-                            .background(Green)
+                            .background(BsuirScheduleAppTheme.colors.LowerUiLecturesColorSecondary)
                             .padding(5.dp)
                     )
                 }
