@@ -18,8 +18,8 @@ interface ScheduleCloud {
         val studentGroupDto: StudentGroupDto? =null,
         val schedules: Schedules,
         val exams: List<Schedule>,
-        val startDate: String,
-        val endDate: String,
+        val startDate: String? =null,
+        val endDate: String? =null,
         val startExamsDate: String? =null,
         val endExamsDate: String?=null
     ): ScheduleCloud{
@@ -29,8 +29,8 @@ interface ScheduleCloud {
                 studentGroupDto = studentGroupDto,
                 schedules = schedules,
                 exams = exams,
-                startDate = startDate,
-                endDate = endDate,
+                startDate = startDate?:"",
+                endDate = endDate?:"",
                 startExamsDate = startExamsDate,
                 endExamsDate = endExamsDate)
         }

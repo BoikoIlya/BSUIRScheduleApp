@@ -30,13 +30,14 @@ interface FetchDataInteractor<T,R> {
             successful: (R) -> Unit,
         )= handle(successful, atFinish){
             return@handle mapper.map(repository.fetchData())
-        }
+       }
 
         override suspend fun refresh(
             atFinish: () -> Unit,
             successful: (R) -> Unit,
-        ) = handle(successful, atFinish) {
+        )= handle(successful, atFinish) {
             return@handle mapper.map(repository.refresh())
         }
+
     }
 }
