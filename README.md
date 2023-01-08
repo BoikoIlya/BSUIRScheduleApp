@@ -1,5 +1,4 @@
-# BSUIRScheduleApp
-### Latest version 13.09.22: [BSUIRSchedule.zip](https://github.com/BoikoIlya/BSUIRScheduleApp/files/9556197/BSUIRSchedule.zip)
+# UP TP DATE CODE IN generalRefactor branch
 
 Stack:
 - Kotlin
