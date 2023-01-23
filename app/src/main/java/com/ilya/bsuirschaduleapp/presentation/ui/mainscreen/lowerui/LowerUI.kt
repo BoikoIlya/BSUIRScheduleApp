@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -39,12 +40,6 @@ fun LowerUI(
     progressLoading: MutableState<Boolean>
 ) {
 
-//        val scheduleState = remember{
-//            mutableStateOf(listOf(emptyList<ScheduleDomain.Schedule>()))
-//        }
-//        val progressLoading = remember {
-//            mutableStateOf(false)
-//        }
 
         Box(
             modifier = Modifier
@@ -72,14 +67,8 @@ fun LowerUI(
                         color = BsuirScheduleAppTheme.colors.LowerUiTextColor
                     )
                 }
-//                val weekSchedules = mutableListOf(
-//                    viewModel.schedule.collectAsState().value.data.schedules.Monday?: emptyList(),
-//                    viewModel.schedule.collectAsState().value.data.schedules.Tuesday ?: emptyList(),
-//                    viewModel.schedule.collectAsState().value.data.schedules.Wednesday?: emptyList(),
-//                    viewModel.schedule.collectAsState().value.data.schedules.Thursday?: emptyList(),
-//                    viewModel.schedule.collectAsState().value.data.schedules.Friday?: emptyList(),
-//                    viewModel.schedule.collectAsState().value.data.schedules.Saturday?: emptyList()
-//                )
+
+
                 Spacer(modifier = Modifier.height(5.dp))
                     HorizontalPager(
                         count = scheduleState.value.size,
@@ -115,11 +104,15 @@ fun LowerUI(
                                        modifier = Modifier.fillMaxSize(),
                                    horizontalAlignment = Alignment.CenterHorizontally
                                        ){
-                                       Image(painter = painterResource(id = R.drawable.owner), contentDescription = "")
+                                       Image(
+                                           painter = painterResource(id = R.drawable.owner),
+                                           contentDescription = "",
+                                           colorFilter = ColorFilter.tint(color = BsuirScheduleAppTheme.colors.LowerUiTextColor)
+                                       )
                                        Text(
                                            text = stringResource(R.string.no_lessons),
                                            style = Typography.h2,
-                                           color = Color.Black
+                                           color = BsuirScheduleAppTheme.colors.LowerUiTextColor
                                        )
                                    }
                              }

@@ -34,9 +34,11 @@ fun SearchFragment(
     showSearch: MutableState<Int>,
     refreshBtnVisibility: MutableState<Boolean>,
     groupViewModel: BaseGroupListViewModel = hiltViewModel(),
+    onClick:()-> Unit
 ) {
 
-    refreshBtnVisibility.value = true
+    LaunchedEffect(key1 = 0, block = {
+    refreshBtnVisibility.value = true})
 
     val textState = remember {
         mutableStateOf("")
@@ -82,10 +84,7 @@ fun SearchFragment(
             groupsProgress.value = it
         }
     })
-    //val groupList = viewModel.groupList.collectAsState()
-    //val teacherList = viewModel.teacherList.collectAsState()
-    //viewModel.obtainActionEvent(ActionEvent.GetTeacherByFioFromDB)
-    //viewModel.obtainActionEvent(ActionEvent.GetGroupByNameFromDB)
+
     Column(modifier = Modifier
         .fillMaxSize()
         .background(BsuirScheduleAppTheme.colors.AppPrimary)) {
@@ -130,14 +129,12 @@ fun SearchFragment(
                     ) {
                         items(groupList.value) {
                             Spacer(modifier = Modifier.height(5.dp))
-                           /* ItemTeacher(teacher = it) {
-                                viewModel.changeFavorite(it.urlId)
-                                showSearch.value = Constance.NOT_TEACHER_NOT_GROUP
-                            }*/
+
                             GroupItem(group = it) {
                                  groupViewModel.changeFavorite(it.name)
                                  showSearch.value = Constance.NOT_TEACHER_NOT_GROUP
                                 refreshBtnVisibility.value = false
+                            onClick()
                             }
                         }
                     }
@@ -163,16 +160,11 @@ fun SearchFragment(
                                    viewModel.changeFavorite(it.urlId)
                                    showSearch.value = Constance.NOT_TEACHER_NOT_GROUP
                                    refreshBtnVisibility.value = false
+                                   onClick()
                                }
                         }
                     }
-                    /*TeachersLazyColumn(
-                    teachers =teacherList,
-                    showSearch = showSearch,
-                    insert = {
-                        viewModel.obtainActionEvent(ActionEvent.InsertSelectedTeacherInDB(it))
-                    }
-                )*/
+
                 }
             }
 

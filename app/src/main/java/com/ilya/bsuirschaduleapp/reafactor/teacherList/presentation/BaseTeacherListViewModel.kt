@@ -4,6 +4,7 @@ import com.ilya.bsuirschaduleapp.reafactor.core.ChangeFavorite
 import com.ilya.bsuirschaduleapp.reafactor.core.Dispatchers
 import com.ilya.bsuirschaduleapp.reafactor.favoriteTeachers.presentation.UpdateFavoritesTeachers
 import com.ilya.bsuirschaduleapp.reafactor.teacherList.domain.ListInteractor
+import com.ilya.bsuirschaduleapp.reafactor.teacherList.domain.TeacherListInteractor
 import com.ilya.bsuirschaduleapp.reafactor.teacherList.domain.TeacherListItemDomain
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -15,7 +16,7 @@ import javax.inject.Inject
 class BaseTeacherListViewModel @Inject constructor(
     progressCommunication: TeacherListProgressCommunication,
     communication: TeacherListCommunication,
-    teacherListInteractor: ListInteractor<TeacherListItemDomain, TeacherListItemUi>,
+    teacherListInteractor: TeacherListInteractor,
     dispatchers: Dispatchers,
     changeFavorite: ChangeFavorite,
     updateFavorites: UpdateFavoritesTeachers.Update

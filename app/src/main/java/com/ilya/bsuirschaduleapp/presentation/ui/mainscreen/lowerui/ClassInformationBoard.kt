@@ -31,6 +31,9 @@ fun ClassInformationBoard(
                 .background(
                     when (lessonInfo.lessonTypeAbbrev) {
                         stringResource(R.string.lecture) -> BsuirScheduleAppTheme.colors.LowerUiLecturesColorPrimary
+                        stringResource(R.string.consult) -> BsuirScheduleAppTheme.colors.LowerUiLecturesColorPrimary
+                        stringResource(R.string.exam)-> BsuirScheduleAppTheme.colors.LowerUiLabsLessonsColorPrimary
+                        stringResource(R.string.credit) ->BsuirScheduleAppTheme.colors.LowerUiPracticalLessonsColorPrimary
                         stringResource(R.string.lab) -> BsuirScheduleAppTheme.colors.LowerUiLabsLessonsColorPrimary
                         stringResource(R.string.practical) -> BsuirScheduleAppTheme.colors.LowerUiPracticalLessonsColorPrimary
                         else -> Color.LightGray
@@ -59,8 +62,9 @@ fun ClassInformationBoard(
                 ) {
                     Text(
                         style = Typography.body1,
-                        text = if(lessonInfo.employeeFio.isNotEmpty()) lessonInfo.employeeFio
-                        else lessonInfo.studentGroups
+                        text = if(lessonInfo.employeeFio.isNotEmpty() ) lessonInfo.employeeFio
+                       else lessonInfo.studentGroups
+
                         ,
                         color = BsuirScheduleAppTheme.colors.LowerUiLessonsTextColorSecondary,
                         overflow = TextOverflow.Ellipsis,
@@ -78,6 +82,9 @@ fun ClassInformationBoard(
                             .background(
                                 when (lessonInfo.lessonTypeAbbrev) {
                                     stringResource(R.string.lecture) -> BsuirScheduleAppTheme.colors.LowerUiLecturesColorSecondary
+                                    stringResource(R.string.consult) -> BsuirScheduleAppTheme.colors.LowerUiLecturesColorSecondary
+                                    stringResource(R.string.exam)-> BsuirScheduleAppTheme.colors.LowerUiLabsLessonsColorSecondary
+                                    stringResource(R.string.credit)-> BsuirScheduleAppTheme.colors.LowerUiPracticalLessonsColorSecondary
                                     stringResource(R.string.lab) -> BsuirScheduleAppTheme.colors.LowerUiLabsLessonsColorSecondary
                                     stringResource(R.string.practical) -> BsuirScheduleAppTheme.colors.LowerUiPracticalLessonsColorSecondary
                                     else -> Color.LightGray

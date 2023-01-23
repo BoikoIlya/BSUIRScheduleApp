@@ -18,10 +18,10 @@ import com.ilya.bsuirschaduleapp.reafactor.schadule.presentation.ScheduleProgres
     interactor: FetchDataInteractor<List<S>, List<T>>,
     progressCommunication: Communication.Mutable<Boolean>
     ) : ChangeFavorite, FetchDataViewModel.Abstract<List<S>,List<T>>(
-    communication,
+    communication =  communication,
     dispatchers,
     interactor,
-    progressCommunication
+    progressCommunication = progressCommunication
 ) {
 
         override fun changeFavorite(id: String) {

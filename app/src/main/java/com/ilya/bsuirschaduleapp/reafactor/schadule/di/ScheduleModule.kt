@@ -1,7 +1,10 @@
 package com.ilya.bsuirschaduleapp.reafactor.schadule.di
 
+import android.content.Context
 import android.content.SharedPreferences
+import androidx.work.WorkManager
 import com.ilya.bsuirschaduleapp.reafactor.core.*
+import com.ilya.bsuirschaduleapp.reafactor.dailyupdate.WorkManagerWrapper
 import com.ilya.bsuirschaduleapp.reafactor.groupList.data.cache.SelectedScheduleIdDataSource
 import com.ilya.bsuirschaduleapp.reafactor.lastscheduleupdate.data.ScheduleUpdateDateRepository
 import com.ilya.bsuirschaduleapp.reafactor.lastscheduleupdate.data.cache.ScheduleUpdateDateCacheDataSource
@@ -18,6 +21,7 @@ import com.ilya.bsuirschaduleapp.utils.Constance
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -282,5 +286,11 @@ class ScheduleModule {
     @Provides
     fun provideScheduleProgressCommunication(): ScheduleProgressCommunication{
         return ScheduleProgressCommunication.Base()
+    }
+
+    @Singleton
+    @Provides
+    fun provideWorkManagerWrapper(@ApplicationContext context: Context): WorkManagerWrapper{
+        return WorkManagerWrapper.Base(context)
     }
 }

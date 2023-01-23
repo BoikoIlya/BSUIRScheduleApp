@@ -27,17 +27,13 @@ import com.ilya.bsuirschaduleapp.reafactor.groupList.presentation.GroupListItemU
 fun SelectedGroupItem(
     group: GroupListItemUi,
     onDelete:()->Unit,
-    onClick:()->Unit
+    onClick:()->Unit,
+    modifier: Modifier
 ){
 
     Box(
-        modifier = Modifier
-            .clip(
-                shape = RoundedCornerShape(20.dp)
-            )
-            .background(BsuirScheduleAppTheme.colors.LowerUiPracticalLessonsColorPrimary)
-            .fillMaxWidth()
-            .padding(10.dp),
+        modifier = modifier
+
     ) {
         val showAlert = remember {
             mutableStateOf(false)

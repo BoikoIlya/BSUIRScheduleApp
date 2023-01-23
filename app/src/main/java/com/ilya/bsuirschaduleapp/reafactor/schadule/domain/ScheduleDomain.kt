@@ -120,6 +120,7 @@ interface ScheduleDomain {
                 }
                 if(exams.isNotEmpty()){
                     exams.forEach {
+                        result.add(
                         ScheduleCache(
                             id = 0,
                             dayOfWeek = 0,
@@ -137,6 +138,7 @@ interface ScheduleDomain {
                             date = System.currentTimeMillis(),
                             employeePhotoLink = it.employeePhotoLink,
                             employeeFio = it.employeeFio
+                        )
                         )
                     }
                 }

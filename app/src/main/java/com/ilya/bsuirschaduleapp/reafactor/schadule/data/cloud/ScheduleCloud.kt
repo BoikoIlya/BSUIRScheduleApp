@@ -16,7 +16,7 @@ interface ScheduleCloud {
     data class Base(
         val employeeDto: TeacherDto? = null,
         val studentGroupDto: StudentGroupDto? =null,
-        val schedules: Schedules,
+        val schedules: Schedules?=null,
         val exams: List<Schedule>,
         val startDate: String? =null,
         val endDate: String? =null,
@@ -96,7 +96,7 @@ interface ScheduleCloud {
                 endLessonTime = endLessonTime,
                 subject = subject,
                 subjectFullName = subjectFullName,
-                note = note?:"",
+                note = note?:dateLesson?:"",
                 lessonTypeAbbrev = lessonTypeAbbrev,
                 dateLesson = dateLesson?:"",
                 employees = if(employees!=null && employees.isNotEmpty()){
@@ -172,7 +172,7 @@ interface ScheduleCloud {
         fun map(
              employeeDto: TeacherDto?,
              studentGroupDto: StudentGroupDto?,
-             schedules: Schedules,
+             schedules: Schedules?,
              exams: List<Schedule>,
              startDate: String,
              endDate: String,
@@ -184,20 +184,21 @@ interface ScheduleCloud {
             override fun map(
                 employeeDto: TeacherDto?,
                 studentGroupDto: StudentGroupDto?,
-                schedules: Schedules,
+                schedules: Schedules?,
                 exams: List<Schedule>,
                 startDate: String,
                 endDate: String,
                 startExamsDate: String?,
                 endExamsDate: String?,
             ):ScheduleDomain {
+
                val scheduleList  = listOf(
-                   schedules.Monday?: emptyList(),
-                   schedules.Tuesday?: emptyList(),
-                   schedules.Wednesday?: emptyList(),
-                   schedules.Thursday?: emptyList(),
-                   schedules.Friday?: emptyList(),
-                   schedules.Saturday?: emptyList(),
+                   schedules?.Monday?: emptyList(),
+                   schedules?.Tuesday?: emptyList(),
+                   schedules?.Wednesday?: emptyList(),
+                   schedules?.Thursday?: emptyList(),
+                   schedules?.Friday?: emptyList(),
+                   schedules?.Saturday?: emptyList(),
                )
                 val scheduleListDomain = emptyList<MutableList<ScheduleDomain.Schedule>>().toMutableList()
                 var counter =0

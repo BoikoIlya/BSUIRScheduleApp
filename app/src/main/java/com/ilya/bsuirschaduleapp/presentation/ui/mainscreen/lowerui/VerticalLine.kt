@@ -35,6 +35,9 @@ fun VerticalLine(
                 .background(
                     when (lessonType) {
                         stringResource(id = R.string.lecture) -> BsuirScheduleAppTheme.colors.LowerUiLecturesColorSecondary
+                        stringResource(R.string.consult) -> BsuirScheduleAppTheme.colors.LowerUiLecturesColorSecondary
+                        stringResource(R.string.exam)-> BsuirScheduleAppTheme.colors.LowerUiLabsLessonsColorSecondary
+                        stringResource(R.string.credit) -> BsuirScheduleAppTheme.colors.LowerUiPracticalLessonsColorSecondary
                         stringResource(id = R.string.lab) -> BsuirScheduleAppTheme.colors.LowerUiLabsLessonsColorSecondary
                         stringResource(id = R.string.practical) -> BsuirScheduleAppTheme.colors.LowerUiPracticalLessonsColorSecondary
                         else -> Color.Gray

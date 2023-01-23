@@ -16,17 +16,16 @@ interface FavoritesViewModel {
         private val updateFavorites: Communication.MutableSingle<Boolean>,
         private val favorites: Communication.Mutable<List<T>>,
         private val dispatchers: Dispatchers,
-        //private val repository: FavoriteRepository<T>,
         changeFavorite: ChangeFavorite,
         interactor: FetchDataInteractor<List<S>,List<T>>,
         progressCommunication: Communication.Mutable<Boolean>,
     ) : ChangeFavoriteViewModel<S,T>(
        changeFavorite,
-       updateFavorites,
-       favorites,
+      updateFavorites =  updateFavorites,
+      communication =  favorites,
        dispatchers,
        interactor,
-       progressCommunication
+      progressCommunication =  progressCommunication
    ),
     FavoritesViewModel{
 

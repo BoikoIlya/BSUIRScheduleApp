@@ -16,7 +16,7 @@ import com.ilya.bsuirschaduleapp.reafactor.teacherList.data.cloud.TeacherListClo
 import com.ilya.bsuirschaduleapp.reafactor.teacherList.data.cloud.ToTeacherListItemDomain
 import com.ilya.bsuirschaduleapp.reafactor.teacherList.data.teacherList.cloud.TeacherCloud
 import com.ilya.bsuirschaduleapp.reafactor.teacherList.data.teacherList.cloud.TeacherListService
-import com.ilya.bsuirschaduleapp.reafactor.teacherList.domain.BaseTeacherListInteractor
+import com.ilya.bsuirschaduleapp.reafactor.teacherList.domain.TeacherListInteractor
 import com.ilya.bsuirschaduleapp.reafactor.teacherList.presentation.TeacherListProgressCommunication
 import com.ilya.bsuirschaduleapp.reafactor.teacherList.presentation.TeacherListCommunication
 import com.ilya.bsuirschaduleapp.reafactor.teacherList.domain.TeacherListItemDomain
@@ -102,7 +102,7 @@ class TeacherListModule {
     }
 
     @Provides
-    @Singleton
+//    @Singleton
     fun provideProgressCommunication():TeacherListProgressCommunication{
         return  TeacherListProgressCommunication.Base()
     }
@@ -116,8 +116,8 @@ class TeacherListModule {
         handleError: HandleError,
         dispatchers: Dispatchers,
         mapper: ToTeacherListItemUi
-    ): ListInteractor<TeacherListItemDomain, TeacherListItemUi> {
-        return BaseTeacherListInteractor(repository,handleError, dispatchers,mapper)
+    ): TeacherListInteractor {
+        return TeacherListInteractor.Base(repository,handleError, dispatchers,mapper)
     }
 
     @Provides

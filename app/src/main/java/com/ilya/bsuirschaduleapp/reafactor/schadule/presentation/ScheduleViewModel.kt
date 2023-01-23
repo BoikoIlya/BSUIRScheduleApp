@@ -72,7 +72,7 @@ interface ScheduleViewModel {
 
         override fun changeSubGroup(subGroup: Int) = dispatchers.launchBackground(viewModelScope) {
             subGroupRepository.save(subGroup)
-            fetchData()
+            super.fetchData()
             subGroupCommunication.map(subGroupRepository.read())
         }
 

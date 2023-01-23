@@ -3,6 +3,7 @@ package com.ilya.bsuirschaduleapp.presentation.ui.mainscreen.bottomsheet
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -31,7 +32,8 @@ import com.skydoves.landscapist.glide.GlideImage
 fun SelectedTeacherItem(
     teacher: TeacherListItemUi,
     onDelete:()->Unit,
-    onClick:()->Unit
+    onClick:()->Unit,
+    modifier: Modifier
 ){
     val showAlert = remember {
         mutableStateOf(false)
@@ -42,13 +44,8 @@ fun SelectedTeacherItem(
             showAlert =showAlert )
     }
     Box(
-        modifier = Modifier
-            .clip(
-                shape = RoundedCornerShape(20.dp)
-            )
-            .background(BsuirScheduleAppTheme.colors.LowerUiLecturesColorPrimary)
-            .fillMaxWidth()
-            .padding(10.dp),
+        modifier = modifier
+            ,
     ) {
         Column(
             modifier = Modifier.clickable {

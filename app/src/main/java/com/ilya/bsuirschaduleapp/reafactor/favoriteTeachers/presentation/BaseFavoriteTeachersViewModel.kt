@@ -17,19 +17,19 @@ class BaseFavoriteTeachersViewModel @Inject constructor(
     private val updateFavorites: UpdateFavoritesTeachers.Mutable,
     favorites: FavoriteTeachersCommunication,
     dispatchers: Dispatchers,
-  //  repository: FavoriteRepository<TeacherListItemUi>,
     changeFavorite: ChangeFavorite,
     favoriteTeachersInteractor: FavoriteTeachersInteractor,
     progressCommunication: TeacherListProgressCommunication,
-   // selectedScheduleRepository: SelectedScheduleRepository
 ): FavoritesViewModel.Abstract<TeacherListItemDomain,TeacherListItemUi>
     (
-    updateFavorites,
-    favorites,
+  updateFavorites = updateFavorites,
+  favorites =  favorites,
     dispatchers,
-   // repository,
     changeFavorite,
     favoriteTeachersInteractor,
-    progressCommunication,
-    //selectedScheduleRepository
-)
+  progressCommunication =  progressCommunication,
+){
+    init{
+        println()
+    }
+}

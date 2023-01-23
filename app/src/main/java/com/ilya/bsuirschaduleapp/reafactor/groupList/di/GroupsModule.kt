@@ -6,7 +6,6 @@ import com.ilya.bsuirschaduleapp.reafactor.groupList.data.cloud.GroupCloud
 import com.ilya.bsuirschaduleapp.reafactor.groupList.data.cloud.GroupCloudDataSource
 import com.ilya.bsuirschaduleapp.reafactor.groupList.data.cloud.GroupListService
 import com.ilya.bsuirschaduleapp.reafactor.groupList.data.cloud.ToGroupListItemDomain
-import com.ilya.bsuirschaduleapp.reafactor.groupList.domain.BaseGroupListInteractor
 import com.ilya.bsuirschaduleapp.reafactor.groupList.domain.GroupListItemDomain
 import com.ilya.bsuirschaduleapp.reafactor.groupList.presentation.GroupListCommunication
 import com.ilya.bsuirschaduleapp.reafactor.groupList.presentation.GroupListItemUi
@@ -15,6 +14,7 @@ import com.ilya.bsuirschaduleapp.reafactor.groupList.presentation.ToGroupListIte
 import com.ilya.bsuirschaduleapp.reafactor.core.*
 import com.ilya.bsuirschaduleapp.reafactor.favoriteGroups.data.FavoriteGroupsCacheDataSource
 import com.ilya.bsuirschaduleapp.reafactor.favoriteGroups.data.ToFavoriteGroupListUi
+import com.ilya.bsuirschaduleapp.reafactor.groupList.domain.GroupListInteractor
 import com.ilya.bsuirschaduleapp.reafactor.teacherList.domain.ListInteractor
 import com.ilya.bsuirschaduleapp.utils.Constance
 import dagger.Module
@@ -107,8 +107,8 @@ class GroupsModule {
         handleError: HandleError,
         dispatchers: Dispatchers,
         mapper: ToGroupListItemUi
-    ): ListInteractor<GroupListItemDomain, GroupListItemUi> {
-        return BaseGroupListInteractor(repository,handleError, dispatchers,mapper)
+    ): GroupListInteractor {
+        return GroupListInteractor.Base(repository,handleError, dispatchers,mapper)
     }
 
     @Provides

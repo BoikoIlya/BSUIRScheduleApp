@@ -32,9 +32,12 @@ interface FetchDataViewModel:ProgressCollector {
         final override fun fetchData(): Job = dispatchers.launchBackground(viewModelScope) {
             progressCommunication.map(true)
             handle {
-                interactor.fetchData({progressCommunication.map(false)}) {
+                interactor.fetchData(
+                    {
+                        progressCommunication.map(false)
+                    },{
                     communication.map(it)
-                }
+                })
             }
         }
 

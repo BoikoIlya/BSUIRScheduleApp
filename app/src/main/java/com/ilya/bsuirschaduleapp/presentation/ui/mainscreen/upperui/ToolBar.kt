@@ -1,5 +1,7 @@
 package com.ilya.bsuirschaduleapp.presentation.ui.mainscreen.upperui
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -21,11 +23,12 @@ fun ToolBar(
 
     sheetState: BottomSheetState,
     onClick:(Int)->Unit,
-    selectedSubGroup: State<Int>,
+    selectedSubGroup:  State<Int>,
     groupOrTeacherName: String
 ){
     val showSelectSubGroupMenu = remember{ mutableStateOf(false)}
     val scope = rememberCoroutineScope()
+
 
     Row(
         modifier = Modifier
@@ -62,17 +65,18 @@ fun ToolBar(
              modifier = Modifier
                  .size(40.dp)
                  .clickable {
-                     //showSelectSubGroupMenu.value = true
-                     if(selectedSubGroup.value==0) onClick(1)
-                     if(selectedSubGroup.value==1) onClick(2)
-                     if(selectedSubGroup.value==2) onClick(0)
+                     if (selectedSubGroup.value == 0) onClick(1)
+                     if (selectedSubGroup.value == 1) onClick(2)
+                     if (selectedSubGroup.value == 2) onClick(0)
                  }
          )
-         Text(
-             text = if(selectedSubGroup.value!=0) selectedSubGroup.value.toString() else "",
-             color = Color.White,
-             style = Typography.body1
+         AnimatedVisibility(visible = selectedSubGroup.value != 0 ) {
+             Text(
+                 text =  selectedSubGroup.value.toString() ,
+                 color = Color.White,
+                 style = Typography.body1
              )
+         }
      }
     }
 

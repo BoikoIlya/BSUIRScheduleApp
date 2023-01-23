@@ -1,11 +1,19 @@
 package com.ilya.bsuirschaduleapp.presentation.ui.mainscreen.bottomsheet
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.SnapSpec
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -14,6 +22,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ilya.bsuirschaduleapp.R
@@ -22,11 +32,13 @@ import com.ilya.bsuirschaduleapp.reafactor.groupList.presentation.BaseGroupListV
 import com.ilya.bsuirschaduleapp.reafactor.groupList.presentation.GroupListItemUi
 import com.ilya.bsuirschaduleapp.reafactor.favoriteGroups.presentation.BaseFavoriteGroupsViewModel
 import com.ilya.bsuirschaduleapp.reafactor.favoriteTeachers.presentation.BaseFavoriteTeachersViewModel
+import com.ilya.bsuirschaduleapp.reafactor.schadule.domain.ScheduleDomain
 import com.ilya.bsuirschaduleapp.reafactor.teacherList.presentation.BaseTeacherListViewModel
 import com.ilya.bsuirschaduleapp.reafactor.teacherList.presentation.TeacherListItemUi
 import com.ilya.bsuirschaduleapp.utils.Constance
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalFoundationApi::class)
 @ExperimentalMaterialApi
 @Composable
 fun BottomSheetContent(
@@ -36,7 +48,8 @@ fun BottomSheetContent(
     teacherListViewModel: BaseTeacherListViewModel = hiltViewModel(),
     groupListViewModel: BaseGroupListViewModel = hiltViewModel(),
     onSelect:(String)->Unit,
-    onChangeTheme:()->Unit
+    onChangeTheme:()->Unit,
+    exams: MutableState<List<ScheduleDomain.Schedule>>
 ){
 
     val teacherList = remember {
@@ -53,7 +66,6 @@ fun BottomSheetContent(
         key1 = true, block = {
             teachersViewModel.collectUpdate(lifecycleOwner){
                 if (it) {
-                    //viewModel.update()
                     teachersViewModel.fetchData()
                 }
             }
@@ -74,7 +86,6 @@ fun BottomSheetContent(
         key1 = true, block = {
             groursViewModel.collectUpdate(lifecycleOwner){
                 if (it) {
-                    //myViewModel.update()
                     groursViewModel.fetchData()
                 }
             }
@@ -87,15 +98,26 @@ fun BottomSheetContent(
     val showSearch = remember {
         mutableStateOf(0)
     }
+
+    val showExams = remember {
+        mutableStateOf(false)
+    }
+
+    val backArrowVisibility = remember {
+        mutableStateOf(false)
+    }
+
     if(sheetState.isCollapsed){
         showSearch.value = Constance.NOT_TEACHER_NOT_GROUP
         refreshBtnVisibility.value = false
+        showExams.value = false
+        backArrowVisibility.value = false
     }
 
     val scope = rememberCoroutineScope()
 
-  /*  val selectedGroupList = viewModel.selectedGroupList.collectAsState()
-    val selectedTeacherList = viewModel.selectedTeacherList.collectAsState()*/
+
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -125,6 +147,23 @@ fun BottomSheetContent(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Row() {
+                        AnimatedVisibility(visible = backArrowVisibility.value) {
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_arrow_back),
+                                contentDescription = "",
+                                tint = BsuirScheduleAppTheme.colors.IconTint,
+                                modifier = Modifier
+                                    .size(35.dp)
+                                    .clickable {
+                                        showSearch.value = Constance.NOT_TEACHER_NOT_GROUP
+                                        refreshBtnVisibility.value = false
+                                        showExams.value = false
+                                        backArrowVisibility.value = false
+                                    }
+                            )
+                            Spacer(modifier = Modifier.width(5.dp))
+                        }
                         Icon(
                             painter = painterResource(id = R.drawable.users_group),
                             contentDescription = "",
@@ -133,6 +172,7 @@ fun BottomSheetContent(
                                 .size(40.dp)
                                 .clickable {
                                     showSearch.value = Constance.IS_GROUP
+                                    backArrowVisibility.value = true
                                 }
                         )
                         Spacer(modifier = Modifier.width(20.dp))
@@ -144,10 +184,28 @@ fun BottomSheetContent(
                                 .size(40.dp)
                                 .clickable {
                                     showSearch.value = Constance.IS_TEACHER
+                                    backArrowVisibility.value = true
                                 }
                         )
                     }
-                    Row {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        AnimatedVisibility(visible = !refreshBtnVisibility.value) {
+                            Text(
+                                text = "ЭК",
+                                style = Typography.h2,
+                                color = BsuirScheduleAppTheme.colors.IconTint,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .clickable {
+                                    showExams.value = true
+                                        backArrowVisibility.value = true
+                                    }
+
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(15.dp))
                         Icon(
                             painter = painterResource(id = R.drawable.ic_theme),
                             contentDescription = "",
@@ -155,11 +213,11 @@ fun BottomSheetContent(
                             modifier = Modifier
                                 .size(40.dp)
                                 .clickable {
-                                     onChangeTheme()
+                                    onChangeTheme()
                                 }
                         )
                         Spacer(modifier = Modifier.width(5.dp))
-                        if(refreshBtnVisibility.value) {
+                        AnimatedVisibility(visible = refreshBtnVisibility.value) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_refresh),
                                 contentDescription = "refresh",
@@ -190,16 +248,17 @@ fun BottomSheetContent(
                     }
                 }
             }
-            if(showSearch.value!=Constance.NOT_TEACHER_NOT_GROUP){
-                SearchFragment(showSearch = showSearch,refreshBtnVisibility = refreshBtnVisibility)
-            } else {
-                /*if(selectedGroupList.value.isLoading || selectedTeacherList.value.isLoading){
-                    Box(modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.TopCenter
-                    ){
-                        CircularProgressIndicator()
-                    }*/
+            AnimatedVisibility(visible = showSearch.value!=Constance.NOT_TEACHER_NOT_GROUP
+            ) {
+                SearchFragment(showSearch = showSearch,refreshBtnVisibility = refreshBtnVisibility){
+                    backArrowVisibility.value = false
                 }
+            }
+
+            AnimatedVisibility(visible = showExams.value) {
+                ShowExams(exams = exams)
+            }
+
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
@@ -213,9 +272,17 @@ fun BottomSheetContent(
                             onDelete = {
                                 groursViewModel.changeFavorite(it.name)
                             }, onClick = {
-                               // groursViewModel.changeSelectedSchedule(it.name)
                                 onSelect(it.name)
-                            })
+                            },
+                        modifier = Modifier
+                            .clip(
+                                shape = RoundedCornerShape(20.dp)
+                                )
+                            .background(BsuirScheduleAppTheme.colors.LowerUiPracticalLessonsColorPrimary)
+                            .fillMaxWidth()
+                            .padding(10.dp)
+                            .animateItemPlacement(tween(600))
+                            )
                     }
                     items(teacherList.value){
                         Spacer(modifier = Modifier.height(5.dp))
@@ -224,51 +291,18 @@ fun BottomSheetContent(
                             onDelete = {
                                 teachersViewModel.changeFavorite(it.urlId)
                             }, onClick = {
-                               // teachersViewModel.changeSelectedSchedule(it.urlId)
                                 onSelect(it.urlId)
-                            })
+                            },
+                        modifier = Modifier
+                            .clip(
+                                shape = RoundedCornerShape(20.dp)
+                            )
+                            .background(BsuirScheduleAppTheme.colors.LowerUiLecturesColorPrimary)
+                            .fillMaxWidth()
+                            .padding(10.dp)
+                            .animateItemPlacement(tween(300))
+                            )
                     }
-                  /*items(selectedGroupList.value.data){
-                          Spacer(modifier = Modifier.height(5.dp))
-                          SelectedGroupItem(
-                              selectedGroup = it,
-                              {viewModel.obtainActionEvent(ActionEvent.DeleteSelectedGroupFromDB(it))},
-                              {
-                                  viewModel.obtainDataEvent(SendDataEvent.TeacherOrGroup(Constance.IS_GROUP))
-
-                                  viewModel.obtainActionEvent(ActionEvent.SaveDataInDataStore(
-                                      it.name,
-                                      Constance.SELECTED_GROUP_OR_TEACHER_PATH_FOR_API_KEY))
-
-                                  viewModel.obtainActionEvent(ActionEvent.SaveDataInDataStore(
-                                      it.name,
-                                      Constance.SELECTED_GROUP_OR_TEACHER_NAME_KEY))
-                              }
-                          )
-                  }
-                    items(selectedTeacherList.value.data){
-                        Spacer(modifier = Modifier.height(5.dp))
-                        SelectedTeacherItem(
-                            selectedTeacher = it,
-                            {viewModel.obtainActionEvent(ActionEvent.DeleteSelectedTeacherFromDB(it))},
-                            {
-                                viewModel.obtainDataEvent(SendDataEvent.TeacherOrGroup(Constance.IS_TEACHER))
-
-                                viewModel.obtainActionEvent(ActionEvent.SaveDataInDataStore(
-                                    it.urlId,
-                                    Constance.SELECTED_GROUP_OR_TEACHER_PATH_FOR_API_KEY))
-
-                                viewModel.obtainActionEvent(ActionEvent.SaveDataInDataStore(
-                                    it.fio,
-                                    Constance.SELECTED_GROUP_OR_TEACHER_NAME_KEY))
-
-                                viewModel.obtainActionEvent(ActionEvent.SaveDataInDataStore(
-                                    Constance.ALL_GROUP.toString(),
-                                    Constance.SELECTED_SUBGROUP_KEY
-                                ))
-                            }
-                        )
-                    }*/
                 }
             }
         }

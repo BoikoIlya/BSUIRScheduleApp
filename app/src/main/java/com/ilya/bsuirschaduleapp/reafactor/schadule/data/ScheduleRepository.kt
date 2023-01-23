@@ -28,8 +28,7 @@ interface ScheduleRepository<T, R>: RefreshRepository<R> {
             return retrieveData()
         }
 
-        override suspend fun refresh(): R =
-            retrieveData()
+        override suspend fun refresh(): R = retrieveData()
 
         protected abstract suspend fun retrieveData(): R
         protected abstract suspend fun cached(): List<T>

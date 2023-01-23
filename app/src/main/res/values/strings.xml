@@ -29,6 +29,9 @@
     <string name="third_week">3 нед.</string>
     <string name="fourth_week">4 нед.</string>
     <string name="no_lessons">Нет занятий</string>
+    <string name="exam">Экзамен</string>
+    <string name="consult">Консультация</string>
+    <string name="credit">Зачет</string>
 
     <string name="no_connection_message">Отсутствует подключение</string>
     <string name="no_service_message">Сервис недоступен</string>
