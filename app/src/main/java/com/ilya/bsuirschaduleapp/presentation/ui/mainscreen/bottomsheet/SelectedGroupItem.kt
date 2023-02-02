@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -15,29 +14,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ilya.bsuirschaduleapp.R
-import com.ilya.bsuirschaduleapp.domain.models.SelectedGroup
+import com.ilya.bsuirschaduleapp.presentation.ui.theme.BsuirScheduleAppTheme
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.Purple
+import com.ilya.bsuirschaduleapp.presentation.ui.theme.Typography
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.VeryLightPurple
+import com.ilya.bsuirschaduleapp.reafactor.groupList.presentation.GroupListItemUi
 
 @Composable
 fun SelectedGroupItem(
-    selectedGroup: SelectedGroup,
+    group: GroupListItemUi,
     onDelete:()->Unit,
-    onClick:()->Unit
+    onClick:()->Unit,
+    modifier: Modifier
 ){
 
     Box(
-        modifier = Modifier
-            .clip(
-                shape = RoundedCornerShape(20.dp)
-            )
-            .background(VeryLightPurple)
-            .fillMaxWidth()
-            .padding(10.dp),
+        modifier = modifier
+
     ) {
         val showAlert = remember {
             mutableStateOf(false)
@@ -50,15 +46,15 @@ fun SelectedGroupItem(
             }
         ) {
             Text(
-                text = selectedGroup.specialityName,
-                fontSize = MaterialTheme.typography.body1.fontSize,
-                color = Color.Gray
+                text = group.specialityName,
+                style = Typography.body1,
+                color = BsuirScheduleAppTheme.colors.LowerUiLessonsTextColorSecondary
             )
             Text(
-                text = selectedGroup.name,
-                fontSize = MaterialTheme.typography.h3.fontSize,
+                text = group.name,
+                style = Typography.h2,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black
+                color = BsuirScheduleAppTheme.colors.LowerUiLessonsTextColorPrimary
             )
             Row(
                 modifier = Modifier
@@ -67,14 +63,14 @@ fun SelectedGroupItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = stringResource(id = R.string.course) +selectedGroup.course,
-                    fontSize = MaterialTheme.typography.h4.fontSize,
-                    fontWeight = FontWeight.Bold,
+                    text = group.course,
+                    style = Typography.h4,
+                    color = Color.White,
                     modifier = Modifier
                         .clip(
                             shape = RoundedCornerShape(20.dp)
                         )
-                        .background(Purple)
+                        .background(BsuirScheduleAppTheme.colors.LowerUiPracticalLessonsColorSecondary)
                         .padding(5.dp)
 
                 )
@@ -82,7 +78,7 @@ fun SelectedGroupItem(
                     painter = painterResource(
                         R.drawable.ic_delete),
                     contentDescription = "",
-                    tint = Color.Black,
+                    tint = BsuirScheduleAppTheme.colors.LowerUiTextColor,
                     modifier = Modifier
                         .size(35.dp)
                         .clickable {

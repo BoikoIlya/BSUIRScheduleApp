@@ -15,12 +15,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ilya.bsuirschaduleapp.R
-import com.ilya.bsuirschaduleapp.data.network.dto.Schedule
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.*
+import com.ilya.bsuirschaduleapp.reafactor.schadule.data.cloud.ScheduleCloud
+import com.ilya.bsuirschaduleapp.reafactor.schadule.domain.ScheduleDomain
 
 @Composable
 fun ClassInformationBoard(
-    lessonInfo: Schedule
+    lessonInfo: ScheduleDomain.Schedule
 ){
         Box(
             modifier = Modifier
@@ -29,9 +30,12 @@ fun ClassInformationBoard(
                 )
                 .background(
                     when (lessonInfo.lessonTypeAbbrev) {
-                        stringResource(R.string.lecture) -> VeryLightGreen
-                        stringResource(R.string.lab) -> VeryLightRed
-                        stringResource(R.string.practical) -> VeryLightPurple
+                        stringResource(R.string.lecture) -> BsuirScheduleAppTheme.colors.LowerUiLecturesColorPrimary
+                        stringResource(R.string.consult) -> BsuirScheduleAppTheme.colors.LowerUiLecturesColorPrimary
+                        stringResource(R.string.exam)-> BsuirScheduleAppTheme.colors.LowerUiLabsLessonsColorPrimary
+                        stringResource(R.string.credit) ->BsuirScheduleAppTheme.colors.LowerUiPracticalLessonsColorPrimary
+                        stringResource(R.string.lab) -> BsuirScheduleAppTheme.colors.LowerUiLabsLessonsColorPrimary
+                        stringResource(R.string.practical) -> BsuirScheduleAppTheme.colors.LowerUiPracticalLessonsColorPrimary
                         else -> Color.LightGray
                     }
                 )
@@ -41,13 +45,13 @@ fun ClassInformationBoard(
             Column() {
                 Text(
                     text = lessonInfo.startLessonTime +" - "+lessonInfo.endLessonTime,
-                    fontSize = MaterialTheme.typography.body1.fontSize,
-                    color = Color.Gray
+                    style = Typography.body1,
+                    color = BsuirScheduleAppTheme.colors.LowerUiLessonsTextColorSecondary
                 )
                 Text(
                     text = lessonInfo.subject+"("+lessonInfo.lessonTypeAbbrev+")",
-                    style = MaterialTheme.typography.h3,
-                    color = Color.Black
+                    style = Typography.h2,
+                    color = BsuirScheduleAppTheme.colors.LowerUiLessonsTextColorPrimary
                 )
                 Column() {
                 Row(
@@ -57,38 +61,32 @@ fun ClassInformationBoard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        fontSize = MaterialTheme.typography.body1.fontSize,
-                        text = if(lessonInfo.employees!=null && lessonInfo.employees.isNotEmpty()){
-                        lessonInfo.employees[0].lastName+
-                                " "+lessonInfo.employees[0].firstName[0]+"."+
-                        " "+lessonInfo.employees[0].middleName[0]+"." +
-                                if(lessonInfo.numSubgroup!=0L) " (подгр. ${lessonInfo.numSubgroup})"
-                            else ""
-                        }
-                        else stringResource(R.string.group_shortcut) + lessonInfo.studentGroups[0].name +
-                                if(lessonInfo.studentGroups.size>1)
-                                   ", "+ lessonInfo.studentGroups[1].name+"..."
-                        else " "
+                        style = Typography.body1,
+                        text = if(lessonInfo.employeeFio.isNotEmpty() ) lessonInfo.employeeFio
+                       else lessonInfo.studentGroups
+
                         ,
-                        color = Color.Gray,
+                        color = BsuirScheduleAppTheme.colors.LowerUiLessonsTextColorSecondary,
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 1,
 
                     )
                     Text(
-                        text = if(lessonInfo.auditories!!.isNotEmpty())
-                                lessonInfo.auditories[0]
-                                else "",
-                        style = MaterialTheme.typography.h4,
+                        text = lessonInfo.auditories,
+                        style = Typography.h4,
+                        color = Color.White,
                         modifier = Modifier
                             .clip(
                                 shape = RoundedCornerShape(20.dp)
                             )
                             .background(
                                 when (lessonInfo.lessonTypeAbbrev) {
-                                    stringResource(R.string.lecture) -> Green
-                                    stringResource(R.string.lab) -> Red
-                                    stringResource(R.string.practical) -> Purple
+                                    stringResource(R.string.lecture) -> BsuirScheduleAppTheme.colors.LowerUiLecturesColorSecondary
+                                    stringResource(R.string.consult) -> BsuirScheduleAppTheme.colors.LowerUiLecturesColorSecondary
+                                    stringResource(R.string.exam)-> BsuirScheduleAppTheme.colors.LowerUiLabsLessonsColorSecondary
+                                    stringResource(R.string.credit)-> BsuirScheduleAppTheme.colors.LowerUiPracticalLessonsColorSecondary
+                                    stringResource(R.string.lab) -> BsuirScheduleAppTheme.colors.LowerUiLabsLessonsColorSecondary
+                                    stringResource(R.string.practical) -> BsuirScheduleAppTheme.colors.LowerUiPracticalLessonsColorSecondary
                                     else -> Color.LightGray
                                 }
                             )
@@ -96,11 +94,11 @@ fun ClassInformationBoard(
 
                     )
                 }
-                    if(lessonInfo.note!=null) {
+                    if(lessonInfo.note.isNotEmpty()) {
                         Text(
                             text = lessonInfo.note,
-                            fontSize = MaterialTheme.typography.body1.fontSize,
-                            color = Color.Gray,
+                            style = Typography.body1,
+                            color = BsuirScheduleAppTheme.colors.LowerUiLessonsTextColorSecondary,
                         )
                     }
                 }

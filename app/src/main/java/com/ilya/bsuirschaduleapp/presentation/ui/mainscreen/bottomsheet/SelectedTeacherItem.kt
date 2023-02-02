@@ -3,6 +3,7 @@ package com.ilya.bsuirschaduleapp.presentation.ui.mainscreen.bottomsheet
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -19,16 +20,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ilya.bsuirschaduleapp.R
-import com.ilya.bsuirschaduleapp.domain.models.SelectedTeacher
+import com.ilya.bsuirschaduleapp.presentation.ui.theme.BsuirScheduleAppTheme
+
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.Green
+import com.ilya.bsuirschaduleapp.presentation.ui.theme.Typography
 import com.ilya.bsuirschaduleapp.presentation.ui.theme.VeryLightGreen
+import com.ilya.bsuirschaduleapp.reafactor.teacherList.presentation.TeacherListItemUi
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun SelectedTeacherItem(
-    selectedTeacher: SelectedTeacher,
+    teacher: TeacherListItemUi,
     onDelete:()->Unit,
-    onClick:()->Unit
+    onClick:()->Unit,
+    modifier: Modifier
 ){
     val showAlert = remember {
         mutableStateOf(false)
@@ -39,13 +44,8 @@ fun SelectedTeacherItem(
             showAlert =showAlert )
     }
     Box(
-        modifier = Modifier
-            .clip(
-                shape = RoundedCornerShape(20.dp)
-            )
-            .background(VeryLightGreen)
-            .fillMaxWidth()
-            .padding(10.dp),
+        modifier = modifier
+            ,
     ) {
         Column(
             modifier = Modifier.clickable {
@@ -58,19 +58,19 @@ fun SelectedTeacherItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 GlideImage(
-                    imageModel =  selectedTeacher.photoLink,
+                    error = painterResource(id = R.drawable.ic_person),
+                    imageModel = teacher.photoLink,
                     modifier = Modifier
                         .clip(RoundedCornerShape(20.dp))
-                        .size(100.dp)
-                    ,
+                        .size(100.dp),
                     contentScale = ContentScale.Fit)
                 Spacer(modifier = Modifier.width(10.dp))
                 Column() {
                     Text(
-                        text = "${selectedTeacher.lastName} ${selectedTeacher.firstName} ${selectedTeacher.middleName}",
-                        fontSize = MaterialTheme.typography.h4.fontSize,
+                        text = teacher.fullFIO,
+                        style = Typography.h4,
                         fontWeight = FontWeight.Bold,
-                        color = Color.Black
+                        color = BsuirScheduleAppTheme.colors.LowerUiTextColor
                     )
                     Spacer(modifier = Modifier.height(5.dp))
                     Row(
@@ -79,23 +79,22 @@ fun SelectedTeacherItem(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = selectedTeacher.academicDepartment,
+                            text = teacher.academicDepartment,
                             fontSize = MaterialTheme.typography.body1.fontSize,
                             color = Color.White,
                             modifier = Modifier
                                 .clip(
                                     shape = RoundedCornerShape(20.dp)
                                 )
-                                .background(Green)
+                                .background(BsuirScheduleAppTheme.colors.LowerUiLecturesColorSecondary)
                                 .padding(5.dp)
                                 .weight(5f)
-
                         )
                         Icon(
                             painter = painterResource(
                                 R.drawable.ic_delete),
                             contentDescription = "",
-                            tint = Color.Black,
+                            tint = BsuirScheduleAppTheme.colors.LowerUiTextColor,
                             modifier = Modifier
                                 .size(35.dp)
                                 .clickable {
