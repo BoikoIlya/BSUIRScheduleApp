@@ -1,9 +1,7 @@
-# UP TP DATE CODE IN generalRefactor branch
-
 Stack:
 - Kotlin
 - Clean architecture
-- MVVM + MVI
+- MVVM
 - Jetpack Compose
 - Retrofit
 - Hilt
@@ -11,9 +9,10 @@ Stack:
 - Room
 - Flow
 - StateFlow
-- DataStore
+- SharedPrefs
+- WorkManager
 
-This app gives you possibility to find schedule of all groups and teachers of BSUIR university. You can select day, week, subgroup. By clicking on lesson you can check full subject name, teachers photo and full name. All data comes from https://iis.bsuir.by
+This app gives you possibility to find schedule of all groups and teachers of BSUIR university. You can select day, week, subgroup. By clicking on lesson you can check full subject name, teachers photo and full name. Also you can check exams and swith theme. Thanks to workManager app can auto update selected schedule every day if phone have internet and battery not low. After selecting schedule it will save to database and in the you can run app without internet. All data comes from https://iis.bsuir.by
 
 ## ScreenShots:
 
