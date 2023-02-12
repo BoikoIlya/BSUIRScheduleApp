@@ -61,23 +61,23 @@ interface ScheduleCloud {
     )
 
     data class Schedule(
-        val weekNumber: List<Long>,
+        val weekNumber: List<Long>?=null,
         val studentGroups: List<StudentGroup>,
         val numSubgroup: Long,
         val auditories: List<String>?= Collections.emptyList(),
         val startLessonTime: String,
         val endLessonTime: String,
-        val subject: String,
-        val subjectFullName: String,
+        val subject: String?=null,
+        val subjectFullName: String?=null,
         val note: String? = null,
-        val lessonTypeAbbrev: String,
+        val lessonTypeAbbrev: String?=null,
         val dateLesson: String? = null,
         val employees: List<Employee>?= Collections.emptyList(),
         val startLessonDate: String
     ) {
         fun map(): ScheduleDomain.Schedule{
             return ScheduleDomain.Schedule(
-                weekNumber = weekNumber.joinToString(),
+                weekNumber = weekNumber?.joinToString()?:"",
                 studentGroups = if(studentGroups!=null && studentGroups.isNotEmpty()){
                         var groups = "Гр. "
                         var counter = 0
@@ -94,10 +94,10 @@ interface ScheduleCloud {
                 auditories = if(auditories!=null && auditories.isNotEmpty()) auditories[0] else "",
                 startLessonTime = startLessonTime,
                 endLessonTime = endLessonTime,
-                subject = subject,
-                subjectFullName = subjectFullName,
+                subject = subject?:"",
+                subjectFullName = subjectFullName?:"",
                 note = note?:dateLesson?:"",
-                lessonTypeAbbrev = lessonTypeAbbrev,
+                lessonTypeAbbrev = lessonTypeAbbrev?:"",
                 dateLesson = dateLesson?:"",
                 employees = if(employees!=null && employees.isNotEmpty()){
                     employees[0].lastName+
